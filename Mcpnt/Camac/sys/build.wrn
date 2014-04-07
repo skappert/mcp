@@ -1,0 +1,15 @@
+genport.c(166) : warning C4244: '=' : conversion from 'unsigned long ' to 'unsigned char ', possible loss of data
+genport.c(395) : warning C4047: '=' : 'void *' differs in levels of indirection from 'unsigned long '
+genport.c(453) : warning C4133: 'function' : incompatible types - from 'unsigned short *' to 'unsigned long *'
+genport.c(458) : warning C4244: 'function' : conversion from 'unsigned long ' to 'unsigned char ', possible loss of data
+genport.c(601) : warning C4244: '=' : conversion from 'unsigned short ' to 'char ', possible loss of data
+genport.c(801) : warning C4133: 'function' : incompatible types - from 'unsigned long *' to 'unsigned char *'
+genport.c(802) : warning C4244: 'function' : conversion from 'unsigned long ' to 'unsigned char ', possible loss of data
+genport.c(803) : warning C4133: 'function' : incompatible types - from 'unsigned long *' to 'unsigned char *'
+genport.c(804) : warning C4244: 'function' : conversion from 'unsigned long ' to 'unsigned char ', possible loss of data
+genport.c(805) : warning C4133: 'function' : incompatible types - from 'unsigned long *' to 'unsigned char *'
+genport.c(806) : warning C4244: 'function' : conversion from 'unsigned long ' to 'unsigned char ', possible loss of data
+genport.c(458) : warning C4761: integral size mismatch in argument; conversion supplied
+genport.c(802) : warning C4761: integral size mismatch in argument; conversion supplied
+genport.c(804) : warning C4761: integral size mismatch in argument; conversion supplied
+genport.c(806) : warning C4761: integral size mismatch in argument; conversion supplied

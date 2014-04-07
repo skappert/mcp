@@ -1,0 +1,2622 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// German (Germany) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
+#ifdef _WIN32
+LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_SPLASH              BITMAP  DISCARDABLE     "pillars.bmp"
+#endif    // German (Germany) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_TOOLBAR1            BITMAP  DISCARDABLE     "res\\toolbar1.bmp"
+IDR_MAINFRAME           BITMAP  MOVEABLE PURE   "res\\Toolbar.bmp"
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif\r\n"
+    "#include ""res\\MCP for NT.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#include ""afxprint.rc""       // printing/print preview resources\r\n"
+    "#endif\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON2               ICON    DISCARDABLE     "res\\APPS INF.ICO"
+IDI_ICON4               ICON    DISCARDABLE     "res\\APPS WAR.ICO"
+IDI_ICON5               ICON    DISCARDABLE     "res\\PEAL BAC.ICO"
+IDI_ICON1               ICON    DISCARDABLE     "RES\\135.ico"
+IDI_ICON9               ICON    DISCARDABLE     "RES\\origin.ico"
+IDI_ICON12              ICON    DISCARDABLE     "RES\\origin2.ico"
+IDR_MCPTYPE             ICON    DISCARDABLE     "res\\MCP for NTDoc.ico"
+IDI_ICON3               ICON    DISCARDABLE     "res\\icon14.ico"
+IDI_ICON14              ICON    DISCARDABLE     "res\\ico00001.ico"
+IDI_ICON15              ICON    DISCARDABLE     "res\\icon15.ico"
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\Galaxy3.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_TOOLBAR1 TOOLBAR DISCARDABLE  24, 16
+BEGIN
+    BUTTON      ID_ERGO
+    BUTTON      ID_GO
+    BUTTON      ID_AUTOGO
+    BUTTON      ID_FILE_SAVE_AS
+    BUTTON      ID_LSIBOX
+END
+
+IDR_MAINFRAME TOOLBAR DISCARDABLE  27, 15
+BEGIN
+    BUTTON      ID_FILE_NEW
+    BUTTON      ID_FILE_OPEN
+    BUTTON      ID_FILE_SAVE_AS
+    SEPARATOR
+    BUTTON      ID_EDIT_CUT
+    BUTTON      ID_EDIT_COPY
+    BUTTON      ID_EDIT_PASTE
+    SEPARATOR
+    BUTTON      ID_FILE_PRINT
+    BUTTON      ID_APP_ABOUT
+    BUTTON      ID_CONTEXT_HELP
+    SEPARATOR
+    BUTTON      ID_RESET
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+CG_IDR_POPUP_MCPFOR_NTVIEW MENU DISCARDABLE 
+BEGIN
+    POPUP "_POPUP_"
+    BEGIN
+        MENUITEM "Configure",                   ID_CONFIGURE
+        MENUITEM SEPARATOR
+        MENUITEM "Delete",                      ID_EDIT_CUT
+        MENUITEM "Copy",                        ID_EDIT_COPY
+        MENUITEM "Insert",                      ID_EDIT_PASTE
+        MENUITEM SEPARATOR
+        POPUP "New"
+        BEGIN
+            MENUITEM "Track",                       ID_POPUP_NEW_TRACK
+            MENUITEM SEPARATOR
+            MENUITEM "Trigger",                     ID_POPUP_NEW_TRIGGER
+            MENUITEM SEPARATOR
+            MENUITEM "Scaler",                      ID_POPUP_NEW_SCALER
+            MENUITEM "ArithScaler",                 ID_POPUP_NEW_ARITHSCALER
+            MENUITEM SEPARATOR
+            MENUITEM "RS-Dekade",                   ID_POPUP_NEW_RSDEKADE
+            MENUITEM "HP-Dekade",                   ID_POPUP_NEW_HPDEKADE
+            MENUITEM "Line-Voltage",                ID_POPUP_NEW_HVDAC
+            MENUITEM "HP-Voltage",                  ID_POPUP_NEW_HPDAC
+            MENUITEM "F-Voltage",                   ID_POPUP_NEW_FDAC
+            MENUITEM "FieldWriter",                 ID_POPUP_FIELDWRITER
+            MENUITEM "TempWriter",                  ID_TEMPWRITER
+            MENUITEM "GPIBWriter",                  ID_POPUP_GPIBWRITER
+            MENUITEM SEPARATOR
+            MENUITEM "Mass-Switch",                 ID_POPUP_NEW_ISOLDEMASS
+            MENUITEM "Fluke-Switch",                ID_POPUP_NEW_FLUKESWITCH
+            MENUITEM "OutBit",                      ID_OUTBIT
+            MENUITEM SEPARATOR
+            MENUITEM "Alex-Motor",                  ID_POPUP_NEW_ALEXMOTOR
+            MENUITEM SEPARATOR
+            MENUITEM "KepkoVoltage",                ID_POPUP_NEW_KEPKOVOLTAGE
+
+            MENUITEM "IsoldeVoltage",               ID_POPUP_NEW_ISOLDEVOLTAGE
+
+            MENUITEM "PremaVoltage",                ID_POPUP_NEW_PREMAVOLTAGE
+
+            MENUITEM SEPARATOR
+            MENUITEM "FieldReader",                 ID_FIELDREADER
+            MENUITEM "TempReader",                  ID_TEMPREADER
+            MENUITEM "GPIBReader",                  ID_GPIBREADER
+        END
+    END
+END
+
+CG_IDR_POPUP_DATA_CHILD MENU DISCARDABLE 
+BEGIN
+    POPUP "_POPUP_"
+    BEGIN
+        MENUITEM "Configure",                   ID_POPUP_SHOWPROPERTIES
+        MENUITEM SEPARATOR
+        MENUITEM "Rescale to show all",         ID_POPUP_RESIZETOFULLSCALE
+        MENUITEM "Print",                       ID_FILE_PRINT_DIRECT
+        MENUITEM "Print preview",               ID_FILE_PRINT_PREVIEW
+        MENUITEM SEPARATOR
+        MENUITEM "Load spec",                   ID_POPUP_LOADSPEC
+        MENUITEM "Save spec",                   ID_POPUP_SAVESPEC
+        MENUITEM "Save wmf",                    ID_POPUP_SAVEWMF
+        MENUITEM SEPARATOR
+        MENUITEM "Minuit fit-session",          ID_POPUP_MINUITFITSESSION
+    END
+END
+
+CG_IDR_POPUP_EDITOR_VIEW MENU DISCARDABLE 
+BEGIN
+    POPUP "_POPUP_"
+    BEGIN
+        MENUITEM "Cu&t",                        ID_EDIT_CUT
+        MENUITEM "&Copy",                       ID_EDIT_COPY
+        MENUITEM "&Paste",                      ID_EDIT_PASTE
+        MENUITEM "Select all",                  ID_EDIT_SELECT_ALL
+        MENUITEM "Pr&int",                      ID_FILE_PRINT_DIRECT
+        MENUITEM SEPARATOR
+        MENUITEM "&Load",                       ID_POPUP_LOAD
+        MENUITEM "S&ave",                       ID_POPUP_SAVE
+        MENUITEM "Clear &window",               ID_POPUP_CLEARWINDOW
+    END
+END
+
+IDR_MAINFRAME MENU PRELOAD DISCARDABLE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&New\tCtrl+N",                ID_FILE_NEW
+        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
+        MENUITEM SEPARATOR
+        MENUITEM "P&rint Setup...",             ID_FILE_PRINT_SETUP
+        MENUITEM SEPARATOR
+        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&GPS Voltage",                CG_ID_VIEW_GPS_HTMEAS
+        MENUITEM "&Isolde Protons",             CG_ID_VIEW_ISOLDEPROTONS
+        MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
+        MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
+        MENUITEM "&Loadbar",                    CG_ID_VIEW_LOADFILEBAR
+        MENUITEM SEPARATOR
+        MENUITEM "Script-Window",               ID_VIEW_SCRIPTWINDOW
+        MENUITEM "Empty plot",                  ID_VIEW_EMPTYPLOT
+        MENUITEM "Template &calc",              ID_VIEW_TEMPLATECALCULATOR
+        MENUITEM SEPARATOR
+        MENUITEM "Camac Tester",                ID_VIEW_CAMACTESTER
+        MENUITEM "Net Reader",                  ID_VIEW_NETREADER
+        MENUITEM "Net Writer",                  ID_VIEW_NETWRITER
+        MENUITEM "GPIB Reader",                 ID_MENU_GPIBREADER
+        MENUITEM "GPIB Writer",                 ID_MENU_GPIBWRITER
+        MENUITEM SEPARATOR
+        MENUITEM "Save settings",               ID_SAVESETTINGS
+        MENUITEM SEPARATOR
+        MENUITEM "Display setup",               ID_VIEW_DISPLAYSETUP
+        MENUITEM "Hardware setup",              ID_VIEW_HARDWARESETUP
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&Help Topics",                ID_HELP_FINDER
+        MENUITEM SEPARATOR
+        MENUITEM "&About MCP for NT...",        ID_APP_ABOUT
+    END
+END
+
+IDR_MCPTYPE MENU PRELOAD DISCARDABLE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&New\tCtrl+N",                ID_FILE_NEW
+        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
+        MENUITEM "&Close",                      ID_FILE_CLOSE
+        MENUITEM "Save old &Version",           ID_FILE_SAVEOLD
+        MENUITEM "Save &As...",                 ID_FILE_SAVE_AS
+        MENUITEM SEPARATOR
+        MENUITEM "&Print...\tCtrl+P",           ID_FILE_PRINT
+        MENUITEM "Print Pre&view",              ID_FILE_PRINT_PREVIEW
+        MENUITEM "P&rint Setup...",             ID_FILE_PRINT_SETUP
+        MENUITEM SEPARATOR
+        MENUITEM "Sen&d...",                    ID_FILE_SEND_MAIL
+        MENUITEM SEPARATOR
+        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Undo\tCtrl+Z",               ID_EDIT_UNDO
+        MENUITEM SEPARATOR
+        MENUITEM "Cu&t\tCtrl+X",                ID_EDIT_CUT
+        MENUITEM "&Copy\tCtrl+C",               ID_EDIT_COPY
+        MENUITEM "&Paste\tCtrl+V",              ID_EDIT_PASTE
+    END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&GPS Voltage",                CG_ID_VIEW_GPS_HTMEAS
+        MENUITEM "&Isolde Protons",             CG_ID_VIEW_ISOLDEPROTONS
+        MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
+        MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
+        MENUITEM "&Savebar",                    CG_ID_VIEW_SAVEDIALOG
+        MENUITEM SEPARATOR
+        MENUITEM "Template &calc",              ID_VIEW_TEMPLATECALCULATOR
+        MENUITEM "Script-Window",               ID_VIEW_SCRIPTWINDOW
+        MENUITEM "Empty plot",                  ID_VIEW_EMPTYPLOT
+        MENUITEM SEPARATOR
+        MENUITEM "Camac Tester",                ID_VIEW_CAMACTESTER
+        MENUITEM "Net Reader",                  ID_VIEW_NETREADER
+        MENUITEM "Net Writer",                  ID_VIEW_NETWRITER
+        MENUITEM "GPIB Reader",                 ID_MENU_GPIBREADER
+        MENUITEM "GPIB Writer",                 ID_MENU_GPIBWRITER
+        MENUITEM SEPARATOR
+        MENUITEM "Save settings",               ID_SAVESETTINGS
+        MENUITEM SEPARATOR
+        MENUITEM "Display setup",               ID_VIEW_DISPLAYSETUP
+        MENUITEM "Hardware setup",              ID_VIEW_HARDWARESETUP
+    END
+    POPUP "&Window"
+    BEGIN
+        MENUITEM "&New Window",                 ID_WINDOW_NEW
+        MENUITEM "&Cascade",                    ID_WINDOW_CASCADE
+        MENUITEM "&Tile",                       ID_WINDOW_TILE_HORZ
+        MENUITEM "&Arrange Icons",              ID_WINDOW_ARRANGE
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&Help Topics",                ID_HELP_FINDER
+        MENUITEM SEPARATOR
+        MENUITEM "&About MCP for NT...",        ID_APP_ABOUT
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_PAGE1RS DIALOG DISCARDABLE  0, 0, 202, 167
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "In scan"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Start",IDC_STATIC,20,22,16,8
+    LTEXT           "Stop",IDC_STATIC,20,36,16,8
+    LTEXT           "Step",IDC_STATIC,20,52,16,8
+    LTEXT           "Center",IDC_STATIC,20,68,22,8
+    EDITTEXT        IDC_STARTFREQ,45,20,35,12
+    EDITTEXT        IDC_STOPFREQ,45,35,35,12
+    EDITTEXT        IDC_STEPFREQ,45,50,35,12
+    EDITTEXT        IDC_CENTERFREQ,45,65,35,12
+    LTEXT           "MHz",IDC_STATIC,85,22,16,8
+    LTEXT           "MHz",IDC_STATIC,85,37,16,8
+    LTEXT           "MHz",IDC_STATIC,85,52,16,8
+    LTEXT           "MHz",IDC_STATIC,85,67,16,8
+    CONTROL         "No Mod",IDC_NOMOD,"Button",BS_AUTORADIOBUTTON,15,108,41,
+                    10
+    CONTROL         "AM Mod",IDC_MODAM,"Button",BS_AUTORADIOBUTTON,15,122,43,
+                    10
+    CONTROL         "FM Mod",IDC_MODFM,"Button",BS_AUTORADIOBUTTON,15,136,42,
+                    10
+    LTEXT           "ModFreq",IDC_STATIC,85,108,29,8
+    EDITTEXT        IDC_MODFREQ,120,105,35,12
+    LTEXT           "kHz",IDC_STATIC,160,108,14,8
+    LTEXT           "ModAmp",IDC_STATIC,85,123,29,8
+    LTEXT           "ModAmp",IDC_STATIC,85,138,29,8
+    EDITTEXT        IDC_MODAMPAM,120,120,35,12
+    LTEXT           "kHz",IDC_STATIC,160,138,14,8
+    EDITTEXT        IDC_MODAMPFM,120,135,35,12
+    LTEXT           "%",IDC_STATIC,160,123,8,8
+    GROUPBOX        "Frequency sweep",IDC_STATIC,5,5,110,80
+    GROUPBOX        "Modulation",IDC_STATIC,5,90,190,65
+    GROUPBOX        "Amplitude",IDC_STATIC,125,5,70,80
+    LTEXT           "dBm",IDC_STATIC,171,22,15,8
+    LTEXT           "mV",IDC_STATIC,171,37,11,8
+    EDITTEXT        IDC_AMPDB,131,20,35,12
+    EDITTEXT        IDC_AMPMV,131,35,35,12
+    CONTROL         "Set off",IDC_AMPOFF,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,135,55,37,10
+END
+
+IDD_PAGE3RS DIALOG DISCARDABLE  0, 0, 202, 167
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "Hardware"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Set #",IDC_STATIC,20,22,20,8
+    EDITTEXT        IDC_GPIB,45,20,20,12
+    LTEXT           "Send command:",IDC_STATIC,15,138,55,8
+    EDITTEXT        IDC_SENDCOMMAND,75,135,100,12,ES_AUTOHSCROLL
+    GROUPBOX        "GPIB-Address",IDC_STATIC,5,5,110,80
+    GROUPBOX        "Test Hardware",IDC_STATIC,5,90,190,65
+    PUSHBUTTON      "Test...",IDC_TEST,15,105,40,15
+END
+
+IDD_PAGE1HP DIALOG DISCARDABLE  0, 0, 202, 167
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "In scan"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Start",IDC_STATIC,20,22,16,8
+    LTEXT           "Stop",IDC_STATIC,20,36,16,8
+    LTEXT           "Step",IDC_STATIC,20,52,16,8
+    LTEXT           "Center",IDC_STATIC,20,68,22,8
+    EDITTEXT        IDC_STARTFREQ,45,20,35,12
+    EDITTEXT        IDC_STOPFREQ,45,35,35,12
+    EDITTEXT        IDC_STEPFREQ,45,50,35,12
+    EDITTEXT        IDC_CENTERFREQ,45,65,35,12
+    LTEXT           "MHz",IDC_STATIC,85,22,16,8
+    LTEXT           "MHz",IDC_STATIC,85,37,16,8
+    LTEXT           "MHz",IDC_STATIC,85,52,16,8
+    LTEXT           "MHz",IDC_STATIC,85,67,16,8
+    CONTROL         "No Mod",IDC_NOMOD,"Button",BS_AUTORADIOBUTTON | 
+                    WS_DISABLED,15,108,41,10
+    CONTROL         "AM Mod",IDC_MODAM,"Button",BS_AUTORADIOBUTTON | 
+                    WS_DISABLED,15,122,43,10
+    CONTROL         "FM Mod",IDC_MODFM,"Button",BS_AUTORADIOBUTTON | 
+                    WS_DISABLED,15,136,42,10
+    LTEXT           "ModFreq",IDC_STATIC,85,108,29,8,WS_DISABLED
+    EDITTEXT        IDC_MODFREQ,120,105,35,12,ES_NUMBER | WS_DISABLED
+    LTEXT           "kHz",IDC_STATIC,160,108,14,8,WS_DISABLED
+    LTEXT           "ModAmp",IDC_STATIC,85,123,29,8,WS_DISABLED
+    LTEXT           "ModAmp",IDC_STATIC,85,138,29,8,WS_DISABLED
+    EDITTEXT        IDC_MODAMPAM,120,120,35,12,ES_NUMBER | WS_DISABLED
+    LTEXT           "kHz",IDC_STATIC,160,138,14,8,WS_DISABLED
+    EDITTEXT        IDC_MODAMPFM,120,135,35,12,ES_NUMBER | WS_DISABLED
+    LTEXT           "%",IDC_STATIC,160,123,8,8,WS_DISABLED
+    GROUPBOX        "Frequency sweep",IDC_STATIC,5,5,110,80
+    GROUPBOX        "Modulation",IDC_STATIC,5,90,190,65,WS_DISABLED
+    GROUPBOX        "Amplitude",IDC_STATIC,125,5,70,80
+    LTEXT           "dBm",IDC_STATIC,171,22,15,8
+    LTEXT           "mV",IDC_STATIC,171,37,11,8
+    EDITTEXT        IDC_AMPDB,131,20,35,12
+    EDITTEXT        IDC_AMPMV,131,35,35,12
+    CONTROL         "Set off",IDC_AMPOFF,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,135,55,37,10
+END
+
+IDD_PAGE3HP DIALOG DISCARDABLE  0, 0, 202, 167
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "Hardware"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Set #",IDC_STATIC,20,22,20,8
+    EDITTEXT        IDC_GPIB,45,20,20,12
+    LTEXT           "Send command:",IDC_STATIC,15,138,55,8
+    EDITTEXT        IDC_SENDCOMMAND,75,135,100,12,ES_NUMBER
+    GROUPBOX        "GPIB-Address",IDC_STATIC,5,5,110,80
+    GROUPBOX        "Test Hardware",IDC_STATIC,5,90,190,65
+    PUSHBUTTON      "Test...",IDC_TEST,15,105,40,15
+END
+
+IDD_PAGE1HV DIALOG DISCARDABLE  0, 0, 202, 90
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "In scan"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Start",IDC_STATIC,20,22,16,8
+    LTEXT           "Stop",IDC_STATIC,20,36,16,8
+    LTEXT           "Step",IDC_STATIC,20,52,16,8
+    LTEXT           "Center",IDC_STATIC,20,68,22,8
+    EDITTEXT        IDC_STARTVOLT,45,20,35,12
+    EDITTEXT        IDC_STOPVOLT,45,35,35,12
+    EDITTEXT        IDC_STEPVOLT,45,50,35,12
+    EDITTEXT        IDC_CENTERVOLT,45,65,35,12
+    LTEXT           "V",IDC_STATIC,85,22,16,8
+    LTEXT           "V",IDC_STATIC,85,37,16,8
+    LTEXT           "V",IDC_STATIC,85,52,16,8
+    LTEXT           "V",IDC_STATIC,85,67,16,8
+    GROUPBOX        "Voltage sweep",IDC_STATIC,5,5,110,80
+    GROUPBOX        "Slow reset",IDC_STATIC,125,5,70,80
+    LTEXT           "sec",IDC_STATIC,155,42,12,8
+    EDITTEXT        IDC_SLOWRESETCH,130,40,20,12
+    CONTROL         "Slow reset on",IDC_SLOWRESET,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,130,20,55,10
+END
+
+IDD_PAGE3HV DIALOG DISCARDABLE  0, 0, 202, 167
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "Hardware"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Set Slot",IDC_STATIC,15,22,30,8
+    EDITTEXT        IDC_SLOT,45,20,20,12
+    GROUPBOX        "CAMAC-Address",IDC_STATIC,5,5,110,80
+    GROUPBOX        "Test Hardware",IDC_STATIC,5,90,190,65
+    PUSHBUTTON      "Test...",IDC_TEST,15,105,40,15
+    LTEXT           "Set DAC",IDC_STATIC,15,42,30,8
+    EDITTEXT        IDC_SUBADDRESS,45,40,20,12
+END
+
+IDD_PAGE1AM DIALOG DISCARDABLE  0, 0, 202, 90
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "In scan"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Move",IDC_STATIC,20,22,20,8
+    EDITTEXT        IDC_MOVECM,45,20,35,12
+    LTEXT           "cm",IDC_STATIC,85,22,16,8
+    GROUPBOX        "Move AlexMotor",IDC_STATIC,5,5,110,80
+    GROUPBOX        "Brake mode",IDC_STATIC,125,5,70,80
+    CONTROL         "Use brake",IDC_USEBRAKE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,130,20,55,10
+    CONTROL         "Move forward",IDC_FORWARD,"Button",BS_AUTORADIOBUTTON,
+                    20,45,59,10
+    CONTROL         "Move backwards",IDC_BACKWARDS,"Button",
+                    BS_AUTORADIOBUTTON,20,60,71,10
+END
+
+IDD_PAGE3AM DIALOG DISCARDABLE  0, 0, 202, 167
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "Hardware"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Set Slot",IDC_STATIC,15,22,30,8
+    EDITTEXT        IDC_SLOT,45,20,20,12
+    LTEXT           "Move to",IDC_STATIC,113,107,30,8
+    EDITTEXT        IDC_MOVETO,145,105,25,12,ES_AUTOHSCROLL
+    GROUPBOX        "CAMAC-Address",IDC_STATIC,5,5,110,80
+    GROUPBOX        "Test Hardware",IDC_STATIC,5,90,190,65
+    PUSHBUTTON      "Test...",IDC_TEST,15,105,40,15
+    PUSHBUTTON      "Rewind...",IDC_REWIND,135,125,40,15
+    GROUPBOX        "Position",IDC_STATIC,120,5,75,80
+    EDITTEXT        IDC_ACTPOS,150,20,30,12,ES_READONLY
+    EDITTEXT        IDC_DONEPOS,150,35,30,12,ES_READONLY
+    EDITTEXT        IDC_LEFTPOS,150,50,30,12,ES_READONLY
+    LTEXT           "actual",IDC_STATIC,125,22,20,8
+    LTEXT           "done",IDC_STATIC,125,37,17,8
+    LTEXT           "left",IDC_STATIC,125,52,10,8
+    LTEXT           "m",IDC_STATIC,184,22,8,8
+    LTEXT           "m",IDC_STATIC,184,37,8,8
+    LTEXT           "m",IDC_STATIC,184,52,8,8
+    LTEXT           "m",IDC_STATIC,175,107,8,8
+END
+
+IDD_PAGE1FS DIALOG DISCARDABLE  0, 0, 202, 90
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "In scan"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Connect Fluke",IDC_STATIC,5,5,110,80
+    CONTROL         "Fluke #1",IDC_FLUKE1,"Button",BS_AUTORADIOBUTTON,20,35,
+                    44,10
+    CONTROL         "Fluke #2",IDC_FLUKE2,"Button",BS_AUTORADIOBUTTON,20,50,
+                    44,10
+    CONTROL         "Fluke #3",IDC_FLUKE3,"Button",BS_AUTORADIOBUTTON,20,65,
+                    44,10
+    CONTROL         "No Fluke",IDC_NOFLUKE,"Button",BS_AUTORADIOBUTTON,20,20,
+                    45,10
+END
+
+IDD_PAGE1MS DIALOG DISCARDABLE  0, 0, 202, 90
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "In scan"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Set",IDC_STATIC,20,22,20,8
+    EDITTEXT        IDC_SETAMU,45,20,35,12
+    GROUPBOX        "Set mass",IDC_STATIC,5,5,110,80
+    EDITTEXT        IDC_SETAMU2,45,35,35,12
+    LTEXT           "amu",IDC_STATIC,85,37,16,8
+    LTEXT           "=",IDC_STATIC,24,36,8,8
+END
+
+IDD_PAGE3MS DIALOG DISCARDABLE  0, 0, 202, 167
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "Hardware"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Device select",-1,5,5,110,80
+    GROUPBOX        "Test Hardware",-1,5,90,190,65
+    PUSHBUTTON      "Test...",IDC_TEST,15,105,40,15
+    CONTROL         "GPS",IDC_GPS,"Button",BS_AUTORADIOBUTTON,20,20,39,10
+    CONTROL         "HRS",IDC_HRS,"Button",BS_AUTORADIOBUTTON,20,35,39,10
+END
+
+IDD_PAGE1PM DIALOG DISCARDABLE  0, 0, 212, 126
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "In scan"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "DispayMode",IDC_STATIC,5,5,200,75
+    CONTROL         "Monitor in scan",IDC_AUTOOPEN,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,130,20,65,10
+    CONTROL         "Points (with errors)",IDC_POINTS,"Button",
+                    BS_AUTORADIOBUTTON,15,20,73,10
+    CONTROL         "Stairs",IDC_STAIRS,"Button",BS_AUTORADIOBUTTON,15,35,33,
+                    10
+    CONTROL         "Lines",IDC_LINES,"Button",BS_AUTORADIOBUTTON,15,50,33,
+                    10
+    CONTROL         "Show expected",IDC_AUTORESIZE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,130,35,70,10
+    CONTROL         "Accel voltages",IDC_SUMVOLTAGE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,130,50,55,10
+END
+
+IDD_PAGE3PM DIALOG DISCARDABLE  0, 0, 202, 167
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "Hardware"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Set Slot",IDC_STATIC,15,22,30,8
+    EDITTEXT        IDC_SLOT,45,20,20,12
+    GROUPBOX        "CAMAC-Address",IDC_STATIC,5,5,110,80
+    GROUPBOX        "Test Hardware",IDC_STATIC,5,90,190,65
+    PUSHBUTTON      "Test...",IDC_TEST,15,105,40,15
+    LTEXT           "SubReg",IDC_STATIC,15,42,27,8
+    EDITTEXT        IDC_SUBADDRESS,45,40,20,12
+END
+
+IDD_PAGE1MF DIALOG DISCARDABLE  0, 0, 207, 90
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "In scan"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Connect Fluke",IDC_STATIC,5,5,75,80
+    CONTROL         "Fluke #1",IDC_FLUKE1,"Button",BS_AUTORADIOBUTTON,20,35,
+                    44,10
+    CONTROL         "Fluke #2",IDC_FLUKE2,"Button",BS_AUTORADIOBUTTON,20,50,
+                    44,10
+    CONTROL         "Fluke #3",IDC_FLUKE3,"Button",BS_AUTORADIOBUTTON,20,65,
+                    44,10
+    CONTROL         "No Fluke",IDC_NOFLUKE,"Button",BS_AUTORADIOBUTTON,20,20,
+                    45,10
+    LTEXT           "Set",IDC_STATIC,105,22,20,8
+    EDITTEXT        IDC_SETAMU,130,20,35,12
+    LTEXT           "amu",IDC_STATIC,170,22,16,8
+    GROUPBOX        "Set mass",IDC_STATIC,90,5,110,80
+    CONTROL         "Do not set mass",IDC_NOMASS,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,105,40,67,10
+END
+
+IDD_PAGE3MF DIALOG DISCARDABLE  0, 0, 202, 167
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "Hardware"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Set Slot",IDC_STATIC,15,22,30,8
+    EDITTEXT        IDC_SLOT,45,20,20,12
+    GROUPBOX        "CAMAC-Address",IDC_STATIC,5,5,80,80
+    GROUPBOX        "Test Hardware",IDC_STATIC,5,90,190,65
+    PUSHBUTTON      "Test...",IDC_TEST,15,105,40,15
+    GROUPBOX        "Device select",IDC_STATIC,91,5,104,80
+    CONTROL         "GPS",IDC_GPS,"Button",BS_AUTORADIOBUTTON,106,20,39,10
+    CONTROL         "HRS",IDC_HRS,"Button",BS_AUTORADIOBUTTON,106,35,39,10
+END
+
+IDD_PAGE3FS DIALOG DISCARDABLE  0, 0, 202, 167
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "Hardware"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Set Slot",IDC_STATIC,15,22,30,8
+    EDITTEXT        IDC_SLOT,45,20,20,12
+    GROUPBOX        "CAMAC-Address",IDC_STATIC,5,5,110,80
+    GROUPBOX        "Test Hardware",IDC_STATIC,5,90,190,65
+    PUSHBUTTON      "Test...",IDC_TEST,15,105,40,15
+END
+
+IDD_PAGE1AS DIALOG DISCARDABLE  0, 0, 212, 166
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "In scan"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "DispayMode",IDC_STATIC,5,5,200,75
+    CONTROL         "Monitor in scan",IDC_AUTOOPEN,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,130,20,65,10
+    CONTROL         "Points (with errors)",IDC_POINTS,"Button",
+                    BS_AUTORADIOBUTTON,15,20,73,10
+    CONTROL         "Stairs",IDC_STAIRS,"Button",BS_AUTORADIOBUTTON,15,35,33,
+                    10
+    CONTROL         "Lines",IDC_LINES,"Button",BS_AUTORADIOBUTTON,15,50,33,
+                    10
+    GROUPBOX        "Arithmetic Operation",IDC_STATIC,5,90,200,70
+    EDITTEXT        IDC_DATAOP,15,110,105,12,ES_AUTOHSCROLL
+    LTEXT           "Data is calculated with this op :",IDC_STATIC,15,100,99,
+                    8
+    EDITTEXT        IDC_ERROROP,15,140,105,12,ES_AUTOHSCROLL
+    LTEXT           "Error is calculated with this op :",IDC_STATIC,15,130,
+                    98,8
+    LTEXT           "Formulas in c-style",IDC_STATIC,130,95,58,8
+    LTEXT           "c(i,t) : scaler i track t",IDC_STATIC,130,105,65,8
+    LTEXT           "Asym(i,j,t) : in track t",IDC_STATIC,130,120,65,8
+    LTEXT           "c[i]-c[j]/(c[i]+c[j])",IDC_STATIC,130,130,52,8
+    LTEXT           "Asymerr(i,j,t) : as. error ",IDC_STATIC,130,145,70,8
+    CONTROL         "Show expected",IDC_AUTORESIZE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,130,35,70,10
+    CONTROL         "Accel voltages",IDC_SUMVOLTAGE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,130,50,70,10
+END
+
+IDD_PAGE3AS DIALOG DISCARDABLE  0, 0, 202, 167
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "Hardware"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "This is a software-scaler !",IDC_STATIC,10,95,85,10
+    LTEXT           "Set Slot",IDC_STATIC,15,22,30,8
+    EDITTEXT        IDC_SLOT,45,20,20,12,ES_READONLY
+    GROUPBOX        "Address",IDC_STATIC,5,5,110,80
+    LTEXT           "SubReg",IDC_STATIC,15,42,27,8
+    EDITTEXT        IDC_SUBADDRESS,45,40,20,12
+END
+
+IDD_MEASTHREAD DIALOG DISCARDABLE  100, 300, 112, 101
+STYLE DS_MODALFRAME | WS_VISIBLE | WS_CAPTION
+CAPTION "Measurement in progress"
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "Kill !",IDKILL,61,79,42,14,NOT WS_TABSTOP
+    LTEXT           "Time left",IDC_STATIC,8,65,28,8
+    LTEXT           "Track",IDC_STATIC,10,40,20,8
+    CONTROL         "Progress1",IDC_PROGSTEP,"msctls_progress32",WS_BORDER,
+                    10,5,90,10
+    LTEXT           "Step",IDC_STATIC,10,20,16,8
+    LTEXT           "Scan",IDC_STATIC,10,30,18,8
+    LTEXT           "of",IDC_STATIC,63,20,8,8
+    LTEXT           "of",IDC_STATIC,63,40,8,8
+    LTEXT           "of",IDC_STATIC,63,30,8,8
+    LTEXT           "0",IDC_ACTSTEP,35,20,20,8
+    LTEXT           "0",IDC_ACTTRACK,35,40,20,8
+    LTEXT           "0",IDC_ACTSCAN,35,30,20,8
+    LTEXT           "x",IDC_STEP,73,20,20,8
+    LTEXT           "x",IDC_TRACK,73,40,20,8
+    LTEXT           "x",IDC_SCAN,73,30,20,8
+    LTEXT           "x",IDC_TIMELEFT,43,65,40,8
+    PUSHBUTTON      "Halt !",ID_HALTMEAS,5,79,42,14,NOT WS_TABSTOP
+    LTEXT           "Cycle",IDC_STATIC,10,50,20,8
+    LTEXT           "of",IDC_STATIC,63,50,8,8
+    LTEXT           "0",IDC_ACTCYCLE,35,50,20,8
+    LTEXT           "x",IDC_CYCLE,73,50,20,8
+END
+
+IDD_STEPTIMER DIALOG DISCARDABLE  0, 0, 186, 167
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
+CAPTION "Properties of StepTimerDelay"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,5,145,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,65,145,50,14
+    PUSHBUTTON      "Help",IDHELP,125,145,50,14
+END
+
+IDD_FASTTIMER DIALOG DISCARDABLE  0, 0, 186, 167
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
+CAPTION "Properties of FastTimerDelay"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,5,145,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,65,145,50,14
+    PUSHBUTTON      "Help",IDHELP,125,145,50,14
+END
+
+IDD_TIMER DIALOG DISCARDABLE  0, 0, 186, 167
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
+CAPTION "Properties of TimerDelay"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,5,145,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,65,145,50,14
+    PUSHBUTTON      "Help",IDHELP,125,145,50,14
+END
+
+IDD_COMPUTER DIALOG DISCARDABLE  0, 0, 186, 167
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
+CAPTION "Properties of ComputerDelay"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,5,145,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,65,145,50,14
+    PUSHBUTTON      "Help",IDHELP,125,145,50,14
+END
+
+IDD_TRIGGERPART DIALOG DISCARDABLE  0, 0, 186, 167
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
+CAPTION "Properties of TriggerPartSweep"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,5,145,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,65,145,50,14
+    PUSHBUTTON      "Help",IDHELP,125,145,50,14
+END
+
+IDD_PAGE1TI DIALOG DISCARDABLE  0, 0, 202, 166
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "In scan"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_OPENSCALER,80,35,30,12
+    LTEXT           "Open beamgate",IDC_STATIC,20,22,60,8
+    LTEXT           "Open scaler",IDC_STATIC,20,36,50,8
+    LTEXT           "Close scaler",IDC_STATIC,20,66,55,8
+    EDITTEXT        IDC_OPENBEAMGATE,80,20,30,12
+    EDITTEXT        IDC_CLOSESCALER,80,65,30,12
+    LTEXT           "ms",IDC_STATIC,120,22,15,8
+    LTEXT           "ms",IDC_STATIC,120,37,10,8
+    LTEXT           "ms",IDC_STATIC,120,68,10,8
+    GROUPBOX        "Timing relative to trigger",IDC_STATIC,5,5,190,80
+    GROUPBOX        "Trigger",IDC_STATIC,5,90,80,65
+    CONTROL         "No trigger",IDC_NOTRIGGER,"Button",BS_AUTORADIOBUTTON,
+                    15,105,47,10
+    CONTROL         "Trigger step",IDC_STEPTRIGGER,"Button",
+                    BS_AUTORADIOBUTTON,15,120,53,10
+    CONTROL         "Trigger sweep",IDC_SWEEPTRIGGER,"Button",
+                    BS_AUTORADIOBUTTON,15,135,61,10
+    PUSHBUTTON      "Show Protons",IDC_SHOWPROTONS,95,95,50,14
+    EDITTEXT        IDC_STARTBEAMGATE,155,40,20,12
+    EDITTEXT        IDC_STOPBEAMGATE,155,65,20,12
+    LTEXT           "Switch gate \r\nfrom ch",IDC_STATIC,150,20,40,15
+    LTEXT           "to ch",IDC_STATIC,155,55,20,8
+    LTEXT           "Close gate",IDC_STATIC,20,51,50,8
+    EDITTEXT        IDC_CLOSEBEAMGATE,80,50,30,12
+    LTEXT           "ms",IDC_STATIC,120,52,10,8
+END
+
+IDD_PAGE3TI DIALOG DISCARDABLE  0, 0, 202, 167
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "Hardware"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Set Slot",-1,15,22,30,8
+    EDITTEXT        IDC_SLOT,45,20,20,12
+    GROUPBOX        "CAMAC-Address",-1,5,5,110,80
+    GROUPBOX        "Test Hardware",-1,5,90,190,65
+    PUSHBUTTON      "Test...",IDC_TEST,15,105,40,15
+END
+
+IDD_PAGE1TR DIALOG DISCARDABLE  0, 0, 202, 166
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "In scan"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_ISOTOPENAME,65,20,30,12
+    EDITTEXT        IDC_NUMSCANS,75,40,20,12
+    EDITTEXT        IDC_REALSCANS,75,55,20,12,ES_READONLY | NOT WS_TABSTOP
+    EDITTEXT        IDC_NUMSTEPS,75,70,20,12
+    CONTROL         "Do nothing",IDC_NOREDO,"Button",BS_AUTORADIOBUTTON,15,
+                    110,51,10
+    CONTROL         "Wait",IDC_REDOWAIT,"Button",BS_AUTORADIOBUTTON,15,120,
+                    31,10
+    CONTROL         "Wait and redo step",IDC_REDOWAITREDO,"Button",
+                    BS_AUTORADIOBUTTON,15,130,76,10
+    CONTROL         "Stop",IDC_REDOSTOP,"Button",BS_AUTORADIOBUTTON,15,140,
+                    31,10
+    EDITTEXT        IDC_PROTONLIMIT,148,117,30,14,ES_AUTOHSCROLL
+    LTEXT           "Isotope name",IDC_STATIC,15,22,45,8
+    LTEXT           "Num of scans",IDC_STATIC,15,41,50,8
+    LTEXT           "Real scans",IDC_STATIC,15,57,55,8
+    LTEXT           "Num of steps",IDC_STATIC,15,73,55,8
+    GROUPBOX        "Track",IDC_STATIC,5,5,100,85
+    GROUPBOX        "Low proton action",IDC_STATIC,5,95,185,60
+    LTEXT           "Protonlimit",IDC_STATIC,109,120,33,8
+    GROUPBOX        "Measurement",IDC_STATIC,110,5,80,85
+    LTEXT           "Element",IDC_STATIC,115,22,26,8
+    EDITTEXT        IDC_ELEMENTNAME,145,20,35,12
+    LTEXT           "Wave",IDC_STATIC,115,72,20,8
+    EDITTEXT        IDC_WAVENUMBER,145,70,35,12
+    LTEXT           "Cycles",IDC_STATIC,115,57,22,8
+    EDITTEXT        IDC_CYCLES,160,55,20,12
+    LTEXT           "Kepco",IDC_STATIC,115,38,30,8
+    EDITTEXT        IDC_KEPCOFACTOR,150,35,30,12
+END
+
+IDD_PAGE3TR DIALOG DISCARDABLE  0, 0, 202, 167
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "Hardware"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Set Slot",IDC_STATIC,15,22,30,8
+    EDITTEXT        IDC_SLOT,45,20,20,12
+    GROUPBOX        "CAMAC-Address",IDC_STATIC,5,5,110,80
+    GROUPBOX        "Test Hardware",IDC_STATIC,5,90,190,65
+    PUSHBUTTON      "Test...",IDC_TEST,15,105,40,15
+    LTEXT           "SubReg",IDC_STATIC,15,42,27,8
+    EDITTEXT        IDC_SUBADDRESS,45,40,20,12
+END
+
+IDD_TEMPLATECALCUL DIALOGEX 0, 0, 267, 215
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Template calculus"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "Exit",IDOK,225,15,35,14
+    LISTBOX         IDC_FILELIST,150,130,110,80,LBS_SORT | 
+                    LBS_NOINTEGRALHEIGHT | LBS_EXTENDEDSEL | WS_VSCROLL | 
+                    WS_TABSTOP
+    PUSHBUTTON      "->",IDC_SUB,115,190,30,15
+    PUSHBUTTON      "<- add",IDC_ADD,115,145,30,15
+    LTEXT           "Template selection :",IDC_STATIC,153,118,64,8
+    LTEXT           "Templates to add :",IDC_STATIC,12,118,60,8
+    LTEXT           "Template structure :",IDC_STATIC,12,5,65,8
+    ICON            IDR_MAINFRAME,IDC_STATIC,231,65,18,20
+    PUSHBUTTON      "Save",IDC_SAVEADDED,225,35,35,14
+    CONTROL         "List1",IDC_TEMPLVIEW,"SysListView32",LVS_REPORT | 
+                    WS_BORDER | WS_TABSTOP,5,15,210,95,WS_EX_CLIENTEDGE
+    PUSHBUTTON      "<- sub",IDC_ADDBUTSUBSTRACT,115,165,30,15
+    CONTROL         "List1",IDC_ADDLIST,"SysListView32",LVS_LIST | 
+                    LVS_SORTASCENDING | WS_BORDER | WS_TABSTOP,5,130,105,80,
+                    WS_EX_CLIENTEDGE
+END
+
+IDD_DATAREADOUT DIALOG DISCARDABLE  0, 0, 157, 81
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Data readout"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,100,60,50,14
+    LTEXT           "Static",IDC_TEXTX,10,10,70,8
+    LTEXT           "Static",IDC_NUMERR,95,40,60,8
+    LTEXT           "Static",IDC_TEXTERR,10,40,70,8
+    PUSHBUTTON      "Set as center in sweep",IDC_CENTERINSWEEP,10,60,80,14
+    LTEXT           "=",IDC_STATIC,85,10,8,8
+    LTEXT           "=",IDC_STATIC,85,25,8,8
+    LTEXT           "=",IDC_STATIC,85,40,8,8
+    LTEXT           "Static",IDC_NUMX,95,10,60,8
+    LTEXT           "Static",IDC_NUMY,95,25,60,8
+    LTEXT           "Static",IDC_TEXTY,10,25,60,8
+END
+
+IDD_HFSFIT DIALOG DISCARDABLE  0, 0, 222, 207
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "HFS-Fit"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "Go",IDOK,160,5,50,14
+    EDITTEXT        IDC_WAVELENGTH,5,5,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_LINEWIDTH,5,20,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ACCELVOLTAGE,5,35,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_MASS,5,50,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_J_G,5,65,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_J_A,5,80,40,14,ES_AUTOHSCROLL
+    LTEXT           "1/Wavelength [cm]",IDC_STATIC,50,8,62,8
+    LTEXT           "Linewidth [MHz]",IDC_STATIC,50,23,52,8
+    LTEXT           "Acceleration voltage [V]",IDC_STATIC,50,38,76,8
+    LTEXT           "Mass [amu]",IDC_STATIC,50,53,37,8
+    LTEXT           "J-Ground state",IDC_STATIC,50,68,47,8
+    LTEXT           "J-Excited state",IDC_STATIC,50,83,47,8
+    LTEXT           "I Spin of Core",IDC_STATIC,50,98,44,8
+    LTEXT           "Isotopeshift [MHz]",IDC_STATIC,50,113,58,8
+    LTEXT           "A Ground state [MHz]",IDC_STATIC,50,128,69,8
+    LTEXT           "A Excited state [MHz]",IDC_STATIC,50,158,69,8
+    LTEXT           "B Ground state [MHz]",IDC_STATIC,50,143,69,8
+    LTEXT           "B Excited state [MHz]",IDC_STATIC,50,173,69,8
+    EDITTEXT        IDC_I,5,95,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ISV,5,110,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_A_G,5,125,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_B_G,5,140,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_A_A,5,155,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_B_A,5,170,40,14,ES_AUTOHSCROLL
+    LTEXT           "Kepco-factor",IDC_STATIC,50,188,69,8
+    EDITTEXT        IDC_KEPCO,5,185,40,14,ES_AUTOHSCROLL | WS_DISABLED
+    CONTROL         "Gauss",IDC_GAUSS,"Button",BS_AUTORADIOBUTTON,155,65,36,
+                    10
+    CONTROL         "Lorentz",IDC_LORENTZ,"Button",BS_AUTORADIOBUTTON,155,80,
+                    39,10
+    CONTROL         "Voigt",IDC_VOIGT,"Button",BS_AUTORADIOBUTTON,155,95,32,
+                    10
+    GROUPBOX        "Fit-function",IDC_STATIC,145,50,70,105
+    CONTROL         "Gauss(*)exp",IDC_GAUSSEXP,"Button",BS_AUTORADIOBUTTON,
+                    155,110,55,10
+    CONTROL         "Lorentz(*)exp",IDC_LORENTZEXP,"Button",
+                    BS_AUTORADIOBUTTON,155,125,55,10
+    CONTROL         "Voigt(*)exp",IDC_VOIGTEXP,"Button",BS_AUTORADIOBUTTON,
+                    155,140,55,10
+END
+
+IDD_RECHNER DIALOG DISCARDABLE  0, 0, 186, 66
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Rechner"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,129,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,129,24,50,14
+    EDITTEXT        IDC_EDIT1,5,5,110,14,ES_AUTOHSCROLL
+    LTEXT           "Static",IDC_ERGEBNIS,10,30,50,8
+    PUSHBUTTON      "Evaluate !",IDC_EVALUATE,10,45,50,14
+END
+
+IDD_CONFIGURE DIALOG DISCARDABLE  0, 0, 172, 76
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Configure data display"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,115,10,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,115,27,50,14
+    CONTROL         "Points",IDC_POINTS,"Button",BS_AUTORADIOBUTTON,15,20,35,
+                    10
+    CONTROL         "Stairs",IDC_STAIRS,"Button",BS_AUTORADIOBUTTON,15,35,33,
+                    10
+    CONTROL         "Lines",IDC_LINES,"Button",BS_AUTORADIOBUTTON,15,50,33,
+                    10
+    GROUPBOX        "Display data as",IDC_STATIC,5,5,100,65
+END
+
+IDD_SETUP DIALOG DISCARDABLE  0, 0, 347, 282
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Display setup"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,275,10,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,275,30,50,14
+    LTEXT           "Axis text",IDC_STATIC,15,17,27,8
+    LTEXT           "Numbers",IDC_STATIC,15,32,29,8
+    LTEXT           "Axis lines",IDC_STATIC,15,47,30,8
+    LTEXT           "Tick lines",IDC_STATIC,15,62,31,8
+    LTEXT           "Data lines",IDC_STATIC,15,77,32,8
+    LTEXT           "Fit lines",IDC_STATIC,15,92,24,8
+    LTEXT           "Title pos x",IDC_STATIC,95,17,33,8
+    LTEXT           "Title pos y",IDC_STATIC,95,32,33,8
+    LTEXT           "XAxis title x",IDC_STATIC,95,47,36,8
+    LTEXT           "XAxis title y",IDC_STATIC,95,62,36,8
+    LTEXT           "YAxis title x",IDC_STATIC,95,77,36,8
+    LTEXT           "YAxis title y",IDC_STATIC,95,92,36,8
+    LTEXT           "Tick labels x",IDC_STATIC,95,107,40,8
+    LTEXT           "Tick labels y",IDC_STATIC,95,122,40,8
+    LTEXT           "Points",IDC_STATIC,15,107,20,8
+    LTEXT           "Error bars",IDC_STATIC,15,122,31,8
+    LTEXT           "Data x min",IDC_STATIC,175,17,34,8
+    LTEXT           "Data y min",IDC_STATIC,175,32,34,8
+    LTEXT           "Data x max",IDC_STATIC,175,47,36,8
+    LTEXT           "Data y max",IDC_STATIC,175,62,36,8
+    LTEXT           "Tick len x",IDC_STATIC,175,77,32,8
+    LTEXT           "Halftick len x",IDC_STATIC,175,92,42,8
+    LTEXT           "Tick len y",IDC_STATIC,175,107,32,8
+    LTEXT           "Halftick len y",IDC_STATIC,175,122,42,8
+    LTEXT           "Fit func",IDC_STATIC,275,67,25,8
+    LTEXT           "Fit fun",IDC_STATIC,15,182,20,8
+    LTEXT           "Data",IDC_STATIC,15,167,16,8
+    LTEXT           "Axis",IDC_STATIC,15,197,14,8
+    LTEXT           "Text",IDC_STATIC,15,212,15,8
+    GROUPBOX        "Colors",IDC_STATIC,5,145,110,130
+    EDITTEXT        IDC_DATA_RED,41,166,20,14
+    EDITTEXT        IDC_DATA_GREEN,65,166,20,14
+    EDITTEXT        IDC_DATA_BLUE,91,166,20,14
+    EDITTEXT        IDC_FIT_RED,41,180,20,14
+    EDITTEXT        IDC_FIT_GREEN,65,180,20,14
+    EDITTEXT        IDC_FIT_BLUE,91,180,20,14
+    LTEXT           "Red",IDC_STATIC,43,154,14,8
+    LTEXT           "Green",IDC_STATIC,65,154,20,8
+    LTEXT           "Blue",IDC_STATIC,93,154,15,8
+    EDITTEXT        IDC_AXIS_RED,41,196,20,14
+    EDITTEXT        IDC_AXIS_GREEN,65,196,20,14
+    EDITTEXT        IDC_AXIS_BLUE,91,196,20,14
+    EDITTEXT        IDC_TEXT_RED,41,210,20,14
+    EDITTEXT        IDC_TEXT_GREEN,65,210,20,14
+    EDITTEXT        IDC_TEXT_BLUE,91,210,20,14
+    GROUPBOX        "Thickness",IDC_STATIC,5,5,75,135
+    EDITTEXT        IDC_AXISTEXT,55,15,18,14
+    EDITTEXT        IDC_NUMBERS,55,30,18,14
+    EDITTEXT        IDC_AXISLINES,55,45,18,14
+    EDITTEXT        IDC_TICKLINES,55,60,18,14
+    EDITTEXT        IDC_DATALINES,55,75,18,14
+    EDITTEXT        IDC_FITLINES,55,90,18,14
+    EDITTEXT        IDC_POINTS,55,105,18,15
+    EDITTEXT        IDC_ERRORBARS,55,120,18,14
+    GROUPBOX        "Position && length",IDC_STATIC,85,5,180,135
+    EDITTEXT        IDC_TITLEPOSX,145,15,18,14
+    EDITTEXT        IDC_TITLEPOSY,145,30,18,14
+    EDITTEXT        IDC_XAXISTITLEX,145,45,18,14
+    EDITTEXT        IDC_XAXISTITLEY,145,60,18,14
+    EDITTEXT        IDC_YAXISTITLEX,145,75,18,14
+    EDITTEXT        IDC_YAXISTITLEY,145,90,18,14
+    EDITTEXT        IDC_TICKLABELSX,145,105,18,15
+    EDITTEXT        IDC_TICKLABELSY,145,120,18,14
+    EDITTEXT        IDC_DATAXMIN,230,15,18,14
+    EDITTEXT        IDC_DATAYMIN,230,30,18,14
+    EDITTEXT        IDC_DATAXMAX,230,45,18,14
+    EDITTEXT        IDC_DATAYMAX,230,60,18,14
+    EDITTEXT        IDC_TICKLENX,230,75,18,14
+    EDITTEXT        IDC_HALFTICKLENX,230,90,18,14
+    EDITTEXT        IDC_TICKLENY,230,105,18,15
+    EDITTEXT        IDC_HALFTICKLENY,230,120,18,14
+    GROUPBOX        "Resolution",IDC_STATIC,270,50,60,35
+    EDITTEXT        IDC_FITFUNRES,305,65,20,14
+    LTEXT           "Select",IDC_STATIC,15,228,21,8
+    EDITTEXT        IDC_SELECT_RED,41,225,20,14
+    EDITTEXT        IDC_SELECT_GREEN,65,225,20,14
+    EDITTEXT        IDC_SELECT_BLUE,91,225,20,14
+    LTEXT           "Nums",IDC_STATIC,15,243,21,8
+    EDITTEXT        IDC_NUMBER_RED,41,240,20,14
+    EDITTEXT        IDC_NUMBER_GREEN,65,240,20,14
+    EDITTEXT        IDC_NUMBER_BLUE,91,240,20,14
+    GROUPBOX        "Window size && position",IDC_STATIC,120,145,220,130
+    LTEXT           "Data plots",IDC_STATIC,215,160,33,8
+    LTEXT           "Template view",IDC_STATIC,140,160,47,8
+    EDITTEXT        IDC_TEMPLATE_DX,135,170,20,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_TEMPLATE_X,171,170,20,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_TEMPLATE_DY,135,185,20,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_TEMPLATE_Y,171,185,20,14,ES_AUTOHSCROLL
+    LTEXT           "dx",IDC_STATIC,125,172,8,8
+    LTEXT           "dy",IDC_STATIC,125,187,8,8
+    LTEXT           "x",IDC_STATIC,160,172,8,8
+    LTEXT           "y",IDC_STATIC,161,187,8,8
+    EDITTEXT        IDC_PLOT_DX,205,170,20,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_PLOT_X,241,170,20,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_PLOT_DY,205,185,20,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_PLOT_Y,241,185,20,14,ES_AUTOHSCROLL
+    LTEXT           "dx",IDC_STATIC,195,172,8,8
+    LTEXT           "dy",IDC_STATIC,195,187,8,8
+    LTEXT           "x",IDC_STATIC,231,172,8,8
+    LTEXT           "y",IDC_STATIC,231,187,8,8
+    LTEXT           "Lsi box",IDC_STATIC,220,215,23,8
+    EDITTEXT        IDC_SCRIPT_DX,135,225,20,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_SCRIPT_X,171,225,20,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_SCRIPT_DY,135,239,20,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_SCRIPT_Y,171,239,20,14,ES_AUTOHSCROLL
+    LTEXT           "dx",IDC_STATIC,125,226,8,8
+    LTEXT           "dy",IDC_STATIC,125,241,8,8
+    LTEXT           "x",IDC_STATIC,160,226,8,8
+    LTEXT           "y",IDC_STATIC,161,241,8,8
+    EDITTEXT        IDC_LSI_DX,205,225,20,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_LSI_X,241,225,20,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_LSI_DY,205,239,20,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_LSI_Y,241,239,20,14,ES_AUTOHSCROLL
+    LTEXT           "dx",IDC_STATIC,195,226,8,8
+    LTEXT           "dy",IDC_STATIC,195,241,8,8
+    LTEXT           "x",IDC_STATIC,231,226,8,8
+    LTEXT           "y",IDC_STATIC,231,241,8,8
+    CONTROL         "AutoPos",IDC_AUTOSCRIPT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,140,255,43,10
+    LTEXT           "Script window",IDC_STATIC,140,215,45,8
+    CONTROL         "AutoPos",IDC_AUTOLSI,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,210,255,43,10
+    CONTROL         "AutoPos",IDC_AUTOTEMPLATE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,140,200,43,10
+    CONTROL         "AutoPos",IDC_AUTOPLOT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,210,200,43,10
+    LTEXT           "Back",IDC_STATIC,15,258,21,8
+    EDITTEXT        IDC_BACK_RED,41,255,20,14
+    EDITTEXT        IDC_BACK_GREEN,65,255,20,14
+    EDITTEXT        IDC_BACK_BLUE,91,255,20,14
+    LTEXT           "Monitor View",IDC_STATIC,280,160,50,8
+    EDITTEXT        IDC_MONITOR_DX,275,170,20,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_MONITOR_X,311,170,20,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_MONITOR_DY,275,185,20,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_MONITOR_Y,311,185,20,14,ES_AUTOHSCROLL
+    LTEXT           "dx",IDC_STATIC,265,172,8,8
+    LTEXT           "dy",IDC_STATIC,265,187,8,8
+    LTEXT           "x",IDC_STATIC,301,172,8,8
+    LTEXT           "y",IDC_STATIC,301,187,8,8
+    CONTROL         "AutoPos",IDC_AUTOMONITOR,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,280,200,43,10
+END
+
+IDD_CAMACSEND DIALOG DISCARDABLE  0, 0, 122, 95
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Camac Tester"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_DATA,30,5,40,14
+    EDITTEXT        IDC_N,30,20,25,14
+    EDITTEXT        IDC_A,30,34,25,14
+    EDITTEXT        IDC_F,30,50,25,14
+    PUSHBUTTON      "Send !",IDC_SENDNAF,70,40,40,20
+    PUSHBUTTON      "Random",IDC_RANDOM,70,25,40,14
+    LTEXT           "Data",IDC_STATIC,10,7,16,8
+    LTEXT           "N",IDC_STATIC,10,23,8,8
+    LTEXT           "A",IDC_STATIC,10,38,8,8
+    LTEXT           "F",IDC_STATIC,10,53,8,8
+    LTEXT           "",IDC_CAMACANSWER,10,80,100,8
+END
+
+IDD_HARDWARE DIALOG DISCARDABLE  0, 0, 212, 326
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Hardware default settings"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,155,240,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,155,260,50,14
+    LTEXT           "Scaler",IDC_STATIC,15,18,21,8
+    GROUPBOX        "Camac slots",IDC_STATIC,5,5,95,180
+    LTEXT           "Gpib-Interface",IDC_STATIC,15,48,46,8
+    LTEXT           "Preset Counter",IDC_STATIC,15,63,48,8
+    LTEXT           "List-processor",IDC_STATIC,15,78,44,8
+    LTEXT           "Prema-Interface",IDC_STATIC,15,93,51,8
+    LTEXT           "Gelbe Box",IDC_STATIC,15,108,34,8
+    LTEXT           "Proton-Scaler",IDC_STATIC,15,33,44,8
+    EDITTEXT        IDC_SCALERSLOT,75,15,15,14
+    EDITTEXT        IDC_PROTONSLOT,75,30,15,14
+    EDITTEXT        IDC_GPIBSLOT,75,45,15,14
+    EDITTEXT        IDC_PRESETSLOT,75,60,15,14
+    EDITTEXT        IDC_LISTSLOT,75,75,15,14
+    EDITTEXT        IDC_PREMASLOT,75,90,15,14
+    EDITTEXT        IDC_GELBEBOXSLOT,75,105,15,14
+    GROUPBOX        "Camac subaddresses",IDC_STATIC,110,5,95,61
+    LTEXT           "Proton-Scaler",IDC_STATIC,121,18,44,8
+    LTEXT           "Isolde Trigger",IDC_STATIC,121,33,44,8
+    LTEXT           "Ferddich",IDC_STATIC,121,48,28,8
+    EDITTEXT        IDC_PROTONSUBADD,180,15,15,14
+    EDITTEXT        IDC_TRIGGERSUBADD,180,30,15,14
+    EDITTEXT        IDC_FERDDICHSUBADD,180,45,15,14
+    GROUPBOX        "Gpib addresses",IDC_STATIC,5,195,95,120
+    LTEXT           "HP3325 No. 1",IDC_STATIC,15,208,46,8
+    LTEXT           "HP3325 No. 2",IDC_STATIC,15,224,46,8
+    LTEXT           "RS No. 1",IDC_STATIC,15,238,30,8
+    LTEXT           "RS No. 2",IDC_STATIC,15,254,30,8
+    LTEXT           "Fluke-Oszi",IDC_STATIC,15,268,34,8
+    EDITTEXT        IDC_HP1GPIB,75,206,15,14
+    EDITTEXT        IDC_HP2GPIB,75,220,15,14
+    EDITTEXT        IDC_RS1GPIB,75,235,15,14
+    EDITTEXT        IDC_RS2GPIB,75,251,15,14
+    EDITTEXT        IDC_FLUKEGPIB,75,265,15,14
+    EDITTEXT        IDC_HPVOLTSLOT,75,135,15,14
+    LTEXT           "HP-Voltage",IDC_STATIC,15,138,40,8
+    GROUPBOX        "Delays",IDC_STATIC,110,75,95,110
+    LTEXT           "Pre Prema",IDC_STATIC,120,93,34,8
+    LTEXT           "Post Mass",IDC_STATIC,120,108,34,8
+    LTEXT           "Post Fluke",IDC_STATIC,120,123,34,8
+    LTEXT           "Post GPIB",IDC_STATIC,120,138,34,8
+    EDITTEXT        IDC_PREMADELAY,160,90,21,14
+    EDITTEXT        IDC_MASSDELAY,160,105,21,14
+    EDITTEXT        IDC_FLUKEDELAY,160,120,21,14
+    EDITTEXT        IDC_GPIBDELAY,160,135,21,14
+    LTEXT           "ms",IDC_STATIC,185,93,10,8
+    LTEXT           "ms",IDC_STATIC,185,108,10,8
+    LTEXT           "ms",IDC_STATIC,185,138,10,8
+    LTEXT           "ms",IDC_STATIC,185,123,10,8
+    EDITTEXT        IDC_FVOLTSLOT,75,150,15,14
+    LTEXT           "F-Voltage",IDC_STATIC,15,153,40,8
+    LTEXT           "Temp Controller",IDC_STATIC,15,283,55,8
+    EDITTEXT        IDC_TEMPGPIB,75,280,15,14
+    LTEXT           "Field Controller",IDC_STATIC,15,298,50,8
+    EDITTEXT        IDC_FIELDGPIB,75,296,15,14
+    LTEXT           "Gelbe Box 2",IDC_STATIC,15,123,45,8
+    EDITTEXT        IDC_GELBEBOX2SLOT,75,120,15,14
+    EDITTEXT        IDC_HVVOLTSLOT,75,165,15,14
+    LTEXT           "HV-Voltage",IDC_STATIC,15,168,40,8
+END
+
+IDD_NETREAD DIALOG DISCARDABLE  0, 0, 127, 95
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Network Reader"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_NAME,45,5,70,14
+    EDITTEXT        IDC_PROPERTY,45,20,70,14
+    PUSHBUTTON      "Read !",IDC_READNET,75,40,40,20
+    LTEXT           "Name",-1,10,7,30,8
+    LTEXT           "Property",-1,10,23,30,8
+    LTEXT           "Answer :",-1,15,50,28,8
+    LTEXT           "",IDC_NETANSWER,10,65,95,25
+END
+
+IDD_PAGE1PR DIALOG DISCARDABLE  0, 0, 212, 90
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "In scan"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "DispayMode",IDC_STATIC,5,5,200,75
+    CONTROL         "Monitor in scan",IDC_AUTOOPEN,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,130,20,65,10
+    CONTROL         "Points (with errors)",IDC_POINTS,"Button",
+                    BS_AUTORADIOBUTTON,15,20,73,10
+    CONTROL         "Stairs",IDC_STAIRS,"Button",BS_AUTORADIOBUTTON,15,35,33,
+                    10
+    CONTROL         "Lines",IDC_LINES,"Button",BS_AUTORADIOBUTTON,15,50,33,
+                    10
+    CONTROL         "Show expected",IDC_AUTORESIZE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,130,35,70,10
+END
+
+IDD_PAGE3PR DIALOG DISCARDABLE  0, 0, 202, 167
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "Hardware"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Set Slot",IDC_STATIC,15,22,30,8
+    EDITTEXT        IDC_SLOT,45,20,20,12
+    GROUPBOX        "CAMAC-Address",IDC_STATIC,5,5,110,80
+    GROUPBOX        "Test Hardware",IDC_STATIC,5,90,190,65
+    PUSHBUTTON      "Test...",IDC_TEST,15,105,40,15
+    LTEXT           "SubReg",IDC_STATIC,15,42,27,8
+    EDITTEXT        IDC_SUBADDRESS,45,40,20,12
+    GROUPBOX        "Delay before meas",IDC_STATIC,120,5,75,80
+    LTEXT           "PreDelay",IDC_STATIC,126,42,30,8
+    EDITTEXT        IDC_DELAY,158,40,20,12
+    LTEXT           "ms",IDC_STATIC,181,42,10,8
+END
+
+IDD_PAGE1BO DIALOG DISCARDABLE  0, 0, 207, 90
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "In scan"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Action",IDC_STATIC,5,5,75,65
+    CONTROL         "BIT off",IDC_BITOFF,"Button",BS_AUTORADIOBUTTON,20,35,
+                    44,10
+    CONTROL         "BIT toggle",IDC_BITTOGGLE,"Button",BS_AUTORADIOBUTTON,
+                    20,50,55,10
+    CONTROL         "BIT on",IDC_BITON,"Button",BS_AUTORADIOBUTTON,20,20,45,
+                    10
+    LTEXT           "In Channel",IDC_STATIC,105,22,35,8
+    EDITTEXT        IDC_BITCHANNEL,143,20,22,12
+    GROUPBOX        "Channel",IDC_STATIC,90,5,110,40
+END
+
+IDD_PAGE3BO DIALOG DISCARDABLE  0, 0, 202, 167
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "Hardware"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Set Slot",IDC_STATIC,15,22,30,8
+    EDITTEXT        IDC_SLOT,45,20,20,12
+    GROUPBOX        "CAMAC-Address",IDC_STATIC,5,5,110,80
+    GROUPBOX        "Test Hardware",IDC_STATIC,5,90,190,65
+    PUSHBUTTON      "Test...",IDC_TEST,15,105,40,15
+    LTEXT           "SubReg",IDC_STATIC,15,42,27,8
+    EDITTEXT        IDC_SUBADDRESS,45,40,20,12
+END
+
+IDD_PAGE1FV DIALOG DISCARDABLE  0, 0, 202, 90
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "In scan"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Start",IDC_STATIC,20,22,16,8
+    LTEXT           "Stop",IDC_STATIC,20,36,16,8
+    LTEXT           "Step",IDC_STATIC,20,52,16,8
+    LTEXT           "Center",IDC_STATIC,20,68,22,8
+    EDITTEXT        IDC_STARTVOLT,45,20,35,12
+    EDITTEXT        IDC_STOPVOLT,45,35,35,12
+    EDITTEXT        IDC_STEPVOLT,45,50,35,12
+    EDITTEXT        IDC_CENTERVOLT,45,65,35,12
+    LTEXT           "V",IDC_STATIC,85,22,16,8
+    LTEXT           "V",IDC_STATIC,85,37,16,8
+    LTEXT           "V",IDC_STATIC,85,52,16,8
+    LTEXT           "V",IDC_STATIC,85,67,16,8
+    GROUPBOX        "Voltage sweep",IDC_STATIC,5,5,110,80
+    GROUPBOX        "Slow reset",IDC_STATIC,125,5,70,80
+    LTEXT           "sec",IDC_STATIC,155,42,12,8
+    EDITTEXT        IDC_SLOWRESETCH,130,40,20,12,WS_DISABLED
+    CONTROL         "Slow reset on",IDC_SLOWRESET,"Button",BS_AUTOCHECKBOX | 
+                    WS_DISABLED | WS_TABSTOP,130,20,55,10
+END
+
+IDD_PAGE3FV DIALOG DISCARDABLE  0, 0, 202, 167
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "Hardware"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Set Slot",IDC_STATIC,15,22,30,8
+    EDITTEXT        IDC_SLOT,45,20,20,12
+    GROUPBOX        "CAMAC-Address",IDC_STATIC,5,5,110,80
+    GROUPBOX        "Test Hardware",IDC_STATIC,5,90,190,65
+    PUSHBUTTON      "Test...",IDC_TEST,15,105,40,15
+    LTEXT           "Set DAC",IDC_STATIC,15,42,30,8
+    EDITTEXT        IDC_SUBADDRESS,45,40,20,12
+END
+
+IDD_GPIBWRITE DIALOG DISCARDABLE  0, 0, 127, 95
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "GPIB Writer"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_ADDRESS,40,5,15,12
+    EDITTEXT        IDC_GPIBSTRING,40,20,80,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "Write !",IDC_WRITEGPIB,75,40,40,20
+    LTEXT           "Address",IDC_STATIC,9,7,26,8
+    LTEXT           "String",IDC_STATIC,10,23,19,8
+END
+
+IDD_PAGE2HP DIALOG DISCARDABLE  0, 0, 202, 167
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "No scan"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Set to",IDC_STATIC,20,22,20,8
+    EDITTEXT        IDC_NOSCANFREQ,45,20,35,12
+    LTEXT           "MHz",IDC_STATIC,85,22,16,8
+    CONTROL         "No Mod",IDC_NOMOD,"Button",BS_AUTORADIOBUTTON | 
+                    WS_DISABLED,15,108,41,10
+    CONTROL         "AM Mod",IDC_MODAM,"Button",BS_AUTORADIOBUTTON | 
+                    WS_DISABLED,15,122,43,10
+    CONTROL         "FM Mod",IDC_MODFM,"Button",BS_AUTORADIOBUTTON | 
+                    WS_DISABLED,15,136,42,10
+    LTEXT           "ModFreq",IDC_STATIC,85,108,29,8,WS_DISABLED
+    EDITTEXT        IDC_MODFREQ,120,105,35,12,ES_NUMBER | WS_DISABLED
+    LTEXT           "kHz",IDC_STATIC,160,108,14,8,WS_DISABLED
+    LTEXT           "ModAmp",IDC_STATIC,85,123,29,8,WS_DISABLED
+    LTEXT           "ModAmp",IDC_STATIC,85,138,29,8,WS_DISABLED
+    EDITTEXT        IDC_MODAMPAM,120,120,35,12,ES_NUMBER | WS_DISABLED
+    LTEXT           "kHz",IDC_STATIC,160,138,14,8,WS_DISABLED
+    EDITTEXT        IDC_MODAMPFM,120,135,35,12,ES_NUMBER | WS_DISABLED
+    LTEXT           "%",IDC_STATIC,160,123,8,8,WS_DISABLED
+    GROUPBOX        "Frequency",IDC_STATIC,5,5,110,80
+    GROUPBOX        "Modulation",IDC_STATIC,5,90,190,65,WS_DISABLED
+    GROUPBOX        "Amplitude",IDC_STATIC,125,5,70,80
+    LTEXT           "dBm",IDC_STATIC,171,22,15,8
+    LTEXT           "mV",IDC_STATIC,171,37,11,8
+    EDITTEXT        IDC_NOSCANAMPDB,131,20,35,12
+    EDITTEXT        IDC_NOSCANAMPMV,131,35,35,12
+    CONTROL         "Set off",IDC_NOSCANAMPOFF,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,135,55,37,10
+END
+
+IDD_PAGE2FV DIALOG DISCARDABLE  0, 0, 202, 90
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "No scan"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Set to",IDC_STATIC,20,22,20,8
+    EDITTEXT        IDC_NOSCANVOLT,45,20,35,12
+    LTEXT           "V",IDC_STATIC,85,22,16,8
+    GROUPBOX        "Voltage",IDC_STATIC,5,5,110,80
+END
+
+IDD_PAGE2HV DIALOG DISCARDABLE  0, 0, 202, 90
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "No scan"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Set to",IDC_STATIC,20,22,20,8
+    EDITTEXT        IDC_NOSCANVOLT,45,20,35,12
+    LTEXT           "V",IDC_STATIC,85,22,16,8
+    GROUPBOX        "Voltage",IDC_STATIC,5,5,110,80
+END
+
+IDD_PAGE2RS DIALOG DISCARDABLE  0, 0, 202, 167
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "No scan"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Set to",IDC_STATIC,20,22,20,8
+    EDITTEXT        IDC_NOSCANFREQ,45,20,35,12
+    LTEXT           "MHz",IDC_STATIC,85,22,16,8
+    CONTROL         "No Mod",IDC_NOSCANNOMOD,"Button",BS_AUTORADIOBUTTON,15,
+                    108,41,10
+    CONTROL         "AM Mod",IDC_NOSCANMODAM,"Button",BS_AUTORADIOBUTTON,15,
+                    122,43,10
+    CONTROL         "FM Mod",IDC_NOSCANMODFM,"Button",BS_AUTORADIOBUTTON,15,
+                    136,42,10
+    LTEXT           "ModFreq",IDC_STATIC,85,108,29,8
+    EDITTEXT        IDC_NOSCANMODFREQ,120,105,35,12
+    LTEXT           "kHz",IDC_STATIC,160,108,14,8
+    LTEXT           "ModAmp",IDC_STATIC,85,123,29,8
+    LTEXT           "ModAmp",IDC_STATIC,85,138,29,8
+    EDITTEXT        IDC_NOSCANMODAMPAM,120,120,35,12
+    LTEXT           "kHz",IDC_STATIC,160,138,14,8
+    EDITTEXT        IDC_NOSCANMODAMPFM,120,135,35,12
+    LTEXT           "%",IDC_STATIC,160,123,8,8
+    GROUPBOX        "Frequency",IDC_STATIC,5,5,110,80
+    GROUPBOX        "Modulation",IDC_STATIC,5,90,190,65
+    GROUPBOX        "Amplitude",IDC_STATIC,125,5,70,80
+    LTEXT           "dBm",IDC_STATIC,171,22,15,8
+    LTEXT           "mV",IDC_STATIC,171,37,11,8
+    EDITTEXT        IDC_NOSCANAMPDB,131,20,35,12
+    EDITTEXT        IDC_NOSCANAMPMV,131,35,35,12
+    CONTROL         "Set off",IDC_NOSCANAMPOFF,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,135,55,37,10
+END
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 217, 117
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About MCP for NT"
+FONT 8, "MS Sans Serif"
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,18,20
+    LTEXT           "MCP for NT Version 1.0",IDC_STATIC,40,10,119,8,
+                    SS_NOPREFIX
+    LTEXT           "Copyright Stephan Kappertz © 1997-1998",IDC_STATIC,40,
+                    25,133,8
+    DEFPUSHBUTTON   "OK",IDOK,178,7,32,14,WS_GROUP
+    GROUPBOX        "Free physical memory",IDC_STATIC,10,45,145,25
+    GROUPBOX        "Free disk capacity ",IDC_STATIC,10,75,145,25
+    LTEXT           "Static",IDC_PHYSICAL_MEM,20,55,125,8
+    LTEXT           "Static",IDC_DISK_SPACE,20,85,125,8
+END
+
+CG_IDD_SAVEDIALOG DIALOG DISCARDABLE  0, 0, 104, 21
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_SAVEEDIT,40,4,60,12,ES_AUTOHSCROLL
+    LTEXT           "Save as",IDC_STATIC,5,6,27,9
+END
+
+CG_IDD_LOADFILEBAR DIALOG DISCARDABLE  0, 0, 156, 20
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    COMBOBOX        IDC_LOADCOMBO,55,4,95,99,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Load this file",IDC_STATIC,8,6,40,8
+END
+
+CG_IDD_GPS_HTMEAS DIALOG DISCARDABLE  0, 0, 134, 20
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "GPS Voltage :",IDC_STATIC,25,6,45,8
+    LTEXT           "Not measured",IDC_GPS_HTMEAS,74,6,56,8
+    ICON            IDI_ICON3,IDC_HTMEASICON,1,0,18,20
+END
+
+IDD_GPIBREAD DIALOG DISCARDABLE  0, 0, 127, 95
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "GPIB Reader"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_ADDRESS,40,5,15,12
+    EDITTEXT        IDC_GPIBSTRING,40,20,80,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "Write !",IDC_WRITEGPIB,75,40,40,20
+    LTEXT           "Address",IDC_STATIC,9,7,26,8
+    LTEXT           "String",IDC_STATIC,10,23,19,8
+    LTEXT           "Answer :",IDC_STATIC,15,50,28,8
+    LTEXT           "",IDC_GPIBANSWER,5,65,115,25
+END
+
+IDD_PAGE1FR DIALOG DISCARDABLE  0, 0, 202, 90
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "In scan"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Nothing to be set",IDC_STATIC,10,10,55,8
+END
+
+IDD_PAGE1FW DIALOG DISCARDABLE  0, 0, 202, 90
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "In scan"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Set ",IDC_STATIC,20,22,20,8
+    EDITTEXT        IDC_FIELD,45,20,35,12
+    LTEXT           "T",IDC_STATIC,87,22,10,10
+    GROUPBOX        "Set NMR field",IDC_STATIC,5,5,110,80
+END
+
+IDD_PAGE1GR DIALOG DISCARDABLE  0, 0, 202, 90
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "In scan"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Send",IDC_STATIC,15,22,20,8
+    EDITTEXT        IDC_SENDSTRING,40,20,70,12
+    GROUPBOX        "Send string",IDC_STATIC,5,5,110,80
+END
+
+IDD_PAGE1KW DIALOG DISCARDABLE  0, 0, 202, 90
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "In scan"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Set ",IDC_STATIC,20,22,20,8
+    EDITTEXT        IDC_TEMP,45,20,35,12
+    LTEXT           "K",IDC_STATIC,87,22,10,10
+    GROUPBOX        "Set temperature",IDC_STATIC,5,5,110,80
+END
+
+IDD_PAGE1GW DIALOG DISCARDABLE  0, 0, 202, 90
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "In scan"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Send",-1,15,22,20,8
+    EDITTEXT        IDC_SENDSTRING,40,20,70,12
+    GROUPBOX        "Send string",-1,5,5,110,80
+END
+
+IDD_PAGE1KR DIALOG DISCARDABLE  0, 0, 202, 90
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "In scan"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Nothing to be set",IDC_STATIC,10,10,55,8
+END
+
+IDD_PAGE3FR DIALOG DISCARDABLE  0, 0, 202, 167
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "Hardware"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Set #",IDC_STATIC,20,22,20,8
+    EDITTEXT        IDC_GPIB,45,20,20,12
+    LTEXT           "Send command:",IDC_STATIC,15,138,55,8
+    EDITTEXT        IDC_SENDCOMMAND,75,135,100,12,ES_AUTOHSCROLL
+    GROUPBOX        "GPIB-Address",IDC_STATIC,5,5,110,80
+    GROUPBOX        "Test Hardware",IDC_STATIC,5,90,190,65
+    PUSHBUTTON      "Test...",IDC_TEST,15,105,40,15
+END
+
+IDD_PAGE3FW DIALOG DISCARDABLE  0, 0, 202, 167
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "Hardware"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Set #",IDC_STATIC,20,22,20,8
+    EDITTEXT        IDC_GPIB,45,20,20,12
+    LTEXT           "Send command:",IDC_STATIC,15,138,55,8
+    EDITTEXT        IDC_SENDCOMMAND,75,135,100,12,ES_AUTOHSCROLL
+    GROUPBOX        "GPIB-Address",IDC_STATIC,5,5,110,80
+    GROUPBOX        "Test Hardware",IDC_STATIC,5,90,190,65
+    PUSHBUTTON      "Test...",IDC_TEST,15,105,40,15
+END
+
+IDD_PAGE3GR DIALOG DISCARDABLE  0, 0, 202, 167
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "Hardware"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Set #",IDC_STATIC,20,22,20,8
+    EDITTEXT        IDC_GPIB,45,20,20,12
+    LTEXT           "Send command:",IDC_STATIC,15,138,55,8
+    EDITTEXT        IDC_SENDCOMMAND,75,135,100,12,ES_AUTOHSCROLL
+    GROUPBOX        "GPIB-Address",IDC_STATIC,5,5,110,80
+    GROUPBOX        "Test Hardware",IDC_STATIC,5,90,190,65
+    PUSHBUTTON      "Test...",IDC_TEST,15,105,40,15
+END
+
+IDD_PAGE3GW DIALOG DISCARDABLE  0, 0, 202, 167
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "Hardware"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Set #",IDC_STATIC,20,22,20,8
+    EDITTEXT        IDC_GPIB,45,20,20,12
+    LTEXT           "Send command:",IDC_STATIC,15,138,55,8
+    EDITTEXT        IDC_SENDCOMMAND,75,135,100,12,ES_AUTOHSCROLL
+    GROUPBOX        "GPIB-Address",IDC_STATIC,5,5,110,80
+    GROUPBOX        "Test Hardware",IDC_STATIC,5,90,190,65
+    PUSHBUTTON      "Test...",IDC_TEST,15,105,40,15
+END
+
+IDD_PAGE3KR DIALOG DISCARDABLE  0, 0, 202, 167
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "Hardware"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Set #",IDC_STATIC,20,22,20,8
+    EDITTEXT        IDC_GPIB,45,20,20,12
+    LTEXT           "Send command:",IDC_STATIC,15,138,55,8
+    EDITTEXT        IDC_SENDCOMMAND,75,135,100,12,ES_AUTOHSCROLL
+    GROUPBOX        "GPIB-Address",IDC_STATIC,5,5,110,80
+    GROUPBOX        "Test Hardware",IDC_STATIC,5,90,190,65
+    PUSHBUTTON      "Test...",IDC_TEST,15,105,40,15
+END
+
+IDD_PAGE3KW DIALOG DISCARDABLE  0, 0, 202, 167
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "Hardware"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Set #",IDC_STATIC,20,22,20,8
+    EDITTEXT        IDC_GPIB,45,20,20,12
+    LTEXT           "Send command:",IDC_STATIC,15,138,55,8
+    EDITTEXT        IDC_SENDCOMMAND,75,135,100,12,ES_AUTOHSCROLL
+    GROUPBOX        "GPIB-Address",IDC_STATIC,5,5,110,80
+    GROUPBOX        "Test Hardware",IDC_STATIC,5,90,190,65
+    PUSHBUTTON      "Test...",IDC_TEST,15,105,40,15
+END
+
+CG_IDD_ISOLDEPROTONS DIALOG DISCARDABLE  0, 0, 136, 20
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Isolde Protons :",IDC_STATIC,30,6,50,8
+    LTEXT           "Not measured",IDC_GPS_PROTONS,85,6,45,8
+    ICON            IDI_ICON3,IDC_PROTONICON,1,0,18,20
+END
+
+IDD_NETWRITE DIALOG DISCARDABLE  0, 0, 127, 95
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Network Writer"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_NAME,45,5,70,14
+    EDITTEXT        IDC_PROPERTY,45,20,70,14
+    PUSHBUTTON      "Write !",IDC_WRITENET,70,60,40,20
+    LTEXT           "Name",IDC_STATIC,10,7,30,8
+    LTEXT           "Property",IDC_STATIC,10,23,30,8
+    EDITTEXT        IDC_VALUE,45,35,70,14
+    LTEXT           "Value",IDC_STATIC,10,38,19,8
+END
+
+IDD_PAGE1LV DIALOG DISCARDABLE  0, 0, 202, 90
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "In scan"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Start",IDC_STATIC,20,22,16,8
+    LTEXT           "Stop",IDC_STATIC,20,36,16,8
+    LTEXT           "Step",IDC_STATIC,20,52,16,8
+    LTEXT           "Center",IDC_STATIC,20,68,22,8
+    EDITTEXT        IDC_STARTVOLT,45,20,35,12
+    EDITTEXT        IDC_STOPVOLT,45,35,35,12
+    EDITTEXT        IDC_STEPVOLT,45,50,35,12
+    EDITTEXT        IDC_CENTERVOLT,45,65,35,12
+    LTEXT           "V",IDC_STATIC,85,22,16,8
+    LTEXT           "V",IDC_STATIC,85,37,16,8
+    LTEXT           "V",IDC_STATIC,85,52,16,8
+    LTEXT           "V",IDC_STATIC,85,67,16,8
+    GROUPBOX        "Voltage sweep",IDC_STATIC,5,5,110,80
+    GROUPBOX        "Slew rate",IDC_STATIC,125,5,70,80
+    LTEXT           "V/ms",IDC_STATIC,159,42,20,8
+    EDITTEXT        IDC_SLOWRESETCH,130,40,25,12
+    CONTROL         "Use max. rate",IDC_SLOWRESET,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,130,20,60,10
+END
+
+IDD_PAGE2LV DIALOG DISCARDABLE  0, 0, 202, 90
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "No scan"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Set to",IDC_STATIC,20,22,20,8
+    EDITTEXT        IDC_NOSCANVOLT,45,20,35,12
+    LTEXT           "V",IDC_STATIC,85,22,16,8
+    GROUPBOX        "Voltage",IDC_STATIC,5,5,110,80
+END
+
+IDD_PAGE3LV DIALOG DISCARDABLE  0, 0, 202, 167
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "Hardware"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Set Slot",IDC_STATIC,15,22,30,8
+    EDITTEXT        IDC_SLOT,45,20,20,12
+    GROUPBOX        "CAMAC-Address",IDC_STATIC,5,5,110,80
+    GROUPBOX        "Test Hardware",IDC_STATIC,5,90,190,65
+    PUSHBUTTON      "Test...",IDC_TEST,15,105,40,15
+    LTEXT           "Set DAC",IDC_STATIC,15,42,30,8
+    EDITTEXT        IDC_SUBADDRESS,45,40,20,12
+    GROUPBOX        "Hardware",IDC_STATIC,120,5,75,80
+    CONTROL         "18 Bit internal",IDC_18BITINTERNAL,"Button",
+                    BS_AUTORADIOBUTTON,130,20,59,10
+    CONTROL         "24 Bit Optical",IDC_24BITOPTICAL,"Button",
+                    BS_AUTORADIOBUTTON,130,40,58,10
+END
+
+IDD_MINUIT DIALOGEX 0, 0, 197, 226
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
+CAPTION "Minuit fit-session"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "Go",IDOK,125,5,50,14
+    EDITTEXT        IDC_NUMOFPEAKS,65,40,15,14,ES_NUMBER | WS_DISABLED,
+                    WS_EX_RIGHT
+    CONTROL         "Inverted sign",IDC_NEGATIVEPEAKS,"Button",
+                    BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,15,70,66,10
+    CONTROL         "Equal spaced",IDC_EQUALSPACED,"Button",BS_AUTOCHECKBOX | 
+                    WS_DISABLED | WS_TABSTOP,15,85,59,10
+    CONTROL         "Baseline offset",IDC_BASEOFFSET,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,15,100,62,10
+    CONTROL         "Linear offset",IDC_LINOFFSET,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,15,115,65,10
+    CONTROL         "Linear",IDC_LINEAR,"Button",BS_AUTORADIOBUTTON,115,40,
+                    35,10
+    CONTROL         "Gauss",IDC_GAUSS,"Button",BS_AUTORADIOBUTTON,115,55,36,
+                    10
+    CONTROL         "Lorentz",IDC_LORENTZ,"Button",BS_AUTORADIOBUTTON,115,70,
+                    39,10
+    CONTROL         "Voigt",IDC_VOIGT,"Button",BS_AUTORADIOBUTTON,115,85,32,
+                    10
+    CONTROL         "Exponential decay",IDC_DECAY,"Button",
+                    BS_AUTORADIOBUTTON,115,145,70,10
+    CONTROL         "HFS-Fit",IDC_HFSFIT,"Button",BS_AUTORADIOBUTTON,115,160,
+                    39,10
+    CONTROL         "User FCN",IDC_USERFIT,"Button",BS_AUTORADIOBUTTON,115,
+                    175,45,10
+    GROUPBOX        "Select fit function",IDC_STATIC,105,25,85,165
+    GROUPBOX        "Select fit-parameter",IDC_STATIC,5,25,90,125
+    LTEXT           "Num of peaks",IDC_STATIC,15,42,45,8
+    LTEXT           "",IDC_INFO,5,195,185,25
+    CONTROL         "Gauss (*) exp",IDC_GAUSS_EXP,"Button",
+                    BS_AUTORADIOBUTTON,115,100,60,10
+    CONTROL         "Lorentz (*) exp",IDC_LORENTZ_EXP,"Button",
+                    BS_AUTORADIOBUTTON,115,115,60,10
+    CONTROL         "Voigt (*) exp",IDC_VOIGT_EXP,"Button",
+                    BS_AUTORADIOBUTTON,115,130,60,10
+    CONTROL         "Common linewidth",IDC_COMMONWIDTH,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,15,130,75,10
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_PAGE1RS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 160
+    END
+
+    IDD_PAGE3RS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 160
+    END
+
+    IDD_PAGE1HP, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 160
+    END
+
+    IDD_PAGE3HP, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 160
+    END
+
+    IDD_PAGE1HV, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 83
+    END
+
+    IDD_PAGE3HV, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 160
+    END
+
+    IDD_PAGE1AM, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 83
+    END
+
+    IDD_PAGE3AM, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 160
+    END
+
+    IDD_PAGE1FS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 83
+    END
+
+    IDD_PAGE1MS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 83
+    END
+
+    IDD_PAGE3MS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 160
+    END
+
+    IDD_PAGE1PM, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 205
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 119
+    END
+
+    IDD_PAGE3PM, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 160
+    END
+
+    IDD_PAGE1MF, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 200
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 83
+    END
+
+    IDD_PAGE3MF, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 160
+    END
+
+    IDD_PAGE3FS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 160
+    END
+
+    IDD_PAGE1AS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 205
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 159
+    END
+
+    IDD_PAGE3AS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 160
+    END
+
+    IDD_MEASTHREAD, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 105
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 94
+    END
+
+    IDD_STEPTIMER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 160
+    END
+
+    IDD_FASTTIMER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 160
+    END
+
+    IDD_TIMER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 160
+    END
+
+    IDD_COMPUTER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 160
+    END
+
+    IDD_TRIGGERPART, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 160
+    END
+
+    IDD_PAGE1TI, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 159
+    END
+
+    IDD_PAGE3TI, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 160
+    END
+
+    IDD_PAGE1TR, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 159
+    END
+
+    IDD_PAGE3TR, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 160
+    END
+
+    IDD_TEMPLATECALCUL, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 260
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 208
+    END
+
+    IDD_DATAREADOUT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 150
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 74
+    END
+
+    IDD_HFSFIT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 215
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 200
+    END
+
+    IDD_RECHNER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 59
+    END
+
+    IDD_CONFIGURE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 165
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 69
+    END
+
+    IDD_SETUP, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 340
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 275
+    END
+
+    IDD_CAMACSEND, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 115
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 88
+    END
+
+    IDD_HARDWARE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 205
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 319
+    END
+
+    IDD_NETREAD, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 120
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 88
+    END
+
+    IDD_PAGE1PR, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 205
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 83
+    END
+
+    IDD_PAGE3PR, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 160
+    END
+
+    IDD_PAGE1BO, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 200
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 83
+    END
+
+    IDD_PAGE3BO, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 160
+    END
+
+    IDD_PAGE1FV, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 83
+    END
+
+    IDD_PAGE3FV, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 160
+    END
+
+    IDD_GPIBWRITE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 120
+        TOPMARGIN, 5
+        BOTTOMMARGIN, 88
+    END
+
+    IDD_PAGE2HP, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 160
+    END
+
+    IDD_PAGE2FV, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 83
+    END
+
+    IDD_PAGE2HV, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 83
+    END
+
+    IDD_PAGE2RS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 160
+    END
+
+    IDD_GPIBREAD, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 120
+        TOPMARGIN, 5
+        BOTTOMMARGIN, 88
+    END
+
+    IDD_PAGE1FR, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 83
+    END
+
+    IDD_PAGE1FW, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 83
+    END
+
+    IDD_PAGE1GR, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 83
+    END
+
+    IDD_PAGE1KW, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 83
+    END
+
+    IDD_PAGE1GW, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 83
+    END
+
+    IDD_PAGE1KR, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 83
+    END
+
+    IDD_PAGE3FR, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 160
+    END
+
+    IDD_PAGE3FW, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 160
+    END
+
+    IDD_PAGE3GR, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 160
+    END
+
+    IDD_PAGE3GW, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 160
+    END
+
+    IDD_PAGE3KR, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 160
+    END
+
+    IDD_PAGE3KW, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 160
+    END
+
+    CG_IDD_ISOLDEPROTONS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 129
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 13
+    END
+
+    IDD_NETWRITE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 120
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 88
+    END
+
+    IDD_PAGE1LV, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 83
+    END
+
+    IDD_PAGE2LV, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 83
+    END
+
+    IDD_PAGE3LV, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 160
+    END
+
+    IDD_MINUIT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 190
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 219
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS PRELOAD MOVEABLE PURE 
+BEGIN
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL, NOINVERT
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
+    "P",            ID_FILE_PRINT,          VIRTKEY, CONTROL, NOINVERT
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL, NOINVERT
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL, NOINVERT
+    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT, NOINVERT
+    VK_F1,          ID_HELP,                VIRTKEY, NOINVERT
+    VK_F1,          ID_CONTEXT_HELP,        VIRTKEY, SHIFT, NOINVERT
+    VK_F6,          ID_NEXT_PANE,           VIRTKEY, NOINVERT
+    VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT, NOINVERT
+    VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, NOINVERT
+    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT, NOINVERT
+    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL, NOINVERT
+    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL, NOINVERT
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "CompanyName", "\0"
+            VALUE "FileDescription", "MCP FOR NT\0"
+            VALUE "FileVersion", "1, 0, 0, 1\0"
+            VALUE "InternalName", "MCP FOR NT\0"
+            VALUE "LegalCopyright", "Copyright Stephan Kappertz© 1997-1998\0"
+            VALUE "OriginalFilename", "MCP FOR NT.EXE\0"
+            VALUE "ProductName", "MCP FOR NT\0"
+            VALUE "ProductVersion", "1, 0, 0, 1\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    CG_ID_VIEW_MYDIALOGBAR  "Show or hide Savebar\nToggle  Savebar"
+    IDP_SOCKETS_INIT_FAILED "Windows sockets initialization failed."
+    CG_ID_VIEW_LIST         "Show or hide List\nToggle List"
+    CG_ID_VIEW_SAVEDIALOG   "Show or hide SaveDialog\nToggle SaveDialog"
+    CG_IDS_CANNOT_OPEN_CLIPBOARD "Failed to open Clipboard!"
+    CG_IDS_CANNOT_GET_CLIPBOARD_DATA "Failed to get Clipboard data!"
+END
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    IDR_MAINFRAME           "MCP for NT"
+    IDR_MCPTYPE             "\nTemplate\nMCP\nMCP Templates (*.mcp)\n.mcp\nMCP.Template\nMCP Template"
+    CG_IDS_CANNOT_OPEN_CLIPBOARD1 "Failed to open Clipboard!"
+    CG_IDS_CANNOT_GET_CLIPBOARD_DATA1 "Failed to get Clipboard data!"
+    CG_ID_VIEW_GPS_HTMEAS   "Show or hide High Tension\nToggle High Tension"
+    CG_ID_VIEW_ISOLDEPROTONS 
+                            "Show or hide Isolde Protons\nToggle Isolde Protons"
+END
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    AFX_IDS_APP_TITLE       "MCP for NT"
+    AFX_IDS_IDLEMESSAGE     "For Help, press F1"
+    AFX_IDS_HELPMODEMESSAGE "Select an object on which to get Help"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_INDICATOR_EXT        "EXT"
+    ID_INDICATOR_CAPS       "CAP"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "SCRL"
+    ID_INDICATOR_OVR        "OVR"
+    ID_INDICATOR_REC        "REC"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_FILE_NEW             "Create a new document\nNew"
+    ID_FILE_OPEN            "Open an existing document\nOpen"
+    ID_FILE_CLOSE           "Close the active document\nClose"
+    ID_FILE_SAVE            "Save the active document\nSave"
+    ID_FILE_SAVE_AS         "Save the active document with a new name\nSave As"
+    ID_FILE_PAGE_SETUP      "Change the printing options\nPage Setup"
+    ID_FILE_PRINT_SETUP     "Change the printer and printing options\nPrint Setup"
+    ID_FILE_PRINT           "Print the active document\nPrint"
+    ID_FILE_PRINT_PREVIEW   "Display full pages\nPrint Preview"
+    ID_FILE_SEND_MAIL       "Send the active document through electronic mail\nSend Mail"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
+    ID_APP_EXIT             "Quit the application; prompts to save documents\nExit"
+    ID_HELP_INDEX           "Opens Help\nHelp Topics"
+    ID_HELP_FINDER          "List Help topics\nHelp Topics"
+    ID_HELP_USING           "Display instructions about how to use help\nHelp"
+    ID_CONTEXT_HELP         "Display help for clicked on buttons, menus and windows\nHelp"
+    ID_HELP                 "Display help for current task or command\nHelp"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_FILE_MRU_FILE1       "Open this document"
+    ID_FILE_MRU_FILE2       "Open this document"
+    ID_FILE_MRU_FILE3       "Open this document"
+    ID_FILE_MRU_FILE4       "Open this document"
+    ID_FILE_MRU_FILE5       "Open this document"
+    ID_FILE_MRU_FILE6       "Open this document"
+    ID_FILE_MRU_FILE7       "Open this document"
+    ID_FILE_MRU_FILE8       "Open this document"
+    ID_FILE_MRU_FILE9       "Open this document"
+    ID_FILE_MRU_FILE10      "Open this document"
+    ID_FILE_MRU_FILE11      "Open this document"
+    ID_FILE_MRU_FILE12      "Open this document"
+    ID_FILE_MRU_FILE13      "Open this document"
+    ID_FILE_MRU_FILE14      "Open this document"
+    ID_FILE_MRU_FILE15      "Open this document"
+    ID_FILE_MRU_FILE16      "Open this document"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_NEXT_PANE            "Switch to the next window pane\nNext Pane"
+    ID_PREV_PANE            "Switch back to the previous window pane\nPrevious Pane"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_WINDOW_NEW           "Open another window for the active document\nNew Window"
+    ID_WINDOW_ARRANGE       "Arrange icons at the bottom of the window\nArrange Icons"
+    ID_WINDOW_CASCADE       "Arrange windows so they overlap\nCascade Windows"
+    ID_WINDOW_TILE_HORZ     "Arrange windows as non-overlapping tiles\nTile Windows"
+    ID_WINDOW_TILE_VERT     "Arrange windows as non-overlapping tiles\nTile Windows"
+    ID_WINDOW_SPLIT         "Split the active window into panes\nSplit"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_EDIT_CLEAR           "Erase the selection\nErase"
+    ID_EDIT_CLEAR_ALL       "Erase everything\nErase All"
+    ID_EDIT_COPY            "Copy the selection and put it on the Clipboard\nCopy"
+    ID_EDIT_CUT             "Cut the selection and put it on the Clipboard\nCut"
+    ID_EDIT_FIND            "Find the specified text\nFind"
+    ID_EDIT_PASTE           "Insert Clipboard contents\nPaste"
+    ID_EDIT_REPEAT          "Repeat the last action\nRepeat"
+    ID_EDIT_REPLACE         "Replace specific text with different text\nReplace"
+    ID_EDIT_SELECT_ALL      "Select the entire document\nSelect All"
+    ID_EDIT_UNDO            "Undo the last action\nUndo"
+    ID_EDIT_REDO            "Redo the previously undone action\nRedo"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_VIEW_TOOLBAR         "Show or hide the toolbar\nToggle ToolBar"
+    ID_VIEW_STATUS_BAR      "Show or hide the status bar\nToggle StatusBar"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_SCSIZE          "Change the window size"
+    AFX_IDS_SCMOVE          "Change the window position"
+    AFX_IDS_SCMINIMIZE      "Reduce the window to an icon"
+    AFX_IDS_SCMAXIMIZE      "Enlarge the window to full size"
+    AFX_IDS_SCNEXTWINDOW    "Switch to the next document window"
+    AFX_IDS_SCPREVWINDOW    "Switch to the previous document window"
+    AFX_IDS_SCCLOSE         "Close the active window and prompts to save the documents"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_SCRESTORE       "Restore the window to normal size"
+    AFX_IDS_SCTASKLIST      "Activate Task List"
+    AFX_IDS_MDICHILD        "Activate this window"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_PREVIEW_CLOSE   "Close print preview mode\nCancel Preview"
+    ID_TEMPLATEDEFTEXT      "MCP for NT Template-View"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_VIEW_LIST            "Show or hide the selection list\nToggle selection list"
+    ID_BUTTON32772          "Exit\nExit Template"
+    ID_BUTTON32773          "Kill\nKill measurement"
+    ID_BUTTON32774          "Do whatever you want\nDo something"
+    ID_BUTTON32775          "Do whatever you want\nDo something"
+    CG_ID_LOADFILEBAR       "Show or hide the load file bar\nToggle LoadBar"
+    ID_SAVESETTINGS         "Save window settings\nSave settings"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    CG_IDS_PHYSICAL_MEM     "%lu KB"
+    CG_IDS_DISK_SPACE       "%lu KB Free on %c:"
+    CG_IDS_DISK_SPACE_UNAVAIL "Unavailable"
+    CG_IDS_DISK_SPACE_UNAVAIL2 "Unavailable"
+    CG_ID_VIEW_LOADFILEBAR  "Show or hide LoadFileBar\nToggle LoadFileBar"
+    CG_ID_VIEW_DATASTYLE    "Show or hide DataStyle\nToggle DataStyle"
+    CG_ID_VIEW_ERRORBAR     "Show or hide Errorbar\nToggle Errorbar"
+    CG_ID_VIEW_LOAD         "Show or hide Load\nToggle Load"
+    ID_INDICATOR_DATE       "Date"
+    ID_INDICATOR_TIME       "Time"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_LSIBOX               "Open LSI-Box for this template\nOpen LSI-Box"
+    ID_VIEW_SCRIPTWINDOW    "Open Editor Window\nEditorWindow"
+    ID_VIEW_EMPTYPLOT       "Open empty plot window\nEmpty plot window"
+    ID_VIEW_DISPLAYSETUP    "Open display setup page\nDisplay setup page"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_ERGO                 "New measurement\nErgo (New measurement)"
+    ID_GO                   "Repeat measurement and add the data\nGo (Repeat measurement/add data)"
+    ID_KILL                 "Kill the measurement if running\nKill measurement thread"
+    ID_VIEW_TEMPLATECALCULATOR 
+                            "Open template calculator\nTemplate calculator"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_VIEW_CAMACTESTER     "Open Camac tester\nCamac tester"
+    ID_VIEW_HARDWARESETUP   "Open Hardware setup page\nHardware setup page"
+    ID_VIEW_NETREADER       "Open RPC reader\nRPC reader"
+    ID_GPIBWRITER           "Open GPIB writer\nGPIB writer"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_AUTOGO               "AutoRepeat measurement and add the data\nAutoGo (AutoRepeat measurement/add data)"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif
+#include "res\MCP for NT.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#include "afxprint.rc"       // printing/print preview resources
+#endif
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

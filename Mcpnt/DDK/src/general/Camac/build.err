@@ -1,0 +1,3 @@
+sys\genport.c(79) : error C2143: syntax error : missing ';' before ':'
+sys\genport.c(264) : error C2282: 'NTSTATUS' is followed by 'GpdCreateDevice' (missing ','?)
+sys\genport.c(346) : error C2059: syntax error : '}'

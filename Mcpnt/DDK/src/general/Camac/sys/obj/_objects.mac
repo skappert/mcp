@@ -1,0 +1,24 @@
+ALPHA_OBJECTS= \
+    $(_OBJ_DIR)\alpha\genport.res \
+    $(_OBJ_DIR)\alpha\genport.obj
+
+PASS0_ALPHA_OBJECTS=
+
+MIPS_OBJECTS= \
+    $(_OBJ_DIR)\mips\genport.res \
+    $(_OBJ_DIR)\mips\genport.obj
+
+PASS0_MIPS_OBJECTS=
+
+386_OBJECTS= \
+    $(_OBJ_DIR)\i386\genport.res \
+    $(_OBJ_DIR)\i386\genport.obj
+
+PASS0_386_OBJECTS=
+
+PPC_OBJECTS= \
+    $(_OBJ_DIR)\ppc\genport.res \
+    $(_OBJ_DIR)\ppc\genport.obj
+
+PASS0_PPC_OBJECTS=
+

@@ -1,0 +1,204 @@
+--------------------Konfiguration: MCP for NT - Win32 Release--------------------
+Begining build with project "E:\MSDEV\projects\Mcpnt2\MCP for NT.dsp", at root.
+Active configuration is Win32 (x86) Application (based on Win32 (x86) Application)
+
+Project's tools are:
+			"32-Bit C/C++-Compiler für 80x86" with flags "/nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /Fp".\Release/MCP for NT.pch" /Yu"stdafx.h" /Fo".\Release/" /Fd".\Release/" /FD /c "
+			"OLE Type Library Maker" with flags "/nologo /D "NDEBUG" /mktyplib203 /win32 "
+			"Win32 Resource Compiler" with flags "/l 0x409 /fo".\Release/MCP for NT.res" /d "NDEBUG" /d "_AFXDLL" "
+			"Browser Database Maker" with flags "/o".\Release/MCP for NT.bsc" "
+			"COFF-Linker für 80x86" with flags "camac.lib rpcapi32.lib /nologo /subsystem:windows /incremental:no /pdb:".\Release/MCP for NT.pdb" /machine:I386 /out:".\Release/MCP for NT.exe" "
+			"Benutzerdefiniertes Erstellen" with flags ""
+			"<Component 0xa>" with flags ""
+
+Creating temp file "C:\TEMP\RSP2D.tmp" with contents </nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /Fp".\Release/MCP for NT.pch" /Yu"stdafx.h" /Fo".\Release/" /Fd".\Release/" /FD /c 
+"E:\MSDEV\projects\Mcpnt2\MCP for NT.cpp"
+"E:\MSDEV\projects\Mcpnt2\MainFrm.cpp"
+"E:\MSDEV\projects\Mcpnt2\ChildFrm.cpp"
+"E:\MSDEV\projects\Mcpnt2\MCP for NTDoc.cpp"
+"E:\MSDEV\projects\Mcpnt2\MCP for NTView.cpp"
+"E:\MSDEV\projects\Mcpnt2\Splash.cpp"
+"E:\MSDEV\projects\Mcpnt2\DataChild.cpp"
+"E:\MSDEV\projects\Mcpnt2\DataView.cpp"
+"E:\MSDEV\projects\Mcpnt2\Page1RS.cpp"
+"E:\MSDEV\projects\Mcpnt2\PropShtRS.cpp"
+"E:\MSDEV\projects\Mcpnt2\Page3RS.cpp"
+"E:\MSDEV\projects\Mcpnt2\Page1HV.cpp"
+"E:\MSDEV\projects\Mcpnt2\Page3HV.cpp"
+"E:\MSDEV\projects\Mcpnt2\Page1HP.cpp"
+"E:\MSDEV\projects\Mcpnt2\Page3HP.cpp"
+"E:\MSDEV\projects\Mcpnt2\PropShtHV.cpp"
+"E:\MSDEV\projects\Mcpnt2\PropShtHP.cpp"
+"E:\MSDEV\projects\Mcpnt2\Page1am.cpp"
+"E:\MSDEV\projects\Mcpnt2\Page3am.cpp"
+"E:\MSDEV\projects\Mcpnt2\Page1fs.cpp"
+"E:\MSDEV\projects\Mcpnt2\Page3fs.cpp"
+"E:\MSDEV\projects\Mcpnt2\PropShtfs.cpp"
+"E:\MSDEV\projects\Mcpnt2\PropShtam.cpp"
+"E:\MSDEV\projects\Mcpnt2\LSIChild.cpp"
+"E:\MSDEV\projects\Mcpnt2\LSIView.cpp"
+"E:\MSDEV\projects\Mcpnt2\FileIO.cpp"
+"E:\MSDEV\projects\Mcpnt2\ActionObjects.cpp"
+"E:\MSDEV\projects\Mcpnt2\ComputerDelay.cpp"
+"E:\MSDEV\projects\Mcpnt2\TimerDelay.cpp"
+"E:\MSDEV\projects\Mcpnt2\StepTimer.cpp"
+"E:\MSDEV\projects\Mcpnt2\FastTimer.cpp"
+"E:\MSDEV\projects\Mcpnt2\PropShtMF.cpp"
+"E:\MSDEV\projects\Mcpnt2\PropShtPM.cpp"
+"E:\MSDEV\projects\Mcpnt2\TriggerPartSweep.cpp"
+"E:\MSDEV\projects\Mcpnt2\Page1MF.cpp"
+"E:\MSDEV\projects\Mcpnt2\Page3MF.cpp"
+"E:\MSDEV\projects\Mcpnt2\Page1PM.cpp"
+"E:\MSDEV\projects\Mcpnt2\Page3PM.cpp"
+"E:\MSDEV\projects\Mcpnt2\Page3TR.cpp"
+"E:\MSDEV\projects\Mcpnt2\Page1TR.cpp"
+"E:\MSDEV\projects\Mcpnt2\PropShtTR.cpp"
+"E:\MSDEV\projects\Mcpnt2\minuit.cpp"
+"E:\MSDEV\projects\Mcpnt2\Hardware.cpp"
+>
+Creating command line "cl.exe @C:\TEMP\RSP2D.tmp" 
+Creating temp file "C:\TEMP\RSP2E.tmp" with contents <camac.lib rpcapi32.lib /nologo /subsystem:windows /incremental:no /pdb:".\Release/MCP for NT.pdb" /machine:I386 /out:".\Release/MCP for NT.exe" 
+".\Release\MCP for NT.obj"
+.\Release\StdAfx.obj
+.\Release\MainFrm.obj
+.\Release\ChildFrm.obj
+".\Release\MCP for NTDoc.obj"
+".\Release\MCP for NTView.obj"
+.\Release\Splash.obj
+.\Release\DataChild.obj
+.\Release\DataView.obj
+.\Release\Page1RS.obj
+.\Release\PropShtRS.obj
+.\Release\Page3RS.obj
+.\Release\Page1HV.obj
+.\Release\Page3HV.obj
+.\Release\Page1HP.obj
+.\Release\Page3HP.obj
+.\Release\PropShtHV.obj
+.\Release\PropShtHP.obj
+.\Release\Page1am.obj
+.\Release\Page3am.obj
+.\Release\Page1fs.obj
+.\Release\Page3fs.obj
+.\Release\PropShtfs.obj
+.\Release\PropShtam.obj
+.\Release\LSIChild.obj
+.\Release\LSIView.obj
+.\Release\FileIO.obj
+.\Release\ActionObjects.obj
+.\Release\ComputerDelay.obj
+.\Release\TimerDelay.obj
+.\Release\StepTimer.obj
+.\Release\FastTimer.obj
+.\Release\PropShtMF.obj
+.\Release\PropShtPM.obj
+.\Release\TriggerPartSweep.obj
+.\Release\Page1MF.obj
+.\Release\Page3MF.obj
+.\Release\Page1PM.obj
+.\Release\Page3PM.obj
+.\Release\Page3TR.obj
+.\Release\Page1TR.obj
+.\Release\PropShtTR.obj
+.\Release\minuit.obj
+.\Release\Calculator.obj
+.\Release\Page3AS.obj
+.\Release\PropShtAS.obj
+.\Release\Page1AS.obj
+.\Release\MinuitChild.obj
+.\Release\MinuitDlg.obj
+.\Release\MeasThread.obj
+.\Release\DataReadout.obj
+.\Release\EditorView.obj
+.\Release\HfsFitDlg.obj
+.\Release\EditorChild.obj
+.\Release\Configure.obj
+.\Release\EVALUATE.OBJ
+.\Release\Hardware.obj
+.\Release\PropShtTI.obj
+.\Release\Page1TI.obj
+.\Release\Page3TI.obj
+.\Release\CamacTester.obj
+.\Release\Page1MS.obj
+.\Release\Page3MS.obj
+.\Release\PropShtMS.obj
+.\Release\HardwareDefaults.obj
+.\Release\NetReader.obj
+.\Release\MonitorView.obj
+.\Release\MonitorChild.obj
+.\Release\Display.obj
+.\Release\Page1PR.obj
+.\Release\Page3PR.obj
+.\Release\PropShtPR.obj
+.\Release\Page3Bo.obj
+.\Release\Page1Bo.obj
+.\Release\PropShtBo.obj
+.\Release\Page3FV.obj
+.\Release\Page1FV.obj
+.\Release\PropShtFV.obj
+".\Release\MCP for NT.res">
+Creating command line "link.exe @C:\TEMP\RSP2E.tmp" 
+Kompilierung läuft...
+MCP for NT.cpp
+MainFrm.cpp
+ChildFrm.cpp
+MCP for NTDoc.cpp
+MCP for NTView.cpp
+E:\MSDEV\projects\Mcpnt2\MCP for NTView.cpp(1953) : warning C4551: Dem Funktionsaufruf fehlt die Argumentliste
+Splash.cpp
+DataChild.cpp
+DataView.cpp
+E:\MSDEV\projects\Mcpnt2\DataView.cpp(265) : warning C4244: '=' : Konvertierung von 'double' in 'float', moeglicher Datenverlust
+E:\MSDEV\projects\Mcpnt2\DataView.cpp(598) : warning C4244: 'argument' : Konvertierung von 'float' in 'int', moeglicher Datenverlust
+E:\MSDEV\projects\Mcpnt2\DataView.cpp(682) : warning C4244: 'argument' : Konvertierung von 'float' in 'int', moeglicher Datenverlust
+E:\MSDEV\projects\Mcpnt2\DataView.cpp(938) : warning C4244: 'argument' : Konvertierung von 'float' in 'int', moeglicher Datenverlust
+E:\MSDEV\projects\Mcpnt2\DataView.cpp(939) : warning C4244: 'argument' : Konvertierung von 'float' in 'int', moeglicher Datenverlust
+Page1RS.cpp
+PropShtRS.cpp
+Page3RS.cpp
+Page1HV.cpp
+Page3HV.cpp
+Page1HP.cpp
+Page3HP.cpp
+PropShtHV.cpp
+PropShtHP.cpp
+Page1am.cpp
+Page3am.cpp
+Page1fs.cpp
+Page3fs.cpp
+PropShtfs.cpp
+PropShtam.cpp
+LSIChild.cpp
+LSIView.cpp
+E:\MSDEV\projects\Mcpnt2\LSIView.cpp(470) : error C2440: 'argument' : 'class CView *' kann nicht in 'class CMCPforNTView *' konvertiert werden
+                                                         Die Typen, auf die verwiesen wird, sind nicht verwandt; die Konvertierung erfordert einen reinterpret_cast-Operator oder eine Typumwandlung im C- oder Funktionsformat
+E:\MSDEV\projects\Mcpnt2\LSIView.cpp(1491) : warning C4551: Dem Funktionsaufruf fehlt die Argumentliste
+E:\MSDEV\projects\Mcpnt2\LSIView.cpp(1639) : warning C4244: 'argument' : Konvertierung von 'double' in 'int', moeglicher Datenverlust
+FileIO.cpp
+ActionObjects.cpp
+E:\MSDEV\projects\Mcpnt2\ActionObjects.cpp(4106) : warning C4244: 'argument' : Konvertierung von 'double' in 'int', moeglicher Datenverlust
+ComputerDelay.cpp
+TimerDelay.cpp
+StepTimer.cpp
+FastTimer.cpp
+PropShtMF.cpp
+PropShtPM.cpp
+TriggerPartSweep.cpp
+Page1MF.cpp
+Page3MF.cpp
+Page1PM.cpp
+Page3PM.cpp
+Page3TR.cpp
+Page1TR.cpp
+PropShtTR.cpp
+minuit.cpp
+E:\MSDEV\projects\Mcpnt2\minuit.cpp(173) : warning C4244: 'argument' : Konvertierung von 'double' in 'int', moeglicher Datenverlust
+E:\MSDEV\projects\Mcpnt2\minuit.cpp(179) : warning C4244: 'argument' : Konvertierung von 'double' in 'int', moeglicher Datenverlust
+E:\MSDEV\projects\Mcpnt2\minuit.cpp(233) : warning C4244: 'argument' : Konvertierung von 'double' in 'int', moeglicher Datenverlust
+E:\MSDEV\projects\Mcpnt2\minuit.cpp(233) : warning C4244: 'argument' : Konvertierung von 'double' in 'int', moeglicher Datenverlust
+E:\MSDEV\projects\Mcpnt2\minuit.cpp(337) : warning C4244: 'argument' : Konvertierung von 'double' in 'int', moeglicher Datenverlust
+E:\MSDEV\projects\Mcpnt2\minuit.cpp(401) : warning C4244: 'argument' : Konvertierung von 'double' in 'int', moeglicher Datenverlust
+Hardware.cpp
+Generieren von Code...
+cl.exe auf Anforderung des Benutzers abgebrochen.
+
