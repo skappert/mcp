@@ -2286,7 +2286,7 @@ void TriggerObj::TakeData(BOOL RUNMODE, USHORT scan, USHORT channel, ULONG TheDa
 
 void TriggerObj::DoDoubleClickAction(void)
 {
-	USHORT result;
+	INT_PTR result;
 	CString TrackNo;
 	CString XName,XUnit;
 	TrackNo.Format("%u",pTrack->MyPosition);

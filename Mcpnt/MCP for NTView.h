@@ -148,7 +148,7 @@ private:
 	CFont*			NewFont1;
 	DataView*		pDView;
 	CMeasThread*	MeasDlg;
-	ULONG			mytimer;
+	UINT_PTR		mytimer;
 	ULONG			DataCount;
 	ULONG			DataArrived;
 	ULONG			DataSum;
