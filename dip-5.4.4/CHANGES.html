@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script>
+                  function HTMLDecode(s){
+                    s = s.replace(new RegExp(/&lt;/gi), "<");
+                    s = s.replace(new RegExp(/&gt;/gi), ">");
+                    s = s.replace(new RegExp(/&amp;/gi), "&");
+                    return s;
+               }
+               </script>
+<link rel="stylesheet" href="http://wikis.cern.ch/s/1627/45/11/_/styles/combined.css?spaceKey=EN" type="text/css">
+<link rel="stylesheet" type="text/css" href="http://wikis.cern.ch/s/1627/45/1/_/download/resources/com.adaptavist.confluence.themes.sitebuilder:sitebuilder/hmenu/src/skin-longhorn.css">
+<link rel="stylesheet" type="text/css" href="http://wikis.cern.ch/plugins/builder/layout-resources.action?layoutId=ENDEPARTMENT&amp;key=EN&amp;resource=combinedcss&amp;hash=-59677564s16274511_">
+<title>DIP Distribution&nbsp;5.4.4 Change Log</title>
+</head>
+<body style="margin: 20px; background-color: white;">
+<h1>DIP Distribution&nbsp;5.4.4 Change Log</h1>
+<noscript>
+<b>WARNING</b> : Javascript is required for correct rendering of the <b>description</b> column.</noscript>
+<p>
+<table class="grid" cellspacing="0" width="100%">
+<caption style="text-align: left; font-weight: bold">
+<a href="http://cern.ch/en-ice/DIP+and+DIM">DIP Distribution version 5.4.4</a><span class="smalltext"> (4 issues)</span>
+</caption>
+<tbody>
+<tr>
+<th style="text-align: left;">Type</th><th style="text-align: left;">Key</th><th style="text-align: left;">Summary</th><th style="text-align: left;">Description</th>
+</tr>
+<tr class="rowAlternate">
+<td valign="top" nowrap="true"><a href="https://icecontrols.cern.ch/jira/browse/DIP-99">Task</a></td><td valign="top" nowrap="true"><b><a href="https://icecontrols.cern.ch/jira/browse/DIP-99">DIP-99</a></b></td><td valign="top"><b><a href="https://icecontrols.cern.ch/jira/browse/DIP-99">Upgrade to DIM v19r37</a></b></td><td valign="top" id="td2">&lt;p&gt;As released by Clara following ENS-5596, we need to upgrade DIM.&lt;/p&gt;<script>td2.innerHTML=HTMLDecode(td2.innerHTML);</script></td>
+</tr>
+<tr class="rowNormal">
+<td valign="top" nowrap="true"><a href="https://icecontrols.cern.ch/jira/browse/DIP-94">Improvement</a></td><td valign="top" nowrap="true"><b><a href="https://icecontrols.cern.ch/jira/browse/DIP-94">DIP-94</a></b></td><td valign="top"><b><a href="https://icecontrols.cern.ch/jira/browse/DIP-94">Improve DIP logging functionality</a></b></td><td valign="top" id="td3">&lt;p&gt;As expressed in &lt;a href="https://cern.ch/enice/DIP+Diagnostic+Functions+Requirements"&gt;https://cern.ch/enice/DIP+Diagnostic+Functions+Requirements&lt;/a&gt;, we need to be able to log selectively DIP activity, per subscription / publication, with different logging levels and different destinations (syslog, file system, console/PVSS log etc...)&lt;/p&gt;
+<script>td3.innerHTML=HTMLDecode(td3.innerHTML);</script></td>
+</tr>
+<tr class="rowAlternate">
+<td valign="top" nowrap="true"><a href="https://icecontrols.cern.ch/jira/browse/DIP-93">Bug</a></td><td valign="top" nowrap="true"><b><a href="https://icecontrols.cern.ch/jira/browse/DIP-93">DIP-93</a></b></td><td valign="top"><b><a href="https://icecontrols.cern.ch/jira/browse/DIP-93">Corrupted DipTimestamp when using 64 bit java client</a></b></td><td valign="top" id="td4">&lt;p&gt;Hi Brice,&lt;/p&gt;
+
+&lt;p&gt;We have just encountered a problem with the 64 bit version of DIP (5.4.3) when&lt;br/&gt;
+the DIP publisher is written in Java:     The top 32 bits of the long DipTimestamp&lt;br/&gt;
+value seem to be reported as 0xFFFFFFFF in this case, thus corrupting the&lt;br/&gt;
+timestamp.      The problem seems to be from the Java publisher;    with a Java&lt;br/&gt;
+subscriber in C++ or Java, the same pattern appears.&lt;/p&gt;
+
+&lt;p&gt;Would it be possible to fix this as quickly as possible?     Unfortunately, it has&lt;br/&gt;
+become a show stopper for some of our monitoring applications.    Also&lt;br/&gt;
+unfortunately, we did not notice it until today, our first stable beams of the year.&lt;/p&gt;
+
+&lt;p&gt;Thanks,&lt;br/&gt;
+Bill&lt;/p&gt;
+<script>td4.innerHTML=HTMLDecode(td4.innerHTML);</script></td>
+</tr>
+<tr class="rowNormal">
+<td valign="top" nowrap="true"><a href="https://icecontrols.cern.ch/jira/browse/DIP-81">Improvement</a></td><td valign="top" nowrap="true"><b><a href="https://icecontrols.cern.ch/jira/browse/DIP-81">DIP-81</a></b></td><td valign="top"><b><a href="https://icecontrols.cern.ch/jira/browse/DIP-81">When reporting that the DIP Data structure has changed, indicate the DIP publication with trouble</a></b></td><td valign="top" id="td5">&lt;p&gt;In PVSS, we only get the DIP error message indicating a change in data structure, no further details are given, we need the full DIP publication name&lt;/p&gt;<script>td5.innerHTML=HTMLDecode(td5.innerHTML);</script></td>
+</tr>
+</tbody>
+</table>
+</p>
+</body>
+</html>

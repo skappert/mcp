@@ -91,6 +91,9 @@ ipch/
 *.vsp
 *.vspx
 
+# Mac
+._*
+
 # Guidance Automation Toolkit
 *.gpState
 
