@@ -478,7 +478,7 @@ void CLSIView::Dispatch(CString TheCommand)
 			}
 			else
 			{
-				answer = Commands[i].func(pMCPView,numargs,&arg1,&arg2,&arg3,&arg4,&arg5);
+				answer = Commands[i].func((CMCPforNTView*)pMCPView,numargs,&arg1,&arg2,&arg3,&arg4,&arg5);
 				printf("\r\n");
 				printf(answer);
 			}
@@ -1506,7 +1506,7 @@ CString _save(CMCPforNTView* pView,...)
 	if(File.Open(SaveString,CFile::modeRead))
 	{
 		answer= "File exists, not saving !";
-		File.Close;
+		File.Close();
 		return answer;
 	}
 	else

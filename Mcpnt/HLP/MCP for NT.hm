@@ -5,7 +5,6 @@ HID_INDICATOR_DATE                      0x1007D
 HID_INDICATOR_TIME                      0x1007E
 HID_TEMPLATEPANE                        0x10080
 HID_HALTMEAS                            0x10453
-HID_VIEW_LIST                           0x18003
 HID_BUTTON32772                         0x18004
 HID_BUTTON32773                         0x18005
 HID_BUTTON32774                         0x18006

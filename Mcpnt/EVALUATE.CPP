@@ -258,7 +258,7 @@ double _rad( double x ,...)
 **                                                                       **
  ************************************************************************/
 
-GetSymbol( char* s, double* v )
+int GetSymbol( char* s, double* v )
 {
    char* e;
 
@@ -306,7 +306,7 @@ void ClearAllVars()
 **                                                                       **
  *************************************************************************/
 
-ClearVar( char* name )
+int ClearVar( char* name )
 {
    int i;
 
@@ -335,7 +335,7 @@ ClearVar( char* name )
 **                                                                       **
  *************************************************************************/
 
-GetValue( char* name, double* value )
+int GetValue( char* name, double* value )
 {
    int i;
 
@@ -373,7 +373,7 @@ GetValue( char* name, double* value )
 **                                                                       **
  *************************************************************************/
 
-SetValue( char* name, double* value )
+int SetValue( char* name, double* value )
 {
    int  i;
    ClearVar( name );

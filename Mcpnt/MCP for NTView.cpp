@@ -189,7 +189,7 @@ void CMCPforNTView::OnInitialUpdate()
 	CListView::OnInitialUpdate();
 
 	CMCPforNTApp		*pApp;
-	const				LISTICONCOUNT = 3;
+	const				int LISTICONCOUNT = 3;
 	long				lStyleOld;
 
 	LV_COLUMN			column;
@@ -697,7 +697,7 @@ void CMCPforNTView::OnPrint(CDC* pDC, CPrintInfo* pInfo)
 	CString TheString;
 	CString TheObject;
 	POSITION pos;
-	const Height=100;
+	const int Height=100;
 	LOGFONT logFont1;
 	logFont1.lfHeight = 50;
 	logFont1.lfWidth = 0;
@@ -2354,7 +2354,7 @@ LRESULT CMCPforNTView::OnSave(WPARAM wparam,LPARAM lparam)
 		if(File.Open(SaveString,CFile::modeRead))
 		{
 			AfxMessageBox("File exists, not saving !",MB_OK,0);
-			File.Close;
+			File.Close();
 			return TRUE;
 		}
 		else

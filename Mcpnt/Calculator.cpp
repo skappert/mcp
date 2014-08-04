@@ -57,7 +57,7 @@ BOOL CCalculator::OnInitDialog()
 	m_listbox.Dir(0,"*.*");
 	SumDoc				= NULL;
 	CMCPforNTApp		*pApp;
-	const				LISTICONCOUNT = 3;
+	const				int LISTICONCOUNT = 3;
 	long				lStyleOld;
 	
 	LV_COLUMN			column;

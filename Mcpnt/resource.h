@@ -429,7 +429,6 @@
 #define IDC_WRITENET                    1195
 #define IDC_FORWARD                     1198
 #define IDC_BACKWARDS                   1199
-#define ID_VIEW_LIST                    32771
 #define ID_BUTTON32772                  32772
 #define ID_BUTTON32773                  32773
 #define ID_BUTTON32774                  32774

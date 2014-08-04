@@ -710,7 +710,7 @@ void HP_VoltageSweepObj::ListVoltage(USHORT step,double Voltage)
 
 void HP_VoltageSweepObj::TrackStepAction(USHORT step, USHORT track, USHORT scan)
 {
-	const ResetCh = 100;
+	const int ResetCh = 100;
 
 	double Voltage  = CalcValue(Sweep_Start,Sweep_Stop,pTrack->Channels,step,Resolution);
 
@@ -1232,7 +1232,8 @@ double PM_SpectrumObj::EstimateYErr(USHORT channel, USHORT scan)
 	if(!ARITHSCALER) return (double)sqrt(fabs(y[channel]*(scan)/(scan-1)));
 	else
 	{
-		double y,TheData;
+		double y = 0;
+		double TheData;
 		int err;
 		char errorStr[255];
 		strcpy(errorStr,scan_error_op);
@@ -6487,14 +6488,14 @@ void Line_VoltageSweepObj::ListVoltage(USHORT step,double Voltage)
 	//ListDNAFCamac(SENDDNAF,Data,Slot,(UCHAR)0,(UCHAR)16);
 	//ListDNAFCamac(READENCL,0,0,0,0);
 	Data = (ULONG)((Voltage/1e1)*131072);
-	if(Data&131071==0)Data = 0;
+	if((Data&131071)==0)Data = 0;
 	ListDNAFCamac(SENDDNAF,Data,Slot,(UCHAR)0,(UCHAR)16);
 }
 
 
 void Line_VoltageSweepObj::TrackStepAction(USHORT step, USHORT track, USHORT scan)
 {
-	const ResetCh = 100;
+	const int ResetCh = 100;
 
 	double Voltage  = CalcValue(Sweep_Start,Sweep_Stop,pTrack->Channels,step,Resolution);
 

@@ -17,7 +17,7 @@
 // ebenfalls dort.
 
 // Bei allen Send-Befehlen wird der Erfolg mit TRUE/FALSE angezeigt
- BOOL	 DllMain(HINSTANCE hinstDll,DWORD fwdReason,LPVOID lpvReserved);
+ BOOL	__stdcall DllMain(HINSTANCE hinstDll,DWORD fwdReason,LPVOID lpvReserved);
 
  ULONG   ReadLongIO(ULONG adr);
  USHORT  SendLongIO(ULONG adr,ULONG data);

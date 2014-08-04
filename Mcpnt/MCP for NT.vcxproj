@@ -1,0 +1,340 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <SccProjectName />
+    <SccLocalPath />
+    <Keyword>MFCProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>.\Release\</OutDir>
+    <IntDir>.\Release\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>.\Debug\</OutDir>
+    <IntDir>.\Debug\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <StringPooling>true</StringPooling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <Optimization>MaxSpeed</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\Release\</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>.\Release\MCP for NT.pch</PrecompiledHeaderOutputFile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <ObjectFileName>.\Release\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Release\</ProgramDataBaseFileName>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\Release\MCP for NT.tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>false</SuppressStartupBanner>
+      <OutputFile>.\Release\MCP for NT.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <SubSystem>Windows</SubSystem>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <OutputFile>.\Release\MCP for NT.exe</OutputFile>
+      <AdditionalDependencies>camac.lib;rpcapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <Optimization>Disabled</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <MinimalRebuild>true</MinimalRebuild>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\Debug\</AssemblerListingLocation>
+      <BrowseInformation>true</BrowseInformation>
+      <PrecompiledHeaderOutputFile>.\Debug\MCP for NT.pch</PrecompiledHeaderOutputFile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <ObjectFileName>.\Debug\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Debug\</ProgramDataBaseFileName>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\Debug\MCP for NT.tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>false</SuppressStartupBanner>
+      <OutputFile>.\Debug\MCP for NT.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <OutputFile>.\Debug\MCP for NT.exe</OutputFile>
+      <AdditionalDependencies>camac.lib;rpcapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <CustomBuild>
+      <Command>..</Command>
+    </CustomBuild>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="ActionObjects.cpp" />
+    <ClCompile Include="Calculator.cpp" />
+    <ClCompile Include="CamacTester.cpp" />
+    <ClCompile Include="ChildFrm.cpp" />
+    <ClCompile Include="ComputerDelay.cpp" />
+    <ClCompile Include="Configure.cpp" />
+    <ClCompile Include="DataChild.cpp" />
+    <ClCompile Include="DataReadout.cpp" />
+    <ClCompile Include="DataView.cpp" />
+    <ClCompile Include="Display.cpp" />
+    <ClCompile Include="EditorChild.cpp" />
+    <ClCompile Include="EditorView.cpp" />
+    <ClCompile Include="EVALUATE.CPP" />
+    <ClCompile Include="FastTimer.cpp" />
+    <ClCompile Include="FileIO.cpp" />
+    <ClCompile Include="Hardware.cpp" />
+    <ClCompile Include="HardwareDefaults.cpp" />
+    <ClCompile Include="HfsFitDlg.cpp" />
+    <ClCompile Include="LSIChild.cpp" />
+    <ClCompile Include="LSIView.cpp" />
+    <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="MCP for NT.cpp" />
+    <ClCompile Include="MCP for NTDoc.cpp" />
+    <ClCompile Include="MCP for NTView.cpp" />
+    <ClCompile Include="MeasThread.cpp" />
+    <ClCompile Include="minuit.cpp" />
+    <ClCompile Include="MinuitChild.cpp" />
+    <ClCompile Include="MinuitDlg.cpp" />
+    <ClCompile Include="MonitorChild.cpp" />
+    <ClCompile Include="MonitorView.cpp" />
+    <ClCompile Include="NetReader.cpp" />
+    <ClCompile Include="Page1am.cpp" />
+    <ClCompile Include="Page1AS.cpp" />
+    <ClCompile Include="Page1Bo.cpp" />
+    <ClCompile Include="Page1fs.cpp" />
+    <ClCompile Include="Page1FV.cpp" />
+    <ClCompile Include="Page1HP.cpp" />
+    <ClCompile Include="Page1HV.cpp" />
+    <ClCompile Include="Page1MF.cpp" />
+    <ClCompile Include="Page1MS.cpp" />
+    <ClCompile Include="Page1PM.cpp" />
+    <ClCompile Include="Page1PR.cpp" />
+    <ClCompile Include="Page1RS.cpp" />
+    <ClCompile Include="Page1TI.cpp" />
+    <ClCompile Include="Page1TR.cpp" />
+    <ClCompile Include="Page3am.cpp" />
+    <ClCompile Include="Page3AS.cpp" />
+    <ClCompile Include="Page3Bo.cpp" />
+    <ClCompile Include="Page3fs.cpp" />
+    <ClCompile Include="Page3FV.cpp" />
+    <ClCompile Include="Page3HP.cpp" />
+    <ClCompile Include="Page3HV.cpp" />
+    <ClCompile Include="Page3MF.cpp" />
+    <ClCompile Include="Page3MS.cpp" />
+    <ClCompile Include="Page3PM.cpp" />
+    <ClCompile Include="Page3PR.cpp" />
+    <ClCompile Include="Page3RS.cpp" />
+    <ClCompile Include="Page3TI.cpp" />
+    <ClCompile Include="Page3TR.cpp" />
+    <ClCompile Include="PropShtam.cpp" />
+    <ClCompile Include="PropShtAS.cpp" />
+    <ClCompile Include="PropShtBo.cpp" />
+    <ClCompile Include="PropShtfs.cpp" />
+    <ClCompile Include="PropShtFV.cpp" />
+    <ClCompile Include="PropShtHP.cpp" />
+    <ClCompile Include="PropShtHV.cpp" />
+    <ClCompile Include="PropShtMF.cpp" />
+    <ClCompile Include="PropShtMS.cpp" />
+    <ClCompile Include="PropShtPM.cpp" />
+    <ClCompile Include="PropShtPR.cpp" />
+    <ClCompile Include="PropShtRS.cpp" />
+    <ClCompile Include="PropShtTI.cpp" />
+    <ClCompile Include="PropShtTR.cpp" />
+    <ClCompile Include="Splash.cpp" />
+    <ClCompile Include="StdAfx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="StepTimer.cpp" />
+    <ClCompile Include="TimerDelay.cpp" />
+    <ClCompile Include="TriggerPartSweep.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="hlp\MCP for NT.hpj">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(ProjectDir)makehelp.bat"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Making help file...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)\$(TargetName).hlp;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(ProjectDir)makehelp.bat"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Making help file...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)\$(TargetName).hlp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="res\135.ico" />
+    <CustomBuild Include="res\APPS INF.ICO" />
+    <CustomBuild Include="res\APPS STO.ICO" />
+    <CustomBuild Include="res\APPS WAR.ICO" />
+    <CustomBuild Include="res\coll.bmp" />
+    <CustomBuild Include="res\MCP for NT.ico" />
+    <CustomBuild Include="res\MCP for NT.rc2">
+      <FileType>RC</FileType>
+    </CustomBuild>
+    <CustomBuild Include="res\MCP for NTDoc.ico" />
+    <CustomBuild Include="RES\origin.ico" />
+    <CustomBuild Include="RES\origin2.ico" />
+    <CustomBuild Include="res\PEAL BAC.ICO" />
+    <CustomBuild Include="Splsh16.bmp" />
+    <CustomBuild Include="res\Toolbar.bmp" />
+    <CustomBuild Include="res\toolbar1.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MCP for NT.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ActionObjects.h" />
+    <ClInclude Include="Calculator.h" />
+    <ClInclude Include="camac.h" />
+    <ClInclude Include="CamacTester.h" />
+    <ClInclude Include="ChildFrm.h" />
+    <ClInclude Include="ComputerDelay.h" />
+    <ClInclude Include="Configure.h" />
+    <ClInclude Include="DataChild.h" />
+    <ClInclude Include="DataReadout.h" />
+    <ClInclude Include="DataView.h" />
+    <ClInclude Include="display.h" />
+    <ClInclude Include="EditorChild.h" />
+    <ClInclude Include="EditorView.h" />
+    <ClInclude Include="eval.h" />
+    <ClInclude Include="evaluate.h" />
+    <ClInclude Include="FastTimer.h" />
+    <ClInclude Include="FileIO.h" />
+    <ClInclude Include="Hardware.h" />
+    <ClInclude Include="HardwareConfig.h" />
+    <ClInclude Include="HardwareDefaults.h" />
+    <ClInclude Include="HfsFitDlg.h" />
+    <ClInclude Include="LSIChild.h" />
+    <ClInclude Include="LSIView.h" />
+    <ClInclude Include="MainFrm.h" />
+    <ClInclude Include="MCP for NT.h" />
+    <ClInclude Include="MCP for NTDoc.h" />
+    <ClInclude Include="MCP for NTView.h" />
+    <ClInclude Include="measthread.h" />
+    <ClInclude Include="minuit.h" />
+    <ClInclude Include="MinuitChild.h" />
+    <ClInclude Include="minuitdlg.h" />
+    <ClInclude Include="MonitorChild.h" />
+    <ClInclude Include="MonitorView.h" />
+    <ClInclude Include="NetReader.h" />
+    <ClInclude Include="Page1am.h" />
+    <ClInclude Include="Page1AS.h" />
+    <ClInclude Include="Page1Bo.h" />
+    <ClInclude Include="Page1fs.h" />
+    <ClInclude Include="Page1FV.h" />
+    <ClInclude Include="Page1HP.h" />
+    <ClInclude Include="Page1HV.h" />
+    <ClInclude Include="Page1MF.h" />
+    <ClInclude Include="Page1MS.h" />
+    <ClInclude Include="Page1PM.h" />
+    <ClInclude Include="Page1PR.h" />
+    <ClInclude Include="Page1RS.h" />
+    <ClInclude Include="page1ti.h" />
+    <ClInclude Include="Page1TR.h" />
+    <ClInclude Include="Page3am.h" />
+    <ClInclude Include="Page3AS.h" />
+    <ClInclude Include="Page3Bo.h" />
+    <ClInclude Include="Page3fs.h" />
+    <ClInclude Include="Page3FV.h" />
+    <ClInclude Include="Page3HP.h" />
+    <ClInclude Include="Page3HV.h" />
+    <ClInclude Include="Page3MF.h" />
+    <ClInclude Include="Page3MS.h" />
+    <ClInclude Include="Page3PM.h" />
+    <ClInclude Include="Page3PR.h" />
+    <ClInclude Include="Page3RS.h" />
+    <ClInclude Include="Page3TI.h" />
+    <ClInclude Include="Page3TR.h" />
+    <ClInclude Include="PropShtam.h" />
+    <ClInclude Include="PropShtAS.h" />
+    <ClInclude Include="PropShtBo.h" />
+    <ClInclude Include="PropShtfs.h" />
+    <ClInclude Include="PropShtFV.h" />
+    <ClInclude Include="PropShtHP.h" />
+    <ClInclude Include="PropShtHV.h" />
+    <ClInclude Include="PropShtMF.h" />
+    <ClInclude Include="PropShtMS.h" />
+    <ClInclude Include="PropShtPM.h" />
+    <ClInclude Include="PropShtPR.h" />
+    <ClInclude Include="PropShtRS.h" />
+    <ClInclude Include="PropShtTI.h" />
+    <ClInclude Include="PropShtTR.h" />
+    <ClInclude Include="rpcapi32.h" />
+    <ClInclude Include="Splash.h" />
+    <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="StepTimer.h" />
+    <ClInclude Include="TheDefines.h" />
+    <ClInclude Include="TimerDelay.h" />
+    <ClInclude Include="TriggerPartSweep.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

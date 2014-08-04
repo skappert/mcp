@@ -73,7 +73,7 @@ static char THIS_FILE[] = __FILE__;
   const double h2	= h*h;
   const double AMU	= 1.6605402e-27; /* kg */
 
-const       MaxCommands = 200;
+const int MaxCommands = 200;
 
 const CString covmes[]={"NO ERROR MATRIX", "ERR MATRIX APPROXIMATE",
     "ERR MATRIX NOT POS-DEF", " ERROR MATRIX ACCURATE"};
