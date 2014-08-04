@@ -670,6 +670,9 @@
     <ClInclude Include="NetworkWriter.h">
       <Filter>Header-Dateien</Filter>
     </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header-Dateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="hlp\MCP for NT.hpj">
@@ -717,5 +720,22 @@
     <CustomBuild Include="res\toolbar1.bmp">
       <Filter>Ressourcendateien</Filter>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="pillars.bmp">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="res\Galaxy3.ico">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="res\icon14.ico">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="res\ico00001.ico">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="res\icon15.ico">
+      <Filter>Ressourcendateien</Filter>
+    </None>
   </ItemGroup>
 </Project>

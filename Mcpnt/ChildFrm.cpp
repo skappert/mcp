@@ -166,7 +166,7 @@ int CChildFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	{
 		// Initialize dialog bar m_template
 
-	if (!m_ToolBar.Create(this) ||
+	if (!m_ToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC) ||
 		!m_ToolBar.LoadToolBar(IDR_TOOLBAR1))
 	{
 		TRACE0("Failed to create toolbar\n");
@@ -175,7 +175,7 @@ int CChildFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	// TODO: Remove this if you don't want tool tips or a resizeable toolbar
 	m_ToolBar.SetBarStyle(m_ToolBar.GetBarStyle() |
-		CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
+		CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_GRIPPER | CBRS_SIZE_DYNAMIC);
 
 	// TODO: Delete these three lines if you don't want the toolbar to
 	//  be dockable

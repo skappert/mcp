@@ -142,6 +142,7 @@
     <IntDir>.\Debug\</IntDir>
     <LinkIncremental>true</LinkIncremental>
     <EnableManagedIncrementalBuild>true</EnableManagedIncrementalBuild>
+    <LibraryPath>..\dip-5.4.4\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>.\Debug\</OutDir>
@@ -338,6 +339,7 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <ObjectFileName>.\Debug\</ObjectFileName>
       <ProgramDataBaseFileName>.\Debug\</ProgramDataBaseFileName>
+      <AdditionalIncludeDirectories>..\dip-5.4.4\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -360,7 +362,7 @@
       <SubSystem>Windows</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <OutputFile>.\Debug\MCP for NT.exe</OutputFile>
-      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>dip.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <CustomBuild>
       <Command>..</Command>
@@ -781,9 +783,17 @@
     <ClInclude Include="Splash.h" />
     <ClInclude Include="StdAfx.h" />
     <ClInclude Include="StepTimer.h" />
+    <ClInclude Include="targetver.h" />
     <ClInclude Include="TheDefines.h" />
     <ClInclude Include="TimerDelay.h" />
     <ClInclude Include="TriggerPartSweep.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="pillars.bmp" />
+    <None Include="res\Galaxy3.ico" />
+    <None Include="res\ico00001.ico" />
+    <None Include="res\icon14.ico" />
+    <None Include="res\icon15.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

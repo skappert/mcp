@@ -2,27 +2,42 @@
 //  or project specific include files that are used frequently, but
 //      are changed infrequently
 //
+#pragma once
 
-#define VC_EXTRALEAN		// Exclude rarely-used stuff from Windows headers
+#ifndef _SECURE_ATL
+#define _SECURE_ATL 1
+#endif
 
-#define WINVER 0x0601
-#define _WIN32_WINNT 0x0601
+#ifndef VC_EXTRALEAN
+#define VC_EXTRALEAN            // Exclude rarely-used stuff from Windows headers
+#endif
+
+#include "targetver.h"
+
+#define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS      // some CString constructors will be explicit
+
+// turns off MFC's hiding of some common and often safely ignored warning messages
+#define _AFX_ALL_WARNINGS
 
 #include <afxwin.h>         // MFC core and standard components
 #include <afxext.h>         // MFC extensions
-#include <afxcview.h>
-#ifndef _AFX_NO_DB_SUPPORT
-#include <afxdb.h>			// MFC ODBC database classes
-#endif // _AFX_NO_DB_SUPPORT
 
-#ifndef _AFX_NO_DAO_SUPPORT
-#include <afxdao.h>			// MFC DAO database classes
-#endif // _AFX_NO_DAO_SUPPORT
 
+#include <afxdisp.h>        // MFC Automation classes
+
+
+
+#ifndef _AFX_NO_OLE_SUPPORT
+#include <afxdtctl.h>           // MFC support for Internet Explorer 4 Common Controls
+#endif
 #ifndef _AFX_NO_AFXCMN_SUPPORT
-#include <afxcmn.h>			// MFC support for Windows Common Controls
+#include <afxcmn.h>             // MFC support for Windows Common Controls
 #endif // _AFX_NO_AFXCMN_SUPPORT
 
+#include <afxcontrolbars.h>     // MFC support for ribbons and control bars
+
+
+#include <afxcview.h>
 #include <afxsock.h>		// MFC socket extensions
 
 #include <afxpriv.h>
