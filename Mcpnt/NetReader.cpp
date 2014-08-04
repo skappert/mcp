@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "MCP for NT.h"
 #include "NetReader.h"
+#include "Dip.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -23,6 +24,13 @@ CNetReader::CNetReader(CWnd* pParent /*=NULL*/)
 	m_netanswer = _T("");
 	m_property = _T("AQN");
 	//}}AFX_DATA_INIT
+
+	dip = Dip::create("sample-ISOLDE-client");
+	handler = new GeneralDataListener(this);
+	//Creating an array of DipSubscriptions.
+	sub = new DipSubscription*[1];
+	dip->setDNSNode("dipnsgpn1,dipnsgpn2");
+	sub[0] = dip->createDipSubscription("dip/acc/ISO/HT1.HTCTL/AQN1", handler);
 }
 
 

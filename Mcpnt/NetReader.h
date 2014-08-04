@@ -1,6 +1,14 @@
 // NetReader.h : header file
 //
 
+#include "Dip.h"
+#include "DipSubscription.h"
+
+#include <stdio.h>
+#include <string>
+#include <iostream>
+#include <sstream>
+
 /////////////////////////////////////////////////////////////////////////////
 // CNetReader dialog
 
@@ -18,8 +26,7 @@ public:
 	CString	m_property;
 	//}}AFX_DATA
 
-
-// Overrides
+	// Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CNetReader)
 	protected:
@@ -35,4 +42,67 @@ protected:
 	afx_msg void OnReadnet();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
+
+private:
+	// hold reference to subscription objects
+	DipSubscription **sub;
+
+	// DIP object
+	DipFactory *dip;
+
+	/**
+	* handler for connect/disconnect/data reception events
+	* Nested class
+	* */
+	class GeneralDataListener:public DipSubscriptionListener
+	{
+	private:
+		// allow us to access subscription objects
+		CNetReader* client;
+
+	public:
+		GeneralDataListener(CNetReader *c):client(c){};
+
+		/**
+		* handle changes to subscribed to publications
+		* Simply prints the contents of the received data.
+		* @param subscription - the subsciption to the publications thats changed.
+		* @param message - object containing publication data
+		* */
+		void handleMessage(DipSubscription *subscription, DipData &message)
+		{
+			std::cout<<"Received data from "<<subscription->getTopicName()<<std::endl;
+			std::cout<<"value :"<<message.extractDouble("value")<<std::endl;
+		}
+
+
+		/**
+		* called when a publication subscribed to is available.
+		* @param arg0 - the subsctiption who's publication is available.
+		* */
+		void connected(DipSubscription *arg0)
+		{
+			std::cout << "\nPublication source  " << arg0->getTopicName()<< " available\n";
+		}
+
+
+		/**
+		* called when a publication subscribed to is unavailable.
+		* @param arg0 - the subsctiption who's publication is unavailable.
+		* @param arg1 - string providing more information about why the publication is unavailable.
+		* */
+		void disconnected(DipSubscription *arg0, char *arg1)
+		{
+			//printf("\nPublication source %s unavailable\n", arg0->getTopicName());
+		}
+
+		void handleException(DipSubscription* subscription, DipException& ex)
+		{
+			//printf("Subs %s has error %s\n", subscription->getTopicName(), ex.what());
+		}
+
+	};
+
+	//A handle on the DIP Data recipient.
+	GeneralDataListener *handler;
 };
