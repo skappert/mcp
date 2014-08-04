@@ -79,7 +79,7 @@ void	CPage1FV::OnStartVolt()
 	stepvolt		= (stopvolt-startvolt)/(channels-1);
 	if(stepvolt!=0)stepvolt		= (stepvolt/fabs(stepvolt))*resolution*((int)(0.49+fabs(stepvolt/resolution)));
 	//stopvolt		= startvolt+(channels-1)*stepvolt;
-	centervolt		= startvolt+((channels-1)>>1)*stepvolt;
+	centervolt		= startvolt+((channels-1)/2)*stepvolt;
 	
 	//m_startvolt.Format("%.8g",startvolt);
 	m_stopvolt.Format("%.8g",stopvolt);
@@ -99,7 +99,7 @@ void	CPage1FV::OnStopVolt()
 	stepvolt		= (stopvolt-startvolt)/(channels-1);
 	if(stepvolt!=0)stepvolt		= (stepvolt/fabs(stepvolt))*resolution*((int)(0.49+fabs(stepvolt/resolution)));
 	//startvolt		= stopvolt-(channels-1)*stepvolt;
-	centervolt		= startvolt+((channels-1)>>1)*stepvolt;
+	centervolt		= startvolt+((channels-1)/2)*stepvolt;
 
 	m_startvolt.Format("%.8g",startvolt);
 	//m_stopvolt.Format("%.8g",stopvolt);
@@ -124,13 +124,13 @@ void	CPage1FV::OnStepVolt()
 
 		if(2*((int)channels/2)!=channels)
 		{
-			startvolt		= centervolt-((channels-1)>>1)*stepvolt;
-			stopvolt		= centervolt+((channels-1)>>1)*stepvolt;
+			startvolt		= centervolt-((channels-1)/2)*stepvolt;
+			stopvolt		= centervolt+((channels-1)/2)*stepvolt;
 		}
 		else
 		{
-			startvolt		= centervolt-((channels-1)>>1)*stepvolt;
-			stopvolt		= centervolt+(1+(channels-1)>>1)*stepvolt;
+			startvolt		= centervolt-((channels-1)/2)*stepvolt;
+			stopvolt		= centervolt+(1+((channels-1)/2))*stepvolt;
 		}
 	}
 	else
@@ -161,13 +161,13 @@ void	CPage1FV::OnCenterVolt()
 
 		if(2*((int)channels/2)!=channels)
 		{
-			startvolt		= centervolt-((channels-1)>>1)*stepvolt;
-			stopvolt		= centervolt+((channels-1)>>1)*stepvolt;
+			startvolt		= centervolt-((channels-1)/2)*stepvolt;
+			stopvolt		= centervolt+((channels-1)/2)*stepvolt;
 		}
 		else
 		{
-			startvolt		= centervolt-((channels-1)>>1)*stepvolt;
-			stopvolt		= centervolt+(1+(channels-1)>>1)*stepvolt;
+			startvolt		= centervolt-((channels-1)/2)*stepvolt;
+			stopvolt		= centervolt+(1+((channels-1)/2))*stepvolt;
 		}
 	}
 
@@ -187,7 +187,7 @@ BOOL CPage1FV::OnInitDialog()
 	stepvolt		= (stopvolt-startvolt)/(channels-1);
 	if(stepvolt!=0)stepvolt		= (stepvolt/fabs(stepvolt))*resolution*((int)(0.49+fabs(stepvolt/resolution)));
 	//stopvolt		= startvolt+(channels-1)*stepvolt;
-	centervolt		= startvolt+((channels-1)>>1)*stepvolt;
+	centervolt		= startvolt+((channels-1)/2)*stepvolt;
 
 	m_startvolt.Format("%.8g",startvolt);
 	m_stopvolt.Format("%.8g",stopvolt);

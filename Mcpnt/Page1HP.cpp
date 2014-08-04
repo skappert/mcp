@@ -87,7 +87,7 @@ void	CPage1HP::OnStartFreq()
 	stepfreq		= (stopfreq-startfreq)/(channels-1);
 	if(stepfreq!=0)stepfreq		= (stepfreq/fabs(stepfreq))*resolution*((int)(0.49+fabs(stepfreq/resolution)));
 	//stopfreq		= startfreq+(channels-1)*stepfreq;
-	centerfreq		= startfreq+((channels-1)>>1)*stepfreq;
+	centerfreq		= startfreq+((channels-1)/2)*stepfreq;
 	
 	//m_startfreq.Format("%.8g",startfreq);
 	m_stopfreq.Format("%.8g",stopfreq);
@@ -107,7 +107,7 @@ void	CPage1HP::OnStopFreq()
 	stepfreq		= (stopfreq-startfreq)/(channels-1);
 	if(stepfreq!=0)stepfreq		= (stepfreq/fabs(stepfreq))*resolution*((int)(0.49+fabs(stepfreq/resolution)));
 	//startfreq		= stopfreq-(channels-1)*stepfreq;
-	centerfreq		= startfreq+((channels-1)>>1)*stepfreq;
+	centerfreq		= startfreq+((channels-1)/2)*stepfreq;
 
 	m_startfreq.Format("%.8g",startfreq);
 	//m_stopfreq.Format("%.8g",stopfreq);
@@ -132,13 +132,13 @@ void	CPage1HP::OnStepFreq()
 
 		if(2*((int)channels/2)!=channels)
 		{
-			startfreq		= centerfreq-((channels-1)>>1)*stepfreq;
-			stopfreq		= centerfreq+((channels-1)>>1)*stepfreq;
+			startfreq		= centerfreq-((channels-1)/2)*stepfreq;
+			stopfreq		= centerfreq+((channels-1)/2)*stepfreq;
 		}
 		else
 		{
-			startfreq		= centerfreq-((channels-1)>>1)*stepfreq;
-			stopfreq		= centerfreq+(1+(channels-1)>>1)*stepfreq;
+			startfreq		= centerfreq-((channels-1)/2)*stepfreq;
+			stopfreq		= centerfreq+(1+((channels-1)/2))*stepfreq;
 		}
 	}
 	else
@@ -169,13 +169,13 @@ void	CPage1HP::OnCenterFreq()
 
 		if(2*((int)channels/2)!=channels)
 		{
-			startfreq		= centerfreq-((channels-1)>>1)*stepfreq;
-			stopfreq		= centerfreq+((channels-1)>>1)*stepfreq;
+			startfreq		= centerfreq-((channels-1)/2)*stepfreq;
+			stopfreq		= centerfreq+((channels-1)/2)*stepfreq;
 		}
 		else
 		{
-			startfreq		= centerfreq-((channels-1)>>1)*stepfreq;
-			stopfreq		= centerfreq+(1+(channels-1)>>1)*stepfreq;
+			startfreq		= centerfreq-((channels-1)/2)*stepfreq;
+			stopfreq		= centerfreq+(1+((channels-1)/2))*stepfreq;
 		}
 	}
 
@@ -252,7 +252,7 @@ BOOL CPage1HP::OnInitDialog()
 	stepfreq		= (stopfreq-startfreq)/(channels-1);
 	if(stepfreq!=0)stepfreq		= (stepfreq/fabs(stepfreq))*resolution*((int)(0.49+fabs(stepfreq/resolution)));
 	//stopfreq		= startfreq+(channels-1)*stepfreq;
-	centerfreq		= startfreq+((channels-1)>>1)*stepfreq;
+	centerfreq		= startfreq+((channels-1)/2)*stepfreq;
 
 	m_startfreq.Format("%.8g",startfreq);
 	m_stopfreq.Format("%.8g",stopfreq);

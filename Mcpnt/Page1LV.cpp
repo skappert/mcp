@@ -79,7 +79,7 @@ void	CPage1LV::OnStartVolt()
 	stepvolt		= (stopvolt-startvolt)/(channels-1);
 	if(stepvolt!=0)	stepvolt = (stepvolt/fabs(stepvolt))*resolution*((int)(0.49+fabs(stepvolt/resolution)));
 	stopvolt		= startvolt+(channels-1)*stepvolt;
-	centervolt		= startvolt+((channels-1)>>1)*stepvolt;
+	centervolt		= startvolt+((channels-1)/2)*stepvolt;
 
 	//m_startvolt.Format("%.3f",startvolt);
 	m_stopvolt.Format("%.3f",stopvolt);
@@ -98,7 +98,7 @@ void	CPage1LV::OnStopVolt()
 
 	stepvolt		= (stopvolt-startvolt)/(channels-1);
 	if(stepvolt!=0)stepvolt		= (stepvolt/fabs(stepvolt))*resolution*((int)(0.49+fabs(stepvolt/resolution)));
-	centervolt		= startvolt+((channels-1)>>1)*stepvolt;
+	centervolt		= startvolt+((channels-1)/2)*stepvolt;
 	
 	//m_startvolt.Format("%.3g",startvolt);
 	//m_stopvolt.Format("%.3f",stopvolt);
@@ -123,13 +123,13 @@ void	CPage1LV::OnStepVolt()
 
 		if(2*((int)channels/2)!=channels)
 		{
-			startvolt		= centervolt-((channels-1)>>1)*stepvolt;
-			stopvolt		= centervolt+((channels-1)>>1)*stepvolt;
+			startvolt		= centervolt-((channels-1)/2)*stepvolt;
+			stopvolt		= centervolt+((channels-1)/2)*stepvolt;
 		}
 		else
 		{
-			startvolt		= centervolt-((channels-1)>>1)*stepvolt;
-			stopvolt		= centervolt+(1+(channels-1)>>1)*stepvolt;
+			startvolt		= centervolt-((channels-1)/2)*stepvolt;
+			stopvolt		= centervolt+(1+((channels-1)/2))*stepvolt;
 		}
 	}
 	else
@@ -160,13 +160,13 @@ void	CPage1LV::OnCenterVolt()
 
 		if(2*((int)channels/2)!=channels)
 		{
-			startvolt		= centervolt-((channels-1)>>1)*stepvolt;
-			stopvolt		= centervolt+((channels-1)>>1)*stepvolt;
+			startvolt		= centervolt-((channels-1)/2)*stepvolt;
+			stopvolt		= centervolt+((channels-1)/2)*stepvolt;
 		}
 		else
 		{
-			startvolt		= centervolt-((channels-1)>>1)*stepvolt;
-			stopvolt		= centervolt+(1+(channels-1)>>1)*stepvolt;
+			startvolt		= centervolt-((channels-1)/2)*stepvolt;
+			stopvolt		= centervolt+(1+((channels-1)/2))*stepvolt;
 		}
 	}
 
@@ -186,7 +186,7 @@ BOOL CPage1LV::OnInitDialog()
 	stepvolt		= (stopvolt-startvolt)/(channels-1);
 	if(stepvolt!=0)stepvolt		= (stepvolt/fabs(stepvolt))*resolution*((int)(0.49+fabs(stepvolt/resolution)));
 	//stopvolt		= startvolt+(channels-1)*stepvolt;
-	centervolt		= startvolt+((channels-1)>>1)*stepvolt;
+	centervolt		= startvolt+((channels-1)/2)*stepvolt;
 
 	m_startvolt.Format("%.3f",startvolt);
 	m_stopvolt.Format("%.3f",stopvolt);

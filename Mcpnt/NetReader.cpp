@@ -4,7 +4,6 @@
 #include "stdafx.h"
 #include "MCP for NT.h"
 #include "NetReader.h"
-#include "rpcapi32.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -63,9 +62,9 @@ void CNetReader::OnReadnet()
     strcpy(name,m_name);
 	strcpy(property,m_property);
 	{
-		cc=SyncRPC(&name[0],&property[0],"",1,(void *)&Data,sizeof(double),CF_DOUBLE,0);
-		if (cc) GetRPCLastError(&buffer[0],255);
-		else sprintf(buffer,"\n%s / %s = %lf\n\n",name,property,Data);
+		//cc=SyncRPC(&name[0],&property[0],"",1,(void *)&Data,sizeof(double),CF_DOUBLE,0);
+		//if (cc) GetRPCLastError(&buffer[0],255);
+		//else sprintf(buffer,"\n%s / %s = %lf\n\n",name,property,Data);
 	}
 
 	m_netanswer = buffer;

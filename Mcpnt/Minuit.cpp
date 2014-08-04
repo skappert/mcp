@@ -754,17 +754,6 @@ CMinuit::CMinuit(DataView* pParent,CString Title,
 		}
 		mnparm("exp.tau",1,0.1,0,0);
 	}
-		
-	if (fitfunc==11)
-	{
-		int ParNumber;
-		double		Value;
-		double		Error;
-		for(ParNumber=0;GetInitialPars(ParNumber,&ParName[0],&Value,&Error);ParNumber++)
-		{
-			mnparm(ParName,Value,Error,0,0);
-		}
-	}
 
 	/* cos*exp */
 	if (fitfunc==100)
@@ -1585,11 +1574,6 @@ double CMinuit::fitfunction(double x, double par[])
 {
   int i;
   double y=0;
-  
-  if (fitfunc==11) /* UserFCN */
-  {
-		return Userfitfunction(x, &par[0]);
-  }
   
   if (fitfunc==20) /* Gauss */
   {

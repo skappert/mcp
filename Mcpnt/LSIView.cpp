@@ -17,8 +17,6 @@
 #include "camac.h"
 #include "HardwareConfig.h"
 
-#include "rpcapi32.h"
-
 #include "hardware.h"
 #include "dos.h"
 #include <direct.h>
@@ -1802,14 +1800,14 @@ CString _getmass(CMCPforNTView* pView,...)
     strcpy(name,"GPS.MAG70");
 	strcpy(property,"AQN");
 
-	cc=SyncRPC(&name[0],&property[0],"",1,(void *)&Field,sizeof(double),CF_DOUBLE,0);
+	//cc=SyncRPC(&name[0],&property[0],"",1,(void *)&Field,sizeof(double),CF_DOUBLE,0);
 
 	strcpy(name,"GPS.MAG70");
 	strcpy(property,"massfactor");
-	cc=SyncRPC(&name[0],&property[0],"",1,(void *)&Massfactor,sizeof(double),CF_DOUBLE,0);
+	//cc=SyncRPC(&name[0],&property[0],"",1,(void *)&Massfactor,sizeof(double),CF_DOUBLE,0);
 	
-	if (cc) GetRPCLastError(&buffer[0],255);
-	else sprintf(buffer,"mass = %.5f amu",Field*Field*Massfactor);
+	//if (cc) GetRPCLastError(&buffer[0],255);
+	//else sprintf(buffer,"mass = %.5f amu",Field*Field*Massfactor);
 
 	answer = buffer;
 
@@ -1836,9 +1834,9 @@ CString _getmassfactor(CMCPforNTView* pView,...)
     strcpy(name,"GPS.MAG70");
 	strcpy(property,"MASSFACTOR");
 
-	cc=SyncRPC(&name[0],&property[0],"",1,(void *)&Data,sizeof(double),CF_DOUBLE,0);
-	if (cc) GetRPCLastError(&buffer[0],255);
-	else sprintf(buffer,"%s / %s = %.2f",name,property,Data);
+	//cc=SyncRPC(&name[0],&property[0],"",1,(void *)&Data,sizeof(double),CF_DOUBLE,0);
+	//if (cc) GetRPCLastError(&buffer[0],255);
+	//else sprintf(buffer,"%s / %s = %.2f",name,property,Data);
 
 	answer = buffer;
 
@@ -1858,9 +1856,9 @@ CString _getfield(CMCPforNTView* pView,...)
     strcpy(name,"GPS.MAG70");
 	strcpy(property,"AQN");
 
-	cc=SyncRPC(&name[0],&property[0],"",1,(void *)&Data,sizeof(double),CF_DOUBLE,0);
-	if (cc) GetRPCLastError(&buffer[0],255);
-	else sprintf(buffer,"%s / %s = %.5f T",name,property,Data);
+	//cc=SyncRPC(&name[0],&property[0],"",1,(void *)&Data,sizeof(double),CF_DOUBLE,0);
+	//if (cc) GetRPCLastError(&buffer[0],255);
+	//else sprintf(buffer,"%s / %s = %.5f T",name,property,Data);
 
 	answer = buffer;
 
@@ -1880,9 +1878,9 @@ CString _getht(CMCPforNTView* pView,...)
     strcpy(name,"GPS.HTMEAS");
 	strcpy(property,"AQN");
 
-	cc=SyncRPC(&name[0],&property[0],"",1,(void *)&Data,sizeof(double),CF_DOUBLE,0);
-	if (cc) GetRPCLastError(&buffer[0],255);
-	else sprintf(buffer,"%s / %s = %.5f kV",name,property,Data);
+	//cc=SyncRPC(&name[0],&property[0],"",1,(void *)&Data,sizeof(double),CF_DOUBLE,0);
+	//if (cc) GetRPCLastError(&buffer[0],255);
+	//else sprintf(buffer,"%s / %s = %.5f kV",name,property,Data);
 
 	answer = buffer;
 
@@ -2473,8 +2471,8 @@ CString _setmass(CMCPforNTView* pView,...)
 	int	NumArgs;
 	char* StrSetMass;
 	double SetMass;
-	double Massfactor;
-	double Mass;
+	double Massfactor = 0;
+	double Mass = 0;
 	short cc;
 	
 	va_list arg_ptr;
@@ -2498,10 +2496,10 @@ CString _setmass(CMCPforNTView* pView,...)
 	
 	if(NumArgs == 0) 
 	{
-		cc=SyncRPC("GPS.MAG70","MASSFACTOR","",1,(void *)&Massfactor,sizeof(double),CF_DOUBLE,CF_DOUBLE);
+		//cc=SyncRPC("GPS.MAG70","MASSFACTOR","",1,(void *)&Massfactor,sizeof(double),CF_DOUBLE,CF_DOUBLE);
 		if(Massfactor!=0)
 		{
-			cc=SyncRPC("GPS.MAG70","AQN","",1,(void *)&Mass,sizeof(double),CF_DOUBLE,CF_DOUBLE);
+			//cc=SyncRPC("GPS.MAG70","AQN","",1,(void *)&Mass,sizeof(double),CF_DOUBLE,CF_DOUBLE);
 		}
 		answer.Format("%.8g",Mass*Mass*Massfactor);
 	}
@@ -2509,11 +2507,11 @@ CString _setmass(CMCPforNTView* pView,...)
 	{
 		
 
-		cc=SyncRPC("GPS.MAG70","MASSFACTOR","",1,(void *)&Massfactor,sizeof(double),CF_DOUBLE,CF_DOUBLE);
+		//cc=SyncRPC("GPS.MAG70","MASSFACTOR","",1,(void *)&Massfactor,sizeof(double),CF_DOUBLE,CF_DOUBLE);
 		if(Massfactor!=0)
 		{
 			Mass = sqrt(SetMass/Massfactor);
-			cc=SyncRPC("GPS.MAG70","CCV","",-1,(void *)&Mass,sizeof(double),CF_DOUBLE,CF_DOUBLE);
+			//cc=SyncRPC("GPS.MAG70","CCV","",-1,(void *)&Mass,sizeof(double),CF_DOUBLE,CF_DOUBLE);
 			answer.Format("Mass set to %.4f amu",SetMass);
 		}
 	}

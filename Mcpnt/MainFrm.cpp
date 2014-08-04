@@ -5,7 +5,6 @@
 #include "MCP for NT.h"
 #include "display.h"
 #include "camac.h"
-#include "rpcapi32.h"
 
 #include "Splash.h"
 #include "Calculator.h"
@@ -96,8 +95,8 @@ static UINT indicators[] =
 afx_msg BOOL CMainFrame::OnMeasHT(UINT nID)
 {
 	//PRFX short FAR PASCAL CreateRPCHotlink(HWND hWnd,const char *Name,const char *Property,const char *Cycle,long RefreshPeriod,short ArraySize,short SubScrID,short DataType);
-	RemoveRPCHotlink(this->GetSafeHwnd(),GPS_HTMEAS);
-	CreateRPCHotlink(this->GetSafeHwnd(),"GPS.HTMEAS","AQN","",3000,2,GPS_HTMEAS,CF_DOUBLE);
+	//RemoveRPCHotlink(this->GetSafeHwnd(),GPS_HTMEAS);
+	//CreateRPCHotlink(this->GetSafeHwnd(),"GPS.HTMEAS","AQN","",3000,2,GPS_HTMEAS,CF_DOUBLE);
 	OnBarCheck(nID);
 	return TRUE;
 }
@@ -105,8 +104,8 @@ afx_msg BOOL CMainFrame::OnMeasHT(UINT nID)
 afx_msg BOOL CMainFrame::OnMeasProtons(UINT nID)
 {
 	//PRFX short FAR PASCAL CreateRPCHotlink(HWND hWnd,const char *Name,const char *Property,const char *Cycle,long RefreshPeriod,short ArraySize,short SubScrID,short DataType);
-	RemoveRPCHotlink(this->GetSafeHwnd(),ISOLDE_PROTONS);
-	CreateRPCHotlink(this->GetSafeHwnd(),"BT.TRAS","AQN","ALL",0,1,ISOLDE_PROTONS,CF_DOUBLE);
+	//RemoveRPCHotlink(this->GetSafeHwnd(),ISOLDE_PROTONS);
+	//CreateRPCHotlink(this->GetSafeHwnd(),"BT.TRAS","AQN","ALL",0,1,ISOLDE_PROTONS,CF_DOUBLE);
 	OnBarCheck(nID);
 	return TRUE;
 }
@@ -125,8 +124,6 @@ CMainFrame::CMainFrame()
 
 CMainFrame::~CMainFrame()
 {
-	RemoveRPCHotlink(this->GetSafeHwnd(),-1);
-	FreeRPCAPI();
 	DataReset();
 	ListReset();
 }
@@ -758,21 +755,22 @@ void CMainFrame::OnSize(UINT nType, int cx, int cy)
 {
 	short IDs[20];
 	double Data[20];
-	short Cycle;
 	char  User[255];
 	CString GPS_Voltage;
 	CString Isolde_Protons;
 	USHORT i;
 
-	if (GetRPCHotlinkIDs(&IDs[0])==0)
-	CMDIFrameWnd::OnSize(nType, cx, cy);
-	
+	//if (GetRPCHotlinkIDs(&IDs[0])==0)
+	if(0)
+	{
+		CMDIFrameWnd::OnSize(nType, cx, cy);
+	}
 	else
 	{
 		i=0;
 		do
 		{
-			GetRPCHotlinkData(IDs[i],&Data[i],sizeof(double),CF_DOUBLE,&Cycle,&User[0]);
+			//GetRPCHotlinkData(IDs[i],&Data[i],sizeof(double),CF_DOUBLE,&Cycle,&User[0]);
 			i++;
 		}
 		while(IDs[i]!=0);

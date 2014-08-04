@@ -35,7 +35,7 @@ void CPage1am::DoDataExchange(CDataExchange* pDX)
 	CPropertyPage::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CPage1am)
 	DDX_Text(pDX, IDC_MOVECM, m_movecm);
-	DDV_MinMaxFloat(pDX, m_movecm, -1.e+009f, 1.e+009f);
+	DDV_MinMaxFloat(pDX, (float)m_movecm, -1.e+009f, 1.e+009f);
 	DDX_Check(pDX, IDC_USEBRAKE, m_usebrake);
 	DDX_Check(pDX, IDC_BACKWARDS, m_backwards);
 	DDX_Check(pDX, IDC_FORWARD, m_forward);

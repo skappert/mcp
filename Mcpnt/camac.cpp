@@ -626,7 +626,7 @@ BOOL  DriverIsExisting(void)
 
 /**********************    Main (Start und Ende der DLL *****************/
 
-BOOL  DllMain(HINSTANCE hinstDll,DWORD fwdReason,LPVOID lpvReserved)
+BOOL  __stdcall DllMain(HINSTANCE hinstDll,DWORD fwdReason,LPVOID lpvReserved)
 {
 	switch (fwdReason)
 	{

@@ -672,7 +672,7 @@ int Evaluate( CMCPforNTDoc* pDoc,char* e, double* result, int* a, USHORT ind )
 	   return( ERRORNUM );
    expression = (char*)e;
    ERANC = e;
-   strlwr(expression );
+   _strlwr(expression );
    *result = 0;
    Parse();
    if( ! *token ) ERR( E_EMPTY );
@@ -692,7 +692,7 @@ int EvaluateNext( CMCPforNTDoc* pDoc,char* e, double* result, int* a, USHORT ind
 	   return( ERRORNUM );
    expression = (char*)e;
    ERANC = e;
-   strlwr(expression );
+   _strlwr(expression );
    *result = 0;
    Parse();
    if( ! *token ) ERR( E_EMPTY );

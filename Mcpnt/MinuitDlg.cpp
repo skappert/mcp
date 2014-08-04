@@ -85,7 +85,7 @@ END_MESSAGE_MAP()
 BOOL CMinuitDlg::PreTranslateMessage(MSG* pMsg) 
 {
 	// TODO: Add your specialized code here and/or call the base class
-	if (pMsg->message == WM_KILLFOCUS);
+	if (pMsg->message == WM_KILLFOCUS)
 	{
 		CString NumPeaks;
 		UpdateData(TRUE);
@@ -140,7 +140,6 @@ BOOL CMinuitDlg::PreTranslateMessage(MSG* pMsg)
 		NumPeaks.Format("%u",m_numofpeaks);
 		if (m_equalspaced) m_info = NumPeaks+" equalspaced";
 		else m_info = NumPeaks+" not equalspaced";
-		if(m_user)m_info=UserfitfunctionInfo();
 		UpdateData(FALSE);
 	}
 	return CDialog::PreTranslateMessage(pMsg);

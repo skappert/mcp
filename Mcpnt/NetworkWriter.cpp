@@ -4,7 +4,6 @@
 #include "stdafx.h"
 #include "mcp for nt.h"
 #include "NetworkWriter.h"
-#include "rpcapi32.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -62,9 +61,9 @@ void CNetworkWriter::OnWritenet()
 	strcpy(property,m_property);
 	Data = atof(m_value);
 	{
-		cc=SyncRPC(&name[0],&property[0],"",-1,&Data,sizeof(Data),CF_DOUBLE,CF_TEXT);
-		if (cc) GetRPCLastError(&buffer[0],255);
-		else sprintf(buffer,"\n%s / %s = %lf\n\n",name,property,Data);
+		//cc=SyncRPC(&name[0],&property[0],"",-1,&Data,sizeof(Data),CF_DOUBLE,CF_TEXT);
+		//if (cc) GetRPCLastError(&buffer[0],255);
+		//else sprintf(buffer,"\n%s / %s = %lf\n\n",name,property,Data);
 	}
 
 	//m_netanswer = buffer;

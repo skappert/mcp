@@ -38,13 +38,13 @@ void CPage3am::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_TEST, m_test);
 	DDX_Control(pDX, IDC_REWIND, m_rewind);
 	DDX_Text(pDX, IDC_ACTPOS, m_actpos);
-	DDV_MinMaxFloat(pDX, m_actpos, -1.e+009f, 1.e+009f);
+	DDV_MinMaxFloat(pDX, (float)m_actpos, -1.e+009f, 1.e+009f);
 	DDX_Text(pDX, IDC_DONEPOS, m_donepos);
-	DDV_MinMaxFloat(pDX, m_donepos, -1.e+009f, 1.e+009f);
+	DDV_MinMaxFloat(pDX, (float)m_donepos, -1.e+009f, 1.e+009f);
 	DDX_Text(pDX, IDC_LEFTPOS, m_leftpos);
-	DDV_MinMaxFloat(pDX, m_leftpos, -1.e+009f, 1.e+009f);
+	DDV_MinMaxFloat(pDX, (float)m_leftpos, -1.e+009f, 1.e+009f);
 	DDX_Text(pDX, IDC_MOVETO, m_moveto);
-	DDV_MinMaxFloat(pDX, m_moveto, -1.e+009f, 1.e+009f);
+	DDV_MinMaxFloat(pDX, (float)m_moveto, -1.e+009f, 1.e+009f);
 	DDX_Text(pDX, IDC_SLOT, m_slot);
 	DDV_MinMaxInt(pDX, m_slot, 1, 24);
 	//}}AFX_DATA_MAP

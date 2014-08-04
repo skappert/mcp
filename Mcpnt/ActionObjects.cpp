@@ -8,8 +8,6 @@
 #include "camac.h"
 #include "hardware.h"
 
-#include "rpcapi32.h"
-
 #include "MCP for NTDoc.h"
 #include "ActionObjects.h"
 #include "DataChild.h"
@@ -198,13 +196,13 @@ void CalcCenter(double* start, double* stop, USHORT channels, double resolution,
 
 		if(2*((int)channels/2)!=channels)
 		{
-			*start	= centerval-((channels-1)>>1)*stepval;
-			*stop	= centerval+((channels-1)>>1)*stepval;
+			*start	= centerval-((channels-1)/2)*stepval;
+			*stop	= centerval+((channels-1)/2)*stepval;
 		}
 		else
 		{
-			*start	= centerval-((channels-1)>>1)*stepval;
-			*stop	= centerval+(1+(channels-1)>>1)*stepval;
+			*start	= centerval-((channels-1)/2)*stepval;
+			*stop	= centerval+(1+((channels-1)/2))*stepval;
 		}
 	}
 }
@@ -3171,15 +3169,15 @@ void IsoldeNetVoltageObj::MeasurementBeginAction(BOOL RUNMODE)
 
 void IsoldeNetVoltageObj::TrackBeginAction(USHORT track)
 {
-	double Data;
+	double Data = 0;
 	short cc;
 	char name[255];
 	char property[255];
 
     strcpy(name,"gps.htmeas");
 	strcpy(property,"aqn");
-	cc=SyncRPC(&name[0],&property[0],"",1,(void *)&Data,sizeof(double),CF_DOUBLE,0);
-	if (cc) Data = -1;
+	//cc=SyncRPC(&name[0],&property[0],"",1,(void *)&Data,sizeof(double),CF_DOUBLE,0);
+	//if (cc) Data = -1;
 	Voltage[NumOfSamples] = Data*Factor; 
 	NumOfSamples++;
 }
@@ -4092,15 +4090,15 @@ void MassSwitchObj::TrackBeginAction(USHORT track)
 {
 	CMCPforNTApp* pApp = (CMCPforNTApp*)AfxGetApp();
 	
-	double Massfactor;
+	double Massfactor = 0;
 	double Mass;
 	short cc;
 
-	cc=SyncRPC("GPS.MAG70","MASSFACTOR","",1,(void *)&Massfactor,sizeof(double),CF_DOUBLE,CF_DOUBLE);
+	//cc=SyncRPC("GPS.MAG70","MASSFACTOR","",1,(void *)&Massfactor,sizeof(double),CF_DOUBLE,CF_DOUBLE);
 	if(Massfactor!=0)
 	{
 		Mass = sqrt(ToMassNo/Massfactor);
-		cc=SyncRPC("GPS.MAG70","CCV","",-1,(void *)&Mass,sizeof(double),CF_DOUBLE,CF_DOUBLE);
+		//cc=SyncRPC("GPS.MAG70","CCV","",-1,(void *)&Mass,sizeof(double),CF_DOUBLE,CF_DOUBLE);
 	}
 
 	ListDelayCamac(pApp->PresetSlot,pApp->MassDelay);

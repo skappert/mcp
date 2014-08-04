@@ -5,6 +5,9 @@
 
 #define VC_EXTRALEAN		// Exclude rarely-used stuff from Windows headers
 
+#define WINVER 0x0601
+#define _WIN32_WINNT 0x0601
+
 #include <afxwin.h>         // MFC core and standard components
 #include <afxext.h>         // MFC extensions
 #include <afxcview.h>
@@ -21,8 +24,6 @@
 #endif // _AFX_NO_AFXCMN_SUPPORT
 
 #include <afxsock.h>		// MFC socket extensions
-
-
 
 #include <afxpriv.h>
 #include <afxrich.h>
