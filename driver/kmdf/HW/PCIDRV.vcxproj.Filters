@@ -29,13 +29,6 @@
     <ClInclude Include="precomp.h" />
     <ClInclude Include="precomp.h" />
     <ClInclude Include="precomp.h" />
-    <ClInclude Include="e100_557.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="e100_equ.h" />
-    <ClInclude Include="macros.h" />
-    <ClInclude Include="nic_def.h" />
-    <ClInclude Include="nuiouser.h" />
     <ClInclude Include="precomp.h" />
     <ClInclude Include="e100_557.h">
       <Filter>Header Files</Filter>
