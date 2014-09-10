@@ -7,6 +7,8 @@
 #include "afx.h"
 #include <stddef.h>
 #include <winioctl.h>
+#include <setupapi.h>
+
 #include "camacdef.h"
 #include "camac.h"
 #include "hardware.h"
@@ -27,6 +29,12 @@
 
 static HANDLE	hndCamac;
 static BOOLEAN	DriverFound	= FALSE;
+
+// {7B2C3242-FD98-4391-8D46-0AD83481674E}
+static const GUID CamacGuid = 
+{ 0x7b2c3242, 0xfd98, 0x4391, { 0x8d, 0x46, 0xa, 0xd8, 0x34, 0x81, 0x67, 0x4e } };
+
+static char symbolic_link[256] = "\\\\.\\GpdDev";
 
 //*****************  Die internen Funktionen  ************************//
 
@@ -623,6 +631,73 @@ BOOL  DriverIsExisting(void)
 	else return FALSE;
 }
 
+ULONG GetSymbolicLink(void)
+{		
+	//OutputDebugString("GetSymbolicLink\r\n");
+	int found_index = 0;
+    HDEVINFO hDevInfo;
+
+    // obtain a handle to device information set for all
+    // kernel streaming audio devices present on the system
+    hDevInfo = SetupDiGetClassDevs(
+                        &CamacGuid,
+                        NULL,
+                        NULL,
+                        DIGCF_DEVICEINTERFACE | DIGCF_PRESENT);
+
+    if (hDevInfo == INVALID_HANDLE_VALUE)
+    { // function returned 0
+      // No audio devices are present on the system
+        return 0;
+    }
+    else
+    {
+        TCHAR HardwareID[512];
+        USHORT found_index = 0;
+	
+        // Enumerate first device of our class. 
+
+        SP_DEVICE_INTERFACE_DATA ifdata;
+		ifdata.cbSize = sizeof(ifdata);
+
+		for ( DWORD devindex = 0;
+				SetupDiEnumInterfaceDevice(hDevInfo, NULL,&CamacGuid, devindex, &ifdata);
+				++devindex )
+		{
+
+			// Determine the symbolic link name for this device instance. Since
+			// this is variable in length, make an initial call to determine
+			// the required length.
+
+			DWORD needed;
+			SetupDiGetDeviceInterfaceDetail(hDevInfo, &ifdata, NULL, 0, &needed, NULL);
+				// this call determines the size of memory to allocate
+
+			PSP_INTERFACE_DEVICE_DETAIL_DATA detail = (PSP_INTERFACE_DEVICE_DETAIL_DATA) malloc(needed);
+				// zero the structure
+				memset (detail,0,needed);
+
+				// set the size of the structure without the string at the end
+			detail->cbSize = sizeof(SP_INTERFACE_DEVICE_DETAIL_DATA);
+
+			SP_DEVINFO_DATA did = {sizeof(SP_DEVINFO_DATA)};
+			SetupDiGetDeviceInterfaceDetail(hDevInfo, &ifdata, detail, needed, NULL, &did);
+			
+			// Determine the device's link name
+			SetupDiGetDeviceRegistryProperty(hDevInfo, &did,SPDRP_HARDWAREID, NULL, (PBYTE) HardwareID, sizeof(HardwareID), NULL);
+
+			memset(symbolic_link, 0, sizeof(symbolic_link));
+			strncpy(symbolic_link, detail->DevicePath, sizeof(symbolic_link));
+
+			free((PVOID) detail);
+			ifdata.cbSize = sizeof(ifdata); // reinitialize for next use
+		}
+
+		SetupDiDestroyDeviceInfoList(hDevInfo);
+    }
+
+    return found_index;
+}
 
 /**********************    Main (Start und Ende der DLL *****************/
 
@@ -631,23 +706,29 @@ BOOL  __stdcall DllMain(HINSTANCE hinstDll,DWORD fwdReason,LPVOID lpvReserved)
 	switch (fwdReason)
 	{
 	case DLL_PROCESS_ATTACH:
+
+		GetSymbolicLink();
+		
 		hndCamac = CreateFile(
-					"\\\\.\\GpdDev",                    // Open the Device "file"
-					GENERIC_READ|GENERIC_WRITE,
+					symbolic_link,                    // Open the Device "file"
+					GENERIC_READ | GENERIC_WRITE,
 					0,
-	                NULL,
-		            OPEN_EXISTING,
-			        0,
-				    NULL
-					);
-               
+					NULL, // no SECURITY_ATTRIBUTES structure
+					OPEN_EXISTING, // No special create flags
+					0,
+					NULL);
+
 		if (hndCamac == INVALID_HANDLE_VALUE)        // Was the device opened?
 		{	
+			OutputDebugString("INVALID_HANDLE_VALUE...\n");
+			OutputDebugString(symbolic_link);
+			OutputDebugString("...\n");
 			hndCamac	= NULL;
 			DriverFound = FALSE;
 		}
 		else
 		{
+			OutputDebugString("Driver found and opened...\n");
 			DriverFound = TRUE;
 		}
 		break;
