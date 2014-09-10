@@ -1,0 +1,123 @@
+;/*++
+;
+;Copyright (c) Microsoft Corporation.  All rights reserved.
+;
+;   THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
+;   KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+;   IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR
+;   PURPOSE.
+;
+;Module Name:
+;
+;    Hytec.INF
+;
+;Abstract:
+;    INF file for Hytec PCI CAMAC controller.
+;
+;--*/
+
+[Version]
+Signature      = "$WINDOWS NT$"
+Class          = Hytec
+ClassGuid      = {9128C7EE-0123-448B-B6F1-131A2A96AD2A}
+Provider       = %MSFT%
+DriverVer      = 08/04/2014,5.00.2500
+CatalogFile    = Hytec.cat
+
+[DestinationDirs]
+DefaultDestDir  = 12
+
+;-------------------------------------------------------------------------
+; Class Section
+;-------------------------------------------------------------------------
+[ClassInstall32]
+Addreg         = HytecClassReg
+
+[HytecClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-5
+HKR,,DeviceCharacteristics,0x10001,0x100     ;Use same security checks on relative opens
+HKR,,Security,,"D:P(A;;GA;;;SY)(A;;GA;;;BA)" ;Allow generic all access to system and built-in Admin.
+
+;-------------------------------------------------------------------------
+; Device Install Section
+;-------------------------------------------------------------------------
+[ControlFlags]
+ExcludeFromSelect = *
+
+[Manufacturer]
+%MSFT%=MSFT,NT$ARCH$
+
+[SourceDisksFiles]
+hytecpci.sys     = 1
+
+[SourceDisksNames]
+1=%DISK_NAME%,
+
+; For Win2K
+[MSFT]
+; DisplayName            Section           DeviceId
+; -----------            -------           --------
+%HytecPCI.DRVDESC%=HytecPCI_Inst, PCI\VEN_1196&DEV_5332&SUBSYS_903010B5&REV_00
+%HytecPCI.DRVDESC%=HytecPCI_Inst, PCI\VEN_1196&DEV_5332&SUBSYS_903010B5
+
+; For XP and later
+[MSFT.NT$ARCH$]
+; DisplayName            Section           DeviceId
+; -----------            -------           --------
+%HytecPCI.DRVDESC%=HytecPCI_Inst, PCI\VEN_1196&DEV_5332&SUBSYS_903010B5&REV_00
+%HytecPCI.DRVDESC%=HytecPCI_Inst, PCI\VEN_1196&DEV_5332&SUBSYS_903010B5
+
+[HytecPCI_Inst.NT]
+CopyFiles      = HytecPCI.CopyFiles
+
+
+[HytecPCI.CopyFiles]
+hytecpci.sys
+
+
+[HytecPCI_Inst.NT.Services]
+AddService     = HytecPCI,0x00000002,HytecPCI_Service
+
+[HytecPCI_Service]
+DisplayName    = %HytecPCI.SVCDESC%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\hytecpci.sys
+
+;-------------------------------------------------------------------------
+; WDF Coinstaller installation
+;-------------------------------------------------------------------------
+[DestinationDirs]
+CoInstaller_CopyFiles = 11
+
+[HytecPCI_Inst.NT.CoInstallers]
+AddReg         = CoInstaller_AddReg
+CopyFiles      = CoInstaller_CopyFiles
+
+[CoInstaller_CopyFiles]
+WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll
+
+[SourceDisksFiles]
+WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll = 1 ; make sure the number matches with SourceDisksNames
+
+[CoInstaller_AddReg]
+HKR,,CoInstallers32,0x00010000, "WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll,WdfCoInstaller"
+
+[HytecPCI_Inst.NT.Wdf]
+KmdfService    = HytecPCI, HytecPCI_wdfsect
+
+[HytecPCI_wdfsect]
+KmdfLibraryVersion = $KMDFVERSION$
+
+;------------------------------------------------------------------------------
+;  String Definitions
+;------------------------------------------------------------------------------
+
+[Strings]
+MSFT           = "Hytec"
+ClassName      = "CAMAC controller"
+HytecPCI.SVCDESC = "Service for Hytec CAMAC Controller"
+HytecPCI.DRVDESC = "Hytec CAMAC Controller"
+DISK_NAME      = "Hytec driver Install Disk"
