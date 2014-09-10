@@ -19,7 +19,7 @@
 [Version]
 Signature      = "$WINDOWS NT$"
 Class          = Hytec
-ClassGuid      = {9128C7EE-0123-448B-B6F1-131A2A96AD2A}
+ClassGuid      = {9128C7EF-0123-448B-B6F1-131A2A96AD2A}
 Provider       = %MSFT%
 DriverVer      = 08/04/2014,5.00.2500
 CatalogFile    = Hytec.cat
@@ -37,7 +37,7 @@ Addreg         = HytecClassReg
 HKR,,,0,%ClassName%
 HKR,,Icon,,-5
 HKR,,DeviceCharacteristics,0x10001,0x100     ;Use same security checks on relative opens
-HKR,,Security,,"D:P(A;;GA;;;SY)(A;;GA;;;BA)" ;Allow generic all access to system and built-in Admin.
+HKR,,Security,,"D:P(A;;GA;;;SY)(A;;GRGWGX;;;BA)(A;;GRGWGX;;;WD)(A;;GRGWGX;;;RC)" ;Allow generic all access to system, built-in Admin and world.
 
 ;-------------------------------------------------------------------------
 ; Device Install Section
