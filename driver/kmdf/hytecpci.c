@@ -152,6 +152,7 @@ None
 {
 	NTSTATUS                        status;
 	WDF_IO_QUEUE_CONFIG             ioQueueConfig;
+	UNICODE_STRING					eventName;
 
 	//
 	// Get the BUS_INTERFACE_STANDARD for our device so that we can
@@ -207,6 +208,10 @@ None
 		DbgPrint("Error in config'ing ioctl Queue 0x%x\n", status);
 		return status;
 	}
+
+	RtlInitUnicodeString(&eventName, L"\\BaseNamedObjects\\CamacDataEvt"); 
+	FdoData->Event = IoCreateNotificationEvent(&eventName, &FdoData->Handle);
+	KeClearEvent(FdoData->Event);
 
 	return status;
 }
@@ -571,7 +576,7 @@ NTSTATUS
 			// The resources are listed in the same order the as
 			// BARs in the config space, we need the fourth one
 			//
-			if (numberOfBARs == 4)
+			if (numberOfBARs == 2)
 			{
 				FdoData->PortBase = ULongToPtr(descriptor->u.Port.Start.LowPart);
 				DbgPrint("PortBase = %p\n", FdoData->PortBase);
@@ -657,6 +662,13 @@ NTSTATUS
 	if (!(bResPort && bResInterrupt))
 	{
 		status = STATUS_DEVICE_CONFIGURATION_ERROR;
+	}
+	else
+	{
+		//
+		// Start interface
+		//
+		SendF(FdoData, 40);
 	}
 
 	return status;
@@ -1215,10 +1227,9 @@ Return Value:
     PFDO_DATA               fdoData = NULL;
     WDFDEVICE               hDevice;
     WDF_REQUEST_PARAMETERS  params;
-	PULONG					pInputBuffer;		// Pointer to input buffer
-	PULONG					pOutputBuffer;		// Pointer to output buffer
-	size_t					pInputBufferLength;
-	ULONG_PTR				Information = 0;	// Returned length info
+	PULONG					pInputBuffer = NULL;	// Pointer to input buffer
+	PULONG					pOutputBuffer = NULL;	// Pointer to output buffer
+	ULONG_PTR				Information = 0;		// Returned length info
 	UCHAR					InstructionType;
 	ULONG					Index;
 
@@ -1237,52 +1248,57 @@ Return Value:
         &params
         );
 
-	Status = WdfRequestRetrieveInputBuffer(Request, 1, &pInputBuffer, &pInputBufferLength);
+	//DbgPrint("HytecPCIIoDeviceControl called IoControlCode %x  InputBufferLength %d OutputBufferLength %d\n", IoControlCode, InputBufferLength, OutputBufferLength);
 	
-	if(!NT_SUCCESS(Status))
+	if (InputBufferLength > 0)
 	{
-		DbgPrint("WdfRequestRetrieveInputBuffer failed: %d\n", Status);
-		WdfRequestComplete(Request, Status);
-		return;
-	}
+		Status = WdfRequestRetrieveInputBuffer(Request, InputBufferLength, &pInputBuffer, NULL);
 
-	DbgPrint("HytecPCIIoDeviceControl called IoControlCode %x Request %p pInputBuffer %p pInputBufferLength %u\n", IoControlCode, Request, pInputBuffer, pInputBufferLength);
+		if (!NT_SUCCESS(Status))
+		{
+			DbgPrint("WdfRequestRetrieveInputBuffer failed: %d\n", Status);
+			WdfRequestComplete(Request, Status);
+			return;
+		}
+	}
 
 #if 1
     switch (IoControlCode)
     {
 	case IOCTL_SENDF:
 		WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 10),
-			*(PUCHAR)pInputBuffer);
+			(UCHAR)pInputBuffer[0]);
 
 		Status = STATUS_SUCCESS;
 		break;
 
 	case IOCTL_SENDNAF:
+		DbgPrint("IOCTL_SENDNAF n:%u a:%u f:%u\n", pInputBuffer[0], pInputBuffer[1], pInputBuffer[2]);
 		WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 8),
-			*(PUCHAR)pInputBuffer++);
+			(UCHAR)pInputBuffer[0]);
 		WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 6),
-			*(PUCHAR)pInputBuffer++);
+			(UCHAR)pInputBuffer[1]);
 		WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 10),
-			*(PUCHAR)pInputBuffer);
+			(UCHAR)pInputBuffer[2]);
 
 		Status = STATUS_SUCCESS;
 		break;
 
 	case IOCTL_SENDDNAF:
+		DbgPrint("IOCTL_SENDDNAF d:%u n:%u a:%u f:%u\n", pInputBuffer[0], pInputBuffer[1], pInputBuffer[2], pInputBuffer[3]);
 		WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 0),
-			*(PUCHAR)pInputBuffer);
+			(UCHAR)pInputBuffer[0]);
 		WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 2),
-			(UCHAR)(*pInputBuffer >> 8));
+			(UCHAR)(pInputBuffer[0] >> 8));
 		WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 4),
-			(UCHAR)(*pInputBuffer >> 16));
+			(UCHAR)(pInputBuffer[0] >> 16));
 
 		WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 8),
-			*(PUCHAR)pInputBuffer++);
+			(UCHAR)pInputBuffer[1]);
 		WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 6),
-			*(PUCHAR)pInputBuffer++);
+			(UCHAR)pInputBuffer[2]);
 		WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 10),
-			*(PUCHAR)pInputBuffer);
+			(UCHAR)pInputBuffer[3]);
 
 		Status = STATUS_SUCCESS;
 		break;
@@ -1322,11 +1338,11 @@ Return Value:
 		Status = STATUS_UNSUCCESSFUL;
 		if (fdoData->WriteInstructionPtr < INSTRUCTIONMEM)
 		{
-			fdoData->InstructionList[fdoData->WriteInstructionPtr].type = *(PUSHORT)pInputBuffer++;
-			fdoData->InstructionList[fdoData->WriteInstructionPtr].d = *(PULONG)pInputBuffer++;
-			fdoData->InstructionList[fdoData->WriteInstructionPtr].n = *(PUCHAR)pInputBuffer++;
-			fdoData->InstructionList[fdoData->WriteInstructionPtr].a = *(PUCHAR)pInputBuffer++;
-			fdoData->InstructionList[fdoData->WriteInstructionPtr].f = *(PUCHAR)pInputBuffer;
+			fdoData->InstructionList[fdoData->WriteInstructionPtr].type = (USHORT)pInputBuffer[0];
+			fdoData->InstructionList[fdoData->WriteInstructionPtr].d = pInputBuffer[1];
+			fdoData->InstructionList[fdoData->WriteInstructionPtr].n = (UCHAR)pInputBuffer[2];
+			fdoData->InstructionList[fdoData->WriteInstructionPtr].a = (UCHAR)pInputBuffer[3];
+			fdoData->InstructionList[fdoData->WriteInstructionPtr].f = (UCHAR)pInputBuffer[4];
 			if (fdoData->InstructionList[fdoData->WriteInstructionPtr].type == READGPIB)
 			{
 				fdoData->GPIBPending = TRUE;
@@ -1506,6 +1522,55 @@ Return Value:
 			Status = STATUS_SUCCESS;
 		}
 		break;
+
+	case IOCTL_GPD_READ_PORT_UCHAR:
+		if (NT_SUCCESS(WdfRequestRetrieveOutputBuffer(Request, sizeof(UCHAR), &pOutputBuffer, NULL)))
+		{
+			ULONG offset = pInputBuffer[0];
+			*(PUCHAR)pOutputBuffer = READ_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + pInputBuffer[0]));
+			Information = sizeof(UCHAR);
+			Status = STATUS_SUCCESS;
+			DbgPrint("IOCTL_GPD_READ_PORT_UCHAR port %d: %d\n", offset, *(PUCHAR)pOutputBuffer);
+		}
+		break;
+
+	case IOCTL_GPD_READ_PORT_USHORT:
+		if (NT_SUCCESS(WdfRequestRetrieveOutputBuffer(Request, sizeof(USHORT), &pOutputBuffer, NULL)))
+		{
+			ULONG offset = pInputBuffer[0]; 
+			*(PUSHORT)pOutputBuffer = READ_PORT_USHORT((PUSHORT)((ULONG)fdoData->PortBase + pInputBuffer[0]));
+			Information = sizeof(USHORT);
+			Status = STATUS_SUCCESS;
+			DbgPrint("IOCTL_GPD_READ_PORT_USHORT port %d: %d\n", offset, *(PUSHORT)pOutputBuffer);
+		}
+		break;
+
+	case IOCTL_GPD_READ_PORT_ULONG:
+		if (NT_SUCCESS(WdfRequestRetrieveOutputBuffer(Request, sizeof(ULONG), &pOutputBuffer, NULL)))
+		{
+			ULONG offset = pInputBuffer[0]; 
+			*(PULONG)pOutputBuffer = READ_PORT_ULONG((PULONG)((ULONG)fdoData->PortBase + pInputBuffer[0]));
+			Information = sizeof(ULONG);
+			Status = STATUS_SUCCESS;
+			DbgPrint("IOCTL_GPD_READ_PORT_ULONG port %d: %d\n", offset, *(PULONG)pOutputBuffer);
+		}
+		break;
+
+	case IOCTL_GPD_WRITE_PORT_UCHAR:
+		WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + pInputBuffer[0]), (UCHAR)pInputBuffer[1]);
+		Status = STATUS_SUCCESS;
+		break;
+
+	case IOCTL_GPD_WRITE_PORT_USHORT:
+		WRITE_PORT_USHORT((PUSHORT)((ULONG)fdoData->PortBase + pInputBuffer[0]), (USHORT)pInputBuffer[1]);
+		Status = STATUS_SUCCESS;
+		break;
+
+	case IOCTL_GPD_WRITE_PORT_ULONG:
+		WRITE_PORT_ULONG((PULONG)((ULONG)fdoData->PortBase + pInputBuffer[0]), (ULONG)pInputBuffer[1]);
+		Status = STATUS_SUCCESS;
+		break;
+
 
 	default:
 			ASSERT((IoControlCode & 0x3) != METHOD_BUFFERED);

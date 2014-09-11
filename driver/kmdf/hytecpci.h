@@ -221,6 +221,8 @@ EVT_WDF_DEVICE_WAKE_FROM_SX_TRIGGERED HytecPCIDeviceWakeTriggeredSx;
 
 EVT_WDF_IO_QUEUE_IO_DEVICE_CONTROL HytecPCIIoDeviceControl;
 
+VOID SendF(PFDO_DATA fdoData, ULONG f);
+
 NTSTATUS
 PciDrvReturnResources (
     IN OUT PFDO_DATA FdoData
