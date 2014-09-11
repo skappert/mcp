@@ -62,6 +62,47 @@ __pragma(warning(suppress: 4127)) while(constant)
 #define SECOND_TO_100NS         (SECOND_TO_MILLISEC * MILLISECONDS_TO_100NS)
 
 //
+// CAMAC related defines
+//
+
+#define bytemask 255
+#define wordmask 65535
+
+#define SENDF		(UCHAR)0x01
+#define SENDNAF		(UCHAR)0x02
+#define SENDDNAF	(UCHAR)0x03
+#define READD		(UCHAR)0x04
+#define READCSR		(UCHAR)0x05
+#define READENCL	(UCHAR)0x06
+#define READGPIB	(UCHAR)0x07
+#define WAITINT		(UCHAR)0x10
+
+#define COMPAREEQUAL		(UCHAR)0x20
+#define COMPAREATLEAST		(UCHAR)0x40
+#define COMPARELESSTHAN		(UCHAR)0x60
+
+#define INSTRUCTIONMASK	(UCHAR)0x0f
+#define INTERRUPTMASK	(UCHAR)0x10
+#define COMPAREMASK		(UCHAR)0x60
+
+#define DATAMEM			(ULONG) 32000
+#define INSTRUCTIONMEM	(ULONG) 64000 
+#define STRINGMEM		(ULONG) 100
+#define STRINGLEN		(ULONG) 50
+
+//
+// CAMAC related typedefs
+//
+typedef struct _ILIST
+{
+	USHORT type;
+	ULONG d;
+	UCHAR n;
+	UCHAR a;
+	UCHAR f;
+} ILIST;
+
+//
 // Bit Flag Macros
 //
 
@@ -107,8 +148,8 @@ typedef struct _FDO_DATA
                                              // beneath this device object.
     WDFDEVICE               WdfDevice;
 
-    // Power Management
-    WDF_POWER_DEVICE_STATE      DevicePowerState;   // Current power state of the device(D0 - D3)
+    // Power Management 
+	WDF_POWER_DEVICE_STATE      DevicePowerState;   // Current power state of the device(D0 - D3)
 
     // Wait-Wake
     BOOLEAN                 AllowWakeArming;
@@ -116,6 +157,32 @@ typedef struct _FDO_DATA
     // Idle Detection
     //BOOLEAN                 IdleDetectionEnabled;
     PCIDRV_WMI_STD_DATA     StdDeviceData;
+
+	// Following fields are specific to the hardware
+	BUS_INTERFACE_STANDARD  BusInterface;
+	WDFQUEUE                IoctlQueue;
+	PVOID					PortBase;       // base port address
+
+	// CAMAC interface related
+	ULONG				ReadData[DATAMEM];
+	ILIST				InstructionList[INSTRUCTIONMEM];
+	char				ReadString[STRINGMEM][STRINGLEN];
+	ULONG				WriteInstructionPtr;
+	ULONG				ReadDataPtr;
+	ULONG				ReadStringPtr;
+	BOOLEAN				GPIBListening;
+	BOOLEAN				GPIBPending;
+	BOOLEAN				ListPending;
+
+	ULONG				ActualInstructionPtr;
+	ULONG				ActualDataPtr;
+	ULONG				ActualStringPtr;
+	ULONG				ActualStringPosPtr;
+	USHORT				GPIBAddress;
+
+	BOOLEAN				IntInProgress;
+	HANDLE				Handle;
+	PKEVENT				Event;
 
 }  FDO_DATA, *PFDO_DATA;
 

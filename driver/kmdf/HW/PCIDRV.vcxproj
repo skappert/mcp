@@ -633,6 +633,7 @@
     <None Exclude="@(None)" Include="*.def;*.bat;*.hpj;*.asmx" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\camac_ioctl.h" />
     <ClInclude Include="..\hytecpci.h" />
     <ClInclude Include="precomp.h" />
   </ItemGroup>

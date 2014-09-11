@@ -32,7 +32,7 @@ Environment:
 --*/
 
 #include "precomp.h"
-
+#include "camac_ioctl.h" 
 
 //
 // Global debug error level
@@ -126,6 +126,120 @@ Return Value:
     }
 
     return status;
+
+}
+
+NTSTATUS
+HytecPCIAllocateSoftwareResources(
+IN OUT PFDO_DATA FdoData
+)
+/*++
+Routine Description:
+
+This routine creates two parallel queues and 3 manual queues to hold
+Read, Write and IOCTL requests. It also creates the interrupt object and
+DMA object, and performs some additional initialization.
+
+Arguments:
+
+FdoData     Pointer to our FdoData
+
+Return Value:
+
+None
+
+--*/
+{
+	NTSTATUS                        status;
+	WDF_IO_QUEUE_CONFIG             ioQueueConfig;
+
+	//
+	// Get the BUS_INTERFACE_STANDARD for our device so that we can
+	// read & write to PCI config space.
+	//
+	status = WdfFdoQueryForInterface(FdoData->WdfDevice,
+		&GUID_BUS_INTERFACE_STANDARD,
+		(PINTERFACE)&FdoData->BusInterface,
+		sizeof(BUS_INTERFACE_STANDARD),
+		1, // Version
+		NULL); //InterfaceSpecificData
+
+	if (!NT_SUCCESS(status))
+	{
+		return status;
+	}
+
+	//
+	// Parallel queue for device I/O control (WdfRequestTypeDeviceControl) requests.
+	// We will configure the queue so that all the incoming ioctl requests
+	// go directly to this queue. We will try to service the requests immediately.
+	// If we can't, we will forward the request to a manual queue created below
+	// and try to service it from a DPC when the appropriate event happens.
+	//
+	WDF_IO_QUEUE_CONFIG_INIT(
+		&ioQueueConfig,
+		WdfIoQueueDispatchParallel
+		);
+
+	ioQueueConfig.EvtIoDeviceControl = HytecPCIIoDeviceControl;
+
+	status = WdfIoQueueCreate(
+		FdoData->WdfDevice,
+		&ioQueueConfig,
+		WDF_NO_OBJECT_ATTRIBUTES,
+		&FdoData->IoctlQueue
+		);
+
+	if (!NT_SUCCESS(status))
+	{
+		DbgPrint("Error Creating ioctl Queue 0x%x\n", status);
+		return status;
+	}
+
+	status = WdfDeviceConfigureRequestDispatching(
+		FdoData->WdfDevice,
+		FdoData->IoctlQueue,
+		WdfRequestTypeDeviceControl);
+
+	if (!NT_SUCCESS(status))
+	{
+		ASSERT(NT_SUCCESS(status));
+		DbgPrint("Error in config'ing ioctl Queue 0x%x\n", status);
+		return status;
+	}
+
+	return status;
+}
+
+NTSTATUS
+HytecPCIFreeSoftwareResources(
+IN OUT PFDO_DATA FdoData
+)
+/*++
+Routine Description:
+
+Free all the software resources. We shouldn't touch the hardware.
+This functions is called in the context of EvtDeviceContextCleanup.
+Most of the resources created in NICAllocateResources such as queues,
+DMA enabler, SpinLocks, CommonBuffer, are already freed by
+framework because they are associated with the WDFDEVICE directly
+or indirectly as child objects.
+
+Arguments:
+
+FdoData     Pointer to our FdoData
+
+Return Value:
+
+None
+
+--*/
+{
+	UNREFERENCED_PARAMETER(FdoData);
+
+	PAGED_CODE();
+
+	return STATUS_SUCCESS;
 
 }
 
@@ -320,15 +434,12 @@ Return Value:
     //
     // Initialize the device extension and allocate all the software resources
     //
-#if 0
-    status = NICAllocateSoftwareResources(fdoData);
-    if (!NT_SUCCESS (status)){
-        TraceEvents(TRACE_LEVEL_ERROR, DBG_PNP,
-                    "NICAllocateSoftwareResources failed: %!STATUS!\n",
-                    status);
+	status = HytecPCIAllocateSoftwareResources(fdoData);
+    if (!NT_SUCCESS (status))
+	{
+		DbgPrint("NICAllocateSoftwareResources failed: %d\n", status);
         return status;
     }
-#endif
 
     //
     // Tell the Framework that this device will need an interface so that
@@ -383,9 +494,8 @@ Return Value:
     fdoData = FdoGetData((WDFDEVICE)Device);
 
 	DbgPrint("--> HytecPCIDeviceContextCleanup\n");
-#if 0
-    NICFreeSoftwareResources(fdoData);
-#endif
+    HytecPCIFreeSoftwareResources(fdoData);
+
 	DbgPrint("<-- HytecPCIDeviceContextCleanup\n");
 
 }
@@ -855,6 +965,42 @@ Return Value:
 	DbgPrint("<-- HytecPCIDeviceSelfManagedIoCleanup\n");
 }
 
+VOID SendDNAF(PFDO_DATA fdoData, ULONG d, ULONG n, ULONG a, ULONG f)
+{
+	WRITE_PORT_ULONG((PULONG)((ULONG)fdoData->PortBase + 0), (d & bytemask) + (((d >> 8) & bytemask) << 16));
+	WRITE_PORT_ULONG((PULONG)((ULONG)fdoData->PortBase + 4), (((d >> 16) & bytemask)) + (a << 16));
+	WRITE_PORT_ULONG((PULONG)((ULONG)fdoData->PortBase + 8), (n & bytemask) + ((f & bytemask) << 16));
+}
+
+VOID SendNAF(PFDO_DATA fdoData, ULONG n, ULONG a, ULONG f)
+{
+	WRITE_PORT_ULONG((PULONG)((ULONG)fdoData->PortBase + 6), a);
+	WRITE_PORT_ULONG((PULONG)((ULONG)fdoData->PortBase + 8), ((ULONG)f << 16) + (ULONG)n);
+}
+
+VOID SendF(PFDO_DATA fdoData, ULONG f)
+{
+	WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 10), (UCHAR)f);
+}
+
+ULONG ReadD(PFDO_DATA fdoData)
+{
+	ULONG data = 0;
+	data = READ_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 0));
+	data = data + (READ_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 2)) << 8);
+	data = data + (READ_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 4)) << 16);
+	return data;
+}
+
+UCHAR ReadENCL(PFDO_DATA fdoData)
+{
+	return READ_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 8));
+}
+
+UCHAR ReadCSR(PFDO_DATA fdoData)
+{
+	return READ_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 6));
+}
 
 VOID
 HytecPCIIoDeviceControl(
@@ -890,10 +1036,13 @@ Return Value:
 
 --*/
 {
-    //NTSTATUS                status= STATUS_SUCCESS;
+	NTSTATUS                Status = STATUS_INVALID_DEVICE_REQUEST;
     PFDO_DATA               fdoData = NULL;
     WDFDEVICE               hDevice;
     WDF_REQUEST_PARAMETERS  params;
+	PULONG					pIOBuffer;          // Pointer to transfer buffer
+	size_t					IOBufferLength;
+	ULONG_PTR				Information = 0;	// Returned length info
 
     UNREFERENCED_PARAMETER(OutputBufferLength);
     UNREFERENCED_PARAMETER(InputBufferLength);
@@ -910,14 +1059,267 @@ Return Value:
         &params
         );
 
+	Status = WdfRequestRetrieveInputBuffer(Request, 1, &pIOBuffer, &IOBufferLength);
+	
+	if(!NT_SUCCESS(Status))
+	{
+		DbgPrint("WdfRequestRetrieveInputBuffer failed: %d\n", Status);
+		WdfRequestComplete(Request, Status);
+		return;
+	}
+
+	DbgPrint("HytecPCIIoDeviceControl called IoControlCode %x Request %p pIOBuffer %p IOBufferLength %u\n", IoControlCode, Request, pIOBuffer, IOBufferLength);
+
+#if 0
     switch (IoControlCode)
     {
-         default:
+	case IOCTL_SENDF:
+		WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 10),
+			*(PUCHAR)pIOBuffer);
+
+		Status = STATUS_SUCCESS;
+		break;
+
+	case IOCTL_SENDNAF:
+		WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 8),
+			*(PUCHAR)pIOBuffer++);
+		WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 6),
+			*(PUCHAR)pIOBuffer++);
+		WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 10),
+			*(PUCHAR)pIOBuffer);
+
+		Status = STATUS_SUCCESS;
+		break;
+
+	case IOCTL_SENDDNAF:
+		WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 0),
+			*(PUCHAR)pIOBuffer);
+		WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 2),
+			(UCHAR)(*pIOBuffer >> 8));
+		WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 4),
+			(UCHAR)(*pIOBuffer >> 16));
+
+		WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 8),
+			*(PUCHAR)pIOBuffer++);
+		WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 6),
+			*(PUCHAR)pIOBuffer++);
+		WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 10),
+			*(PUCHAR)pIOBuffer);
+
+		Status = STATUS_SUCCESS;
+		break;
+
+	case IOCTL_READD:
+		*(PULONG)pIOBuffer = ReadD(fdoData);
+		Information = sizeof(ULONG);
+		Status = STATUS_SUCCESS;
+		break;
+
+	case IOCTL_READCSR:
+		*(PUCHAR)pIOBuffer = READ_PORT_UCHAR(
+			(PUCHAR)((ULONG)fdoData->PortBase + 6));
+		Information = sizeof(UCHAR);
+
+		Status = STATUS_SUCCESS;
+		break;
+
+	case IOCTL_READENCL:
+		*(PUCHAR)pIOBuffer = READ_PORT_UCHAR(
+			(PUCHAR)((ULONG)fdoData->PortBase + 8));
+		Information = sizeof(UCHAR);
+
+		Status = STATUS_SUCCESS;
+		break;
+
+	case IOCTL_LISTDNAF:
+		Status = STATUS_UNSUCCESSFUL;
+		if (fdoData->WriteInstructionPtr < INSTRUCTIONMEM)
+		{
+			fdoData->InstructionList[fdoData->WriteInstructionPtr].type = *(PUSHORT)pIOBuffer++;
+			fdoData->InstructionList[fdoData->WriteInstructionPtr].d = *(PULONG)pIOBuffer++;
+			fdoData->InstructionList[fdoData->WriteInstructionPtr].n = *(PUCHAR)pIOBuffer++;
+			fdoData->InstructionList[fdoData->WriteInstructionPtr].a = *(PUCHAR)pIOBuffer++;
+			fdoData->InstructionList[fdoData->WriteInstructionPtr].f = *(PUCHAR)pIOBuffer;
+			if (fdoData->InstructionList[fdoData->WriteInstructionPtr].type == READGPIB)
+			{
+				fdoData->GPIBPending = TRUE;
+			}
+			fdoData->WriteInstructionPtr = fdoData->WriteInstructionPtr + 1;
+
+
+			Status = STATUS_SUCCESS;
+			pIOBuffer = (PULONG)pIrp->AssociatedIrp.SystemBuffer;
+			*(PULONG)pIOBuffer = fdoData->WriteInstructionPtr;
+			Information = sizeof(ULONG);
+		}
+		break;
+
+
+	case IOCTL_SHOWLISTPTR:
+		Status = STATUS_SUCCESS;
+		pIOBuffer = (PULONG)pIrp->AssociatedIrp.SystemBuffer;
+		*(PULONG)pIOBuffer = fdoData->WriteInstructionPtr;
+		Information = sizeof(ULONG);
+		break;
+
+	case IOCTL_SHOWDATAPTR:
+		Status = STATUS_SUCCESS;
+		pIOBuffer = (PULONG)pIrp->AssociatedIrp.SystemBuffer;
+		*(PULONG)pIOBuffer = fdoData->ReadDataPtr;
+		Information = sizeof(ULONG);
+		break;
+
+	case IOCTL_SHOWSTRINGPTR:
+		Status = STATUS_SUCCESS;
+		pIOBuffer = (PULONG)pIrp->AssociatedIrp.SystemBuffer;
+		*(PULONG)pIOBuffer = fdoData->ReadStringPtr;
+		Information = sizeof(ULONG);
+		break;
+
+	case IOCTL_SHOWACTUALLISTPTR:
+		Status = STATUS_SUCCESS;
+		pIOBuffer = (PULONG)pIrp->AssociatedIrp.SystemBuffer;
+		*(PULONG)pIOBuffer = fdoData->ActualInstructionPtr;
+		Information = sizeof(ULONG);
+		break;
+
+	case IOCTL_SHOWACTUALDATAPTR:
+		Status = STATUS_SUCCESS;
+		pIOBuffer = (PULONG)pIrp->AssociatedIrp.SystemBuffer;
+		*(PULONG)pIOBuffer = fdoData->ActualDataPtr;
+		Informationn = sizeof(ULONG);
+		break;
+
+	case IOCTL_SHOWACTUALSTRINGPTR:
+		Status = STATUS_SUCCESS;
+		pIOBuffer = (PULONG)pIrp->AssociatedIrp.SystemBuffer;
+		*(PULONG)pIOBuffer = fdoData->ActualStringPtr;
+		pIrp->IoStatus.Information = sizeof(ULONG);
+		break;
+
+	case IOCTL_LISTSTART:
+		fdoData->ActualInstructionPtr = 0;
+		fdoData->ListPending = TRUE;
+		while ((fdoData->ActualInstructionPtr < fdoData->WriteInstructionPtr) &&
+			(fdoData->ActualInstructionPtr < INSTRUCTIONMEM))
+		{
+			Index = fdoData->ActualInstructionPtr;
+			InstructionType = fdoData->InstructionList[Index].type & INSTRUCTIONMASK;
+			switch (InstructionType)
+			{
+			case SENDF:
+				SendF(extension, fdoData->InstructionList[Index].f);
+				ReadCSR(extension);
+				break;
+			case SENDNAF:
+				SendNAF(extension, fdoData->InstructionList[Index].n,
+					fdoData->InstructionList[Index].a,
+					fdoData->InstructionList[Index].f);
+				ReadCSR(extension);
+				break;
+			case SENDDNAF:
+				SendDNAF(extension, fdoData->InstructionList[Index].d,
+					fdoData->InstructionList[Index].n,
+					fdoData->InstructionList[Index].a,
+					fdoData->InstructionList[Index].f);
+				ReadCSR(extension);
+				break;
+			case READD:
+				fdoData->ReadData[fdoData->ActualDataPtr] = ReadD(extension);
+				fdoData->ActualDataPtr++;
+				break;
+			case READCSR:
+				ReadCSR(extension);
+				break;
+			case READENCL:
+				ReadENCL(extension);
+				break;
+			case READGPIB:
+				ReadENCL(extension);
+				fdoData->GPIBAddress = fdoData->InstructionList[Index].n;
+				fdoData->GPIBListening = TRUE;
+				break;
+			}
+			fdoData->ActualInstructionPtr++;
+			if (((fdoData->InstructionList[Index].type & WAITINT) != 0) || fdoData->GPIBListening) break;
+		}
+		if (fdoData->ActualInstructionPtr == fdoData->WriteInstructionPtr)fdoData->ListPending = FALSE;
+		Status = STATUS_SUCCESS;
+		break;
+
+	case IOCTL_LISTREADD:
+		Status = STATUS_UNSUCCESSFUL;
+		if ((fdoData->ReadDataPtr < DATAMEM) && (fdoData->ReadDataPtr < fdoData->ActualDataPtr))
+		{
+			*(PULONG)pIOBuffer = fdoData->ReadData[fdoData->ReadDataPtr];
+			fdoData->ReadDataPtr++;
+			pIrp->IoStatus.Information = sizeof(ULONG);
+			Status = STATUS_SUCCESS;
+		}
+		break;
+
+	case IOCTL_LISTPTRRESET:
+
+		fdoData->WriteInstructionPtr = 0;
+		fdoData->GPIBListening = FALSE;
+		fdoData->GPIBPending = FALSE;
+		fdoData->ListPending = FALSE;
+		Status = STATUS_SUCCESS;
+		break;
+
+	case IOCTL_DATAPTRRESET:
+		fdoData->ActualDataPtr = 0;
+		fdoData->ActualInstructionPtr = 0;
+		fdoData->ReadDataPtr = 0;
+		fdoData->ReadStringPtr = 0;
+		fdoData->ActualStringPtr = 0;
+		fdoData->ActualStringPosPtr = 1;
+		Status = STATUS_SUCCESS;
+		break;
+
+	case IOCTL_GPIBREADY:
+		if (!fdoData->GPIBPending)Status = STATUS_SUCCESS;
+		else Status = STATUS_UNSUCCESSFUL;
+		Information = 0;
+		break;
+
+	case IOCTL_LISTREADY:
+		if (!fdoData->ListPending)Status = STATUS_SUCCESS;
+		else Status = STATUS_UNSUCCESSFUL;
+		Information = 0;
+		break;
+
+	case IOCTL_GPIBREADSTRING:
+		j = fdoData->ReadString[fdoData->ReadStringPtr][0];
+		for (i = 1; i<50; i++)
+		{
+			*(((PUCHAR)pIOBuffer) + i - 1) = (UCHAR)fdoData->ReadString[fdoData->ReadStringPtr][i];
+		}
+		fdoData->ReadStringPtr++;
+		if (fdoData->ReadStringPtr >= STRINGMEM)fdoData->ReadStringPtr = 0;
+		Information = j;
+		Status = STATUS_SUCCESS;
+		break;
+
+	case IOCTL_GPD_READ_PORT_UCHAR:
+	case IOCTL_GPD_READ_PORT_USHORT:
+	case IOCTL_GPD_READ_PORT_ULONG:
+		break;
+
+	case IOCTL_GPD_WRITE_PORT_UCHAR:
+	case IOCTL_GPD_WRITE_PORT_USHORT:
+	case IOCTL_GPD_WRITE_PORT_ULONG:
+		break;
+	}
+	break; 
+
+	default:
 			ASSERT((IoControlCode & 0x3) != METHOD_BUFFERED);
-            ASSERTMSG(FALSE, "Invalid IOCTL request\n");
-            WdfRequestComplete(Request, STATUS_INVALID_DEVICE_REQUEST);
+			ASSERTMSG(FALSE, "Invalid IOCTL request\n");
             break;
     }
+#endif	
+	WdfRequestCompleteWithInformation(Request, Status, Information);
 
     return;
 }
