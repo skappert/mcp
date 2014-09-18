@@ -601,7 +601,6 @@ NTSTATUS
 
 			ASSERT(!bResInterrupt);
 
-#ifdef PCIDRV_CREATE_INTERRUPT_IN_PREPARE_HARDWARE
 			{
 				WDF_INTERRUPT_CONFIG interruptConfig;
 
@@ -609,15 +608,15 @@ NTSTATUS
 				// Create WDFINTERRUPT object.
 				//
 				WDF_INTERRUPT_CONFIG_INIT(&interruptConfig,
-					NICEvtInterruptIsr,
-					NICEvtInterruptDpc);
+					HytecPCIInterruptIsr,
+					HytecPCIInterruptDpc);
 
 				//
 				// These first two callbacks will be called at DIRQL.  Their job is to
 				// enable and disable interrupts.
 				//
-				interruptConfig.EvtInterruptEnable = NICEvtInterruptEnable;
-				interruptConfig.EvtInterruptDisable = NICEvtInterruptDisable;
+				interruptConfig.EvtInterruptEnable = HytecPCIInterruptEnable;
+				interruptConfig.EvtInterruptDisable = HytecPCIInterruptDisable;
 				interruptConfig.InterruptTranslated = descriptor;
 				interruptConfig.InterruptRaw =
 					WdfCmResourceListGetDescriptor(ResourcesRaw, i);
@@ -629,12 +628,10 @@ NTSTATUS
 
 				if (!NT_SUCCESS(status))
 				{
-					TraceEvents(TRACE_LEVEL_ERROR, DBG_INIT,
-						"WdfInterruptCreate failed: %!STATUS!\n", status);
+					DbgPrint("WdfInterruptCreate failed : %!STATUS!\n", status);
 					return status;
 				}
 			}
-#endif
 
 			bResInterrupt = TRUE;
 

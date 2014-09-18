@@ -30,7 +30,7 @@ Environment:
 #endif
 
 BOOLEAN
-NICEvtInterruptIsr(
+HytecPCIInterruptIsr(
     IN WDFINTERRUPT Interrupt,
     IN ULONG        MessageID
     )
@@ -50,46 +50,113 @@ Return Value:
 
 --*/
 {
-    BOOLEAN    InterruptRecognized = FALSE;
+    BOOLEAN    InterruptRecognized = TRUE;
     PFDO_DATA  FdoData = NULL;
-    //USHORT     IntStatus;
+	UCHAR TheChar;
+	UCHAR InstructionType;
+	ULONG Index;
 
     UNREFERENCED_PARAMETER( MessageID );
 
-	DbgPrint("--> NICEvtInterruptIsr\n");
+	DbgPrint("--> HytecPCIInterruptIsr\n");
 
     FdoData = FdoGetData(WdfInterruptGetDevice(Interrupt));
 
-#if 0
-    //
-    // We process the interrupt if it's not disabled and it's active
-    //
-    if (!NIC_INTERRUPT_DISABLED(FdoData) && NIC_INTERRUPT_ACTIVE(FdoData))
-    {
-        InterruptRecognized = TRUE;
+	
 
-        //
-        // Disable the interrupt (will be re-enabled in NICEvtInterruptDpc
-        //
-        //NICDisableInterrupt(FdoData);
+	//
+	// device specific stuff to dismiss the interrupt
+	//
 
-        //
-        // Acknowledge the interrupt(s) and get the interrupt status
-        //
 
-        NIC_ACK_INTERRUPT(FdoData, IntStatus);
+	if (FdoData->GPIBListening)
+	{
+		SendNAF(FdoData, FdoData->GPIBAddress, 0, 0);
+		ReadCSR(FdoData);
+		TheChar = (UCHAR)ReadD(FdoData);
+		ReadENCL(FdoData);
 
-        WdfInterruptQueueDpcForIsr( Interrupt );
 
-    }
-#endif
-	DbgPrint("<-- NICEvtInterruptIsr\n");
+		if (TheChar != 10 && TheChar != 13)FdoData->ReadString[FdoData->ActualStringPtr][FdoData->ActualStringPosPtr] = TheChar;
+		else FdoData->ReadString[FdoData->ActualStringPtr][FdoData->ActualStringPosPtr] = 32;
+
+		if (TheChar == 10 || (FdoData->ActualStringPosPtr == STRINGLEN))
+		{
+			FdoData->ReadString[FdoData->ActualStringPtr][0] = (char)FdoData->ActualStringPosPtr;
+			FdoData->GPIBListening = FALSE;
+			FdoData->GPIBPending = FALSE;
+			FdoData->ActualStringPosPtr = 1;
+			FdoData->ActualStringPtr++;
+			if (FdoData->ActualStringPtr >= STRINGMEM)FdoData->ActualStringPtr = 0;
+		}
+		else FdoData->ActualStringPosPtr++;
+	}
+	if (!FdoData->GPIBListening)
+	{
+		while ((FdoData->ActualInstructionPtr < FdoData->WriteInstructionPtr) &&
+			(FdoData->ActualInstructionPtr < INSTRUCTIONMEM))
+		{
+			Index = FdoData->ActualInstructionPtr;
+			InstructionType = FdoData->InstructionList[Index].type & INSTRUCTIONMASK;
+			switch (InstructionType)
+			{
+			case SENDF:
+				SendF(FdoData, FdoData->InstructionList[Index].f);
+				ReadCSR(FdoData);
+				break;
+			case SENDNAF:
+				SendNAF(FdoData, FdoData->InstructionList[Index].n,
+					FdoData->InstructionList[Index].a,
+					FdoData->InstructionList[Index].f);
+				ReadCSR(FdoData);
+				break;
+			case SENDDNAF:
+				SendDNAF(FdoData, FdoData->InstructionList[Index].d,
+					FdoData->InstructionList[Index].n,
+					FdoData->InstructionList[Index].a,
+					FdoData->InstructionList[Index].f);
+				ReadCSR(FdoData);
+				break;
+			case READD:
+				if (FdoData->ActualDataPtr < DATAMEM)
+				{
+					FdoData->ReadData[FdoData->ActualDataPtr] = ReadD(FdoData);
+					FdoData->ActualDataPtr++;
+				}
+				break;
+			case READCSR:
+				ReadCSR(FdoData);
+				break;
+			case READENCL:
+				ReadENCL(FdoData);
+				break;
+			case READGPIB:
+				ReadENCL(FdoData);
+				FdoData->GPIBAddress = FdoData->InstructionList[Index].n;
+				FdoData->GPIBListening = TRUE;
+				break;
+			}
+			FdoData->ActualInstructionPtr++;
+			if (((FdoData->InstructionList[Index].type & WAITINT) != 0) || FdoData->GPIBListening) break;
+		}
+		if (FdoData->ActualInstructionPtr < FdoData->WriteInstructionPtr)
+			FdoData->IntInProgress = TRUE;
+		else
+		{
+			FdoData->IntInProgress = FALSE;
+			FdoData->ListPending = FALSE;
+		}
+	}
+
+	WdfInterruptQueueDpcForIsr(Interrupt);
+
+	DbgPrint("<-- HytecPCIInterruptIsr\n");
 
     return InterruptRecognized;
 }
 
 VOID
-NICEvtInterruptDpc(
+HytecPCIInterruptDpc(
     IN WDFINTERRUPT WdfInterrupt,
     IN WDFOBJECT    WdfDevice
     )
@@ -114,24 +181,30 @@ Return Value:
 
 	UNREFERENCED_PARAMETER(WdfInterrupt);
 
-	DbgPrint("--> NICEvtInterruptDpc\n");
+	DbgPrint("--> HytecPCIInterruptDpc\n");
 
     fdoData = FdoGetData(WdfDevice);
-#if 0
+
+	fdoData->InterruptCount++;
+	KeSetEvent(fdoData->Event, 0, FALSE);
+	KeClearEvent(fdoData->Event);
+
     //
     // Re-enable the interrupt (disabled in MPIsr)
     //
+#if 0
     WdfInterruptSynchronize(
         WdfInterrupt,
-        NICEnableInterrupt,
+		HytecPCIEnableInterrupt,
         fdoData);
 #endif
-	DbgPrint("<-- NICEvtInterruptDpc\n");
+
+	DbgPrint("<-- HytecPCIInterruptDpc\n");
 
 }
 
 NTSTATUS
-NICEvtInterruptEnable(
+HytecPCIInterruptEnable(
     IN WDFINTERRUPT  Interrupt,
     IN WDFDEVICE     AssociatedDevice
     )
@@ -161,18 +234,18 @@ Return Value:
 
 	UNREFERENCED_PARAMETER(Interrupt);
 
-	DbgPrint("--> NICEvtInterruptEnable\n");
+	DbgPrint("--> HytecPCIInterruptEnable\n");
 
     fdoData = FdoGetData(AssociatedDevice);
     //NICEnableInterrupt(Interrupt, fdoData);
 
-	DbgPrint("<-- NICEvtInterruptEnable\n");
+	DbgPrint("<-- HytecPCIInterruptEnable\n");
 
     return STATUS_SUCCESS;
 }
 
 NTSTATUS
-NICEvtInterruptDisable(
+HytecPCIInterruptDisable(
     IN WDFINTERRUPT  Interrupt,
     IN WDFDEVICE     AssociatedDevice
     )
@@ -201,12 +274,12 @@ Return Value:
     PFDO_DATA           fdoData;
 
     UNREFERENCED_PARAMETER(Interrupt);
-	DbgPrint("--> NICEvtInterruptDisable\n");
+	DbgPrint("--> HytecPCIInterruptDisable\n");
 
     fdoData = FdoGetData(AssociatedDevice);
     //NICDisableInterrupt(fdoData);
 
-	DbgPrint("<-- NICEvtInterruptDisable\n");
+	DbgPrint("<-- HytecPCIInterruptDisable\n");
 
     return STATUS_SUCCESS;
 }

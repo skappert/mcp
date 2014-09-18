@@ -163,6 +163,9 @@ typedef struct _FDO_DATA
 	WDFQUEUE                IoctlQueue;
 	PVOID					PortBase;       // base port address
 
+	WDFINTERRUPT            WdfInterrupt;
+	ULONG					InterruptCount;
+
 	// CAMAC interface related
 	ULONG				ReadData[DATAMEM];
 	ILIST				InstructionList[INSTRUCTIONMEM];
@@ -221,7 +224,36 @@ EVT_WDF_DEVICE_WAKE_FROM_SX_TRIGGERED HytecPCIDeviceWakeTriggeredSx;
 
 EVT_WDF_IO_QUEUE_IO_DEVICE_CONTROL HytecPCIIoDeviceControl;
 
+VOID SendDNAF(PFDO_DATA fdoData, ULONG d, ULONG n, ULONG a, ULONG f);
+VOID SendNAF(PFDO_DATA fdoData, ULONG n, ULONG a, ULONG f);
 VOID SendF(PFDO_DATA fdoData, ULONG f);
+ULONG ReadD(PFDO_DATA fdoData);
+UCHAR ReadENCL(PFDO_DATA fdoData);
+UCHAR ReadCSR(PFDO_DATA fdoData);
+
+BOOLEAN
+HytecPCIInterruptIsr(
+IN WDFINTERRUPT Interrupt,
+IN ULONG        MessageID
+);
+
+VOID
+HytecPCIInterruptDpc(
+IN WDFINTERRUPT WdfInterrupt,
+IN WDFOBJECT    WdfDevice
+);
+
+NTSTATUS
+HytecPCIInterruptEnable(
+IN WDFINTERRUPT  Interrupt,
+IN WDFDEVICE     AssociatedDevice
+);
+
+NTSTATUS
+HytecPCIInterruptDisable(
+IN WDFINTERRUPT  Interrupt,
+IN WDFDEVICE     AssociatedDevice
+);
 
 NTSTATUS
 PciDrvReturnResources (
