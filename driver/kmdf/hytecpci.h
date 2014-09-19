@@ -164,7 +164,6 @@ typedef struct _FDO_DATA
 	PVOID					PortBase;       // base port address
 
 	WDFINTERRUPT            WdfInterrupt;
-	ULONG					InterruptCount;
 
 	// CAMAC interface related
 	ULONG				ReadData[DATAMEM];

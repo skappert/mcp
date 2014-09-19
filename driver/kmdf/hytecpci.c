@@ -536,6 +536,7 @@ NTSTATUS
 	BOOLEAN     bResPort = FALSE;
 	BOOLEAN     bResInterrupt = FALSE;
 	ULONG       numberOfBARs = 0;
+	UCHAR		n, a, f, stat;
 
 	UNREFERENCED_PARAMETER(FdoData);
 	UNREFERENCED_PARAMETER(ResourcesRaw);
@@ -658,9 +659,35 @@ NTSTATUS
 	else
 	{
 		//
-		// Start interface, reset interrupts
+		// Start interface
 		//
-		SendF(FdoData, 41);
+
+		//
+		// Zinit
+		//
+		SendF(FdoData, 34);
+
+		//
+		// Clear
+		//
+		SendF(FdoData, 36);
+
+		//
+		// Test
+		//
+		SendNAF(FdoData, 1, 2, 32);
+
+		a = READ_PORT_UCHAR((PUCHAR)((ULONG)FdoData->PortBase + 10));
+		n = READ_PORT_UCHAR((PUCHAR)((ULONG)FdoData->PortBase + 10));
+		f = READ_PORT_UCHAR((PUCHAR)((ULONG)FdoData->PortBase + 10));
+
+		if (n != 1 || a != 2 || f != 32)
+		{
+			DbgPrint("Unexpected n = %d a = %d f = %d\n", n, a, f);
+		}
+
+		stat = READ_PORT_UCHAR((PUCHAR)((ULONG)FdoData->PortBase + 6));
+		DbgPrint("Status = 0x%02x\n", stat);
 	}
 
 	return status;
@@ -1146,15 +1173,20 @@ Return Value:
 
 VOID SendDNAF(PFDO_DATA fdoData, ULONG d, ULONG n, ULONG a, ULONG f)
 {
-	WRITE_PORT_ULONG((PULONG)((ULONG)fdoData->PortBase + 0), (d & bytemask) + (((d >> 8) & bytemask) << 16));
-	WRITE_PORT_ULONG((PULONG)((ULONG)fdoData->PortBase + 4), (((d >> 16) & bytemask)) + (a << 16));
-	WRITE_PORT_ULONG((PULONG)((ULONG)fdoData->PortBase + 8), (n & bytemask) + ((f & bytemask) << 16));
+	WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 0), (UCHAR)(d >> 0));
+	WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 2), (UCHAR)(d >> 8));
+	WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 4), (UCHAR)(d >> 16));
+
+	WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 6), (UCHAR)a);
+	WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 8), (UCHAR)n);
+	WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 10), (UCHAR)f);
 }
 
 VOID SendNAF(PFDO_DATA fdoData, ULONG n, ULONG a, ULONG f)
 {
-	WRITE_PORT_ULONG((PULONG)((ULONG)fdoData->PortBase + 6), a);
-	WRITE_PORT_ULONG((PULONG)((ULONG)fdoData->PortBase + 8), ((ULONG)f << 16) + (ULONG)n);
+	WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 6), (UCHAR)a);
+	WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 8), (UCHAR)n);
+	WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 10), (UCHAR)f);
 }
 
 VOID SendF(PFDO_DATA fdoData, ULONG f)
@@ -1273,6 +1305,11 @@ Return Value:
 			(UCHAR)pInputBuffer[1]);
 		WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 10),
 			(UCHAR)pInputBuffer[2]);
+
+		DbgPrint("IOCTL_SENDNAF readback n:%u a:%u f:%u\n", 
+			READ_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 8)), 
+			READ_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 6)), 
+			READ_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 10)));
 
 		Status = STATUS_SUCCESS;
 		break;
@@ -1553,16 +1590,19 @@ Return Value:
 		break;
 
 	case IOCTL_GPD_WRITE_PORT_UCHAR:
+		DbgPrint("IOCTL_GPD_WRITE_PORT_UCHAR port %d: %d\n", pInputBuffer[0], (UCHAR)pInputBuffer[1]);
 		WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + pInputBuffer[0]), (UCHAR)pInputBuffer[1]);
 		Status = STATUS_SUCCESS;
 		break;
 
 	case IOCTL_GPD_WRITE_PORT_USHORT:
+		DbgPrint("IOCTL_GPD_WRITE_PORT_USHORT port %d: %d\n", pInputBuffer[0], (USHORT)pInputBuffer[1]);
 		WRITE_PORT_USHORT((PUSHORT)((ULONG)fdoData->PortBase + pInputBuffer[0]), (USHORT)pInputBuffer[1]);
 		Status = STATUS_SUCCESS;
 		break;
 
 	case IOCTL_GPD_WRITE_PORT_ULONG:
+		DbgPrint("IOCTL_GPD_WRITE_PORT_ULONG port %d: %d\n", pInputBuffer[0], (USHORT)pInputBuffer[1]);
 		WRITE_PORT_ULONG((PULONG)((ULONG)fdoData->PortBase + pInputBuffer[0]), (ULONG)pInputBuffer[1]);
 		Status = STATUS_SUCCESS;
 		break;

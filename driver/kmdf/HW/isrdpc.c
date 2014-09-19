@@ -58,7 +58,7 @@ Return Value:
 
     UNREFERENCED_PARAMETER( MessageID );
 
-	DbgPrint("--> HytecPCIInterruptIsr\n");
+	//DbgPrint("--> HytecPCIInterruptIsr\n");
 
     FdoData = FdoGetData(WdfInterruptGetDevice(Interrupt));
 
@@ -68,7 +68,7 @@ Return Value:
 	// device specific stuff to dismiss the interrupt
 	//
 
-	SendF(FdoData, 40);
+	//SendF(FdoData, 40);
 
 	if (FdoData->GPIBListening)
 	{
@@ -149,9 +149,9 @@ Return Value:
 		}
 	}
 
-	WdfInterruptQueueDpcForIsr(Interrupt);
+	//WdfInterruptQueueDpcForIsr(Interrupt);
 
-	DbgPrint("<-- HytecPCIInterruptIsr\n");
+	//DbgPrint("<-- HytecPCIInterruptIsr\n");
 
     return InterruptRecognized;
 }
@@ -186,8 +186,6 @@ Return Value:
 
     fdoData = FdoGetData(WdfDevice);
 
-	fdoData->InterruptCount++;
-
     //
     // Re-enable the interrupt (disabled in MPIsr)
     //
@@ -197,8 +195,6 @@ Return Value:
 		HytecPCIEnableInterrupt,
         fdoData);
 #endif
-
-	SendF(fdoData, 41);
 
 	DbgPrint("<-- HytecPCIInterruptDpc\n");
 
