@@ -68,6 +68,7 @@ Return Value:
 	// device specific stuff to dismiss the interrupt
 	//
 
+	SendF(FdoData, 40);
 
 	if (FdoData->GPIBListening)
 	{
@@ -186,8 +187,6 @@ Return Value:
     fdoData = FdoGetData(WdfDevice);
 
 	fdoData->InterruptCount++;
-	KeSetEvent(fdoData->Event, 0, FALSE);
-	KeClearEvent(fdoData->Event);
 
     //
     // Re-enable the interrupt (disabled in MPIsr)
@@ -198,6 +197,8 @@ Return Value:
 		HytecPCIEnableInterrupt,
         fdoData);
 #endif
+
+	SendF(fdoData, 41);
 
 	DbgPrint("<-- HytecPCIInterruptDpc\n");
 

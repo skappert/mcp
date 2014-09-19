@@ -152,7 +152,6 @@ None
 {
 	NTSTATUS                        status;
 	WDF_IO_QUEUE_CONFIG             ioQueueConfig;
-	UNICODE_STRING					eventName;
 
 	//
 	// Get the BUS_INTERFACE_STANDARD for our device so that we can
@@ -208,10 +207,6 @@ None
 		DbgPrint("Error in config'ing ioctl Queue 0x%x\n", status);
 		return status;
 	}
-
-	RtlInitUnicodeString(&eventName, L"\\BaseNamedObjects\\CamacDataEvt"); 
-	FdoData->Event = IoCreateNotificationEvent(&eventName, &FdoData->Handle);
-	KeClearEvent(FdoData->Event);
 
 	return status;
 }
@@ -576,7 +571,7 @@ NTSTATUS
 			// The resources are listed in the same order the as
 			// BARs in the config space, we need the fourth one
 			//
-			if (numberOfBARs == 2)
+			if (numberOfBARs == 4)
 			{
 				FdoData->PortBase = ULongToPtr(descriptor->u.Port.Start.LowPart);
 				DbgPrint("PortBase = %p\n", FdoData->PortBase);
@@ -663,9 +658,9 @@ NTSTATUS
 	else
 	{
 		//
-		// Start interface
+		// Start interface, reset interrupts
 		//
-		SendF(FdoData, 40);
+		SendF(FdoData, 41);
 	}
 
 	return status;
@@ -1263,6 +1258,7 @@ Return Value:
     switch (IoControlCode)
     {
 	case IOCTL_SENDF:
+		DbgPrint("IOCTL_SENDF f:%u\n", pInputBuffer[0]); 
 		WRITE_PORT_UCHAR((PUCHAR)((ULONG)fdoData->PortBase + 10),
 			(UCHAR)pInputBuffer[0]);
 
@@ -1301,6 +1297,7 @@ Return Value:
 		break;
 
 	case IOCTL_READD:
+		DbgPrint("IOCTL_READD\n");
 		if (NT_SUCCESS(WdfRequestRetrieveOutputBuffer(Request, sizeof(ULONG), &pOutputBuffer, NULL)))
 		{
 			*(PULONG)pOutputBuffer = ReadD(fdoData);
@@ -1310,6 +1307,7 @@ Return Value:
 		break;
 
 	case IOCTL_READCSR:
+		DbgPrint("IOCTL_READCSR\n");
 		if (NT_SUCCESS(WdfRequestRetrieveOutputBuffer(Request, sizeof(UCHAR), &pOutputBuffer, NULL)))
 		{
 			*(PUCHAR)pOutputBuffer = READ_PORT_UCHAR(
@@ -1321,6 +1319,7 @@ Return Value:
 		break;
 
 	case IOCTL_READENCL:
+		DbgPrint("IOCTL_READENCL\n");
 		if (NT_SUCCESS(WdfRequestRetrieveOutputBuffer(Request, sizeof(UCHAR), &pOutputBuffer, NULL)))
 		{
 			*(PUCHAR)pOutputBuffer = READ_PORT_UCHAR(

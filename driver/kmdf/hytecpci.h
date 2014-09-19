@@ -184,8 +184,6 @@ typedef struct _FDO_DATA
 	USHORT				GPIBAddress;
 
 	BOOLEAN				IntInProgress;
-	HANDLE				Handle;
-	PKEVENT				Event;
 
 }  FDO_DATA, *PFDO_DATA;
 
