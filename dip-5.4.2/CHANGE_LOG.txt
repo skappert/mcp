@@ -1,0 +1,521 @@
+DIP version 5.0 Release Notes
+
+
+Notes for 5.4.1
+	The DipInt type changed from "long" to "int" for portability on Linux 64bits platforms.	(No
+	truncation impact on 32bits platforms.)
+	DIP upgrade to DIM 17r11 containing with bug fixes and improvements. (Fixes on client/server/DNS reconnection.)
+	DIP Browser provides more insight on the Publisher of the DIP data. (Contribution: Dmitri Filippov)
+
+Notes for 5.4.0
+	Removed limitation on the maximum number of fields per Publication. (DIP Publishers: Be aware publishing 
+	structures with more than 32 fields could be problematic for DIP users using old API versions.)
+	DIP upgrade to DIM 17r9 containing with bug fixes and improvements. (client/server/DNS connection mgt.)
+	Improved robustness to errorneous DIP Publication content.
+	Performance optimizations on publishing side. 
+	Stricter with Publications not respecting the DIP naming convention.
+	Adaptations to the handling of long long type on 64bits machines.
+	Upgraded sample DIP Client and Server with extensive customisation options for testing purpose.
+	DIP Browser allows to select the DNS to use for the browsing.
+
+Notes for 5.3.0
+	Windows C++ bindings compiled with MS Studio 2005 (VC8).
+	Missing optionnal libraries and includes now provided in final packaging.
+
+Notes for 5.2.0
+	Added on the DIP Factory object the possibility to declare the DNS to be used.
+	The size() methods on the DIP API now returns unsigned int rather than int for better compliance.
+	DIP now successfully compiled using the "-Wall" and "-pedantic" GCC v. 3.4.6 options on SLC4.
+	Java version compiled with JDK 1.4.2 rel. 16.
+	Windows bindings compiled with MD Studio 2003 (VC7).
+
+Notes for 5.1.1
+
+	Simply updated the REAME files and added MS libraries path update to the delivery.
+
+Notes for 5.1.0
+
+	DIP upgrade to DIM 16.10 - Using a recent DIM delivery with bug fixes and improvements.
+
+	New sample applications for Java.
+
+	New packaging for Linux and Windows.
+
+	Updated and more visible embedded DIP Browser.
+
+	Using more robust DIP compilation options.
+
+	Added more details to DIP reported errors.
+
+
+
+Notes for 5.005
+
+	Upgrade to DIM 15.14 - Taking advantage of speed improvements in this version.
+
+
+
+Notes for 5.004
+
+	Java - Proctected against destorySuscription/Publication being called many times with the same object.
+
+	Build for SLC3
+
+
+
+Notes for 5.003
+
+15/10/2004
+
+	C++ - protected interface entry points against user passing NULL as param.
+
+	Java - protected JNI code against java appliaction passing NULL params.
+
+	     - protected Java DipData Object against NULL params. Other NULL params are handled by C++ impl.
+
+	     - fixed bug under Linux where DIP would crash when many threads were pubishing (specifically when mutiple 
+
+		threads are creating/destroying publications).
+
+
+
+Notes on 5.002
+
+30/9/2004
+
+	C++ - DIPData object was not returning the size of string arrays when calling the extractStringArray() and
+
+	      extractCStringArray() methods - fixed this.
+
+
+
+Notes on 5.001 Beta
+
+16/9/2004
+
+	General - Made code changes to make DIP source compile under linux. Linux Libs now included in dist.
+
+	Java - fix made to JNI where exception passed to JVM would cause occassional crash. 
+
+
+
+
+
+Notes for version 5.0Beta
+
+03/09/2004 
+
+	general - Fixed a glitch in the code which meant that if the publisher had not sent any data, he could send upto 
+
+	   	  2 error strings, but subsquent error string sends failed (it was pretty bizzar!). 
+
+
+
+
+
+31/08/2004
+
+	C++ - Added a couple of mutex's to ensure we did not get race hazards in a few critical sections. This problem was manifest
+
+	      orginally when we had duplicate pub names (thanks Kris for finding this one).
+
+
+
+27/08/2004
+
+IMPORTANT NOTE - The addition of the quality reason string (see below) has changed the way data is packaged. Consequently this version
+
+is NOT compatable with previous versions - I've added a version number to each publication so this problem can be handled more correctly 
+
+in the future.
+
+	Java 	- made JNI and dim libs statically linked - reducing number of lib dependancies.
+
+	C++ 	- Added missing TypeMismatch, DipInternalError, BadParameter exceptions to C++ implementation
+
+	 	- fixed memory leak in DipDataObject
+
+		- Added missing DIP browser class.
+
+	General - Created default DIP DNS list - user does NOT have to define this - it may be over rode by defining the
+
+		  env var 'DIPNS. Note the dnsPort = 2506.	
+
+		- Changed DipDataObject so user is not constrained to write tags in the order of they were first writen to the Publication.
+
+		- Imprived error reporting:-
+
+			. Restored void DipSubscriptionListener::handleException() callback.
+
+			. Added DipPublicationErrorHandler for publication error handling.
+
+		  These callbacks are used to pass error notification objects when an error can not be associated with a DIP method. 		
+
+		- Added quality reason string for passing additional error information see 
+
+			. void DipPublication.setQualityUncertain(reason)
+
+			. void DipPublication.setQualityBad(String reason)
+
+			. string DipData.extractQualityString()
+
+		  This may be used to pass supplemental information reguarding the quality of the Data (When it is not good).
+
+		- Tagged each publication with a DIP version number (currently only accessible internally). If we have to change
+
+		  the wire protocol this will help us of in communicating with old Publishers.
+
+		- Remove the Sub/Pub create/destroy methods from the DIP class but kept them in the Factory class. We only want one
+
+		  way to create/destroy these objects.
+
+Notes for version 4.5:
+
+    - DipPublication.send() for float and float array in Java were missing, added.
+
+    - Now the same DipData opbect can be used in multiple publications and created
+
+      and deleted for every Publication.send().
+
+    - Now the extract methods can also be used by DipData publishers (both in Java
+
+      and in C++).
+
+
+
+16/03/2004
+
+Notes for version 4.4:
+
+    - Removed the quality parameter from the DipPublication.send(...) methods
+
+      Now all sends have quality = DIP_QUALITY_GOOD.
+
+    - If the user wants to change the quality he/she can use:
+
+	- DipPublication.setQualityBad()
+
+	- DipPublication.setQualityUncertain()
+
+      This will resend the previous data with the new quality flag 
+
+      (only if the quality flag has changed otherwise nothing happens)
+
+    - Removed the method DipPublication.resend(int quality) -> replaced by the
+
+      two above methods
+
+    - Added a new quality flag: DIP_QUALITY_UNINITIALIZED = -1
+
+	- Publishers will as default have any created publications set to
+
+	  DIP_QUALITY_UNINITIALIZED until the first Publication.send() is
+
+	  called.
+
+            - If a publisher calls one of the setQualityXXX() methods for a 
+
+	      publication that never contained/sent any data. The quality is 
+
+	      transformed into DIP_QUALITY_UNINITIALIZED and since the quality 
+
+	      was already uninitialized by default it will not get sent again to 
+
+	      the subscribers.
+
+    	- Subscribers will now always get DipSubscriptionListener.handleMessage()
+
+	  called at start up after DipSubscriptionListener.connected() has been 
+
+	  called.
+
+          handleMessage() will also be called, every time the client does 
+
+	  DipSubscription.updateRequest()
+
+          handleMessage() will behave as follows:
+
+      	    - If there is valid data, the DipData parameter contains it, with its 
+
+	      quality and timestamp.
+
+              Valid data means DipPublication.send(...) was called at least once
+
+	      after the publication was created.
+
+            - Otherwise the DipData methods will behave as follows:
+
+		- DipData.extractDataQuality() -> will return DIP_QUALITY_UNINITIALIZED
+
+		- DipData.extractDipTime() -> will return the time the publication was
+
+		  created by the publisher.
+
+		- DipData.getValueType -> will return TYPE_NULL
+
+		- DipData.getTags() -> will return an empty array
+
+		- any data extraction methods will throw exceptions
+
+			- BadParameter if extracting with a tag name
+
+			- TypeMismatch if extracting without tag
+
+      Note: Subscribers should first check the quality of the data received by 
+
+	    handleMessage() before calling the extract data methods.
+
+    - DipSubscription.updateRequest() does not throw any exceptions anymore, if the
+
+      publication exists the updateRequest gets sent otherwise it is ignored.
+
+    - Improoved the DipBrowser class for Java
+
+
+
+    - Test Programs containing examples (for Java and C++) are included:
+
+	- TestDipDimSrv - publishes two primitive topics: a string and an int array 
+
+	  and a complex one containing several tags of several types.
+
+	- TestDipDimClt - Subscribes to the above
+
+	- TestDipDim - Contains a publisher and a subscriber in the same process,
+
+	  the data items are a string and an int array.
+
+	- TestDipBrowser (Java only) - Contains a commented example of the usage of 
+
+	  the DipBrowser class.
+
+
+
+27/02/2004
+
+Notes for version 4.3:
+
+    - Removed the following methods from the interface:
+
+	- DipData.remove()
+
+	- DipData.removeAll()
+
+	- DipData.insertDataQuality()
+
+	- DipData.InsertTime()
+
+	- DipData.toString()
+
+        - removed the constructor: DipTimestamp(double seconds)
+
+   - Major Changes to the interface:
+
+    	- Removed the class DipUpdateRequestListener, DIP will now internally
+
+      	  handle any update requests by resending the same data, quality
+
+          and timestamp (as last send) only to the requesting client.
+
+    	- As a result changed the create Publication interface to:
+
+	  	createDipPublication(String publication)
+
+        - Removed the handleException() method in DipSubscriptionListener.
+
+          Dip Exceptions have to be caught by the user inside handleMessage()
+
+        - As a result handleMessage does not throw DipExceptions anymore.
+
+    - When creating a DipTimestamp() without paramets it will be initialized
+
+      to the current time. Meaning the DIP publisher will use the current 
+
+	time as timestamp.
+
+    - For C++ added also a method DipTimestamp.setCurrentTime() so that the
+
+      user can set an existing DipTimestamp to the current time.
+
+    - The DipTimestamp, defined to be stored as nanoseconds, was actualy stored
+
+      as microseconds - fixed (it is now nano seconds)
+
+   - created the method:
+
+	- DipPublication.resend(int quality)
+
+      This will resend the same data and timestamp with a new quality to all
+
+      clients.
+
+
+
+Note: before the removal of DipUpdateRequestListener
+
+    - When the DipPublication was created with a non null
+
+      DipUpdateRequestListener, then the user had to implement
+
+      handleUpdateRequest(). But the calls available
+
+      to the publisher like send() or resend() would update all clients.
+
+
+
+
+
+13/02/2004
+
+Notes for version 4.2:
+
+    - Changed the Dip startup mechanism:
+
+	- For C++
+
+	    - include <Dip.h>
+
+	    - static Dip *Dip::create() for a subscriber
+
+	    - static Dip *Dip::create(char *publisherName) for a publisher
+
+	- For Java
+
+	    - import cern.dip.*;
+
+	    - import cern.dip.dim.*;
+
+	    - static Dip Dip.create() for a subscriber
+
+	    - static Dip Dip.create(String publisherName) for a publisher
+
+    - Changes to the C++ interface:
+
+	- Replaced string by char* in the following methods:
+
+	    - Dip::CreateDipSubscription 		- topicName
+
+	    - Dip::CreateDipPublication 		- topicName
+
+	    - DipSubscription::getTopicName 		- return value
+
+	    - DipPublication::getTopicName 		- return value
+
+	    - DipSubscriptionListener::disconnected 	- reason
+
+	  Note: string and string* are still available as data topics, i.e
+
+		can be used in the extractXXX, insertXXX and sendXXX methods.
+
+    - Added DipExceptions for the following conditions (both Java and C++)
+
+	- Extract Methods:
+
+	    - Trying to extract a tag that doesn't exist: "BadParameter"
+
+	    - Trying to extractXXX where XXX is the wrong type: "TypeMismatch"
+
+	- Insert and/or send methods:
+
+	    - Trying to insert/send an item of the wrong type (compared to the
+
+		first time) : "TypeMismatch"
+
+	    - Trying to insert an array with a longer size than the first time
+
+		: "TypeMismatch"
+
+	  Note: DIP Exceptions comming from inside
+
+		DipSubscriptionListener::handleMessage(...) (for example generated
+
+		by the extract methods) are caught by DIP and delievered to 
+
+		DipSubscriptionListener::handleException(...)
+
+    - Test Programs containing examples (for Java and C++) are included:
+
+	- TestDipDimSrv - publishes two primitive topics: a string and an int array 
+
+	  and a complex one containing several tags of several types.
+
+	- TestDipDimClt - Subscribes to the above
+
+	- TestDipDim - Contains a publisher and a subscriber in the same process,
+
+	  the data items are a string and an int array.  
+
+
+
+
+
+06/02/2004
+
+Notes for version 4.1:
+
+    - String were not being received by Java clients - fixed
+
+    - At startup a client would sometimes crash - fixed
+
+    - Clients would sometimes miss disconnect callbacks or sometimes
+
+      even not reconnect at all when servers unpublished/republished 
+
+      items very quicly- fixed in dim_v13r8.
+
+
+
+13/01/2004
+
+Notes for version 4.0:
+
+    - All primitives implemented including string arrays
+
+    - Complex data types implemented
+
+    - Java to C++ data type correspondence as follows:
+
+
+
+	type name	C++ type	Java type  
+
+	Boolean		bool  		boolean  
+
+	Byte  		byte	  	byte  
+
+	Short  		short  		short  
+
+	Int  		int  		int  
+
+	Long  		longlong  	long  
+
+	Float  		float  		float  
+
+	Double  	double  	double  
+
+	String  	string,char *  	String
+
+
+
+    - Note1: In C++ the following types have been defined:
+
+	byte is an unsigned char
+
+	longlong is a 64 bit integer
+
+    - Note2: In C++ there are methods and constructors for
+
+	string (#include <string.h>) and for char * (i.e. null
+
+	terminated strings)
+
+    - Note3: String arrays can be sent or received/inserted or extracted
+
+	as either string* or char** (i.e. array of pointers to strings)   
+
+
+
+
+
+
+
