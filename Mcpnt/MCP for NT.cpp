@@ -45,6 +45,8 @@ BEGIN_MESSAGE_MAP(CMCPforNTApp, CWinApp)
 	// Standard file based document commands
 	ON_COMMAND(ID_FILE_NEW, CWinApp::OnFileNew)
 	ON_COMMAND(ID_FILE_OPEN, CWinApp::OnFileOpen)
+	ON_COMMAND(ID_FILE_NEW_TB, CWinApp::OnFileNew)
+	ON_COMMAND(ID_FILE_OPEN_TB, CWinApp::OnFileOpen)
 	// Standard print setup command
 	ON_COMMAND(ID_FILE_PRINT_SETUP, CWinApp::OnFilePrintSetup)
 END_MESSAGE_MAP()
@@ -56,6 +58,16 @@ CMCPforNTApp::CMCPforNTApp()
 {
 	// TODO: add construction code here,
 	// Place all significant initialization in InitInstance
+
+	//First free the string allocated by MFC at CWinApp startup. 
+	//The string is allocated before InitInstance is called.
+	free((void*)m_pszAppName);
+	//Change the name of the application file. 
+	//The CWinApp destructor will free the memory.
+	m_pszAppName = _tcsdup(_T("MCP for NT"));
+
+	SetRegistryKey(_T("MCP"));
+	SetRegistryBase(_T("Settings"));
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -68,6 +80,22 @@ CMCPforNTApp theApp;
 
 BOOL CMCPforNTApp::InitInstance()
 {
+	INITCOMMONCONTROLSEX CommonControls;
+    CommonControls.dwSize = sizeof (INITCOMMONCONTROLSEX);
+    // I could not see any effect of the specific value here
+    CommonControls.dwICC = ICC_STANDARD_CLASSES;
+    InitCommonControlsEx (&CommonControls);
+	
+	InitContextMenuManager();
+	InitShellManager();
+	InitKeyboardManager();
+	InitTooltipManager();
+	CMFCToolTipInfo ttParams;
+	ttParams.m_bVislManagerTheme = TRUE;
+	theApp.GetTooltipManager()->
+	  SetTooltipParams(AFX_TOOLTIP_TYPE_ALL,
+	  RUNTIME_CLASS(CMFCToolTipCtrl), &ttParams);
+
 	DllMain(0,DLL_PROCESS_ATTACH,NULL);
 	StartTime=CTime::GetCurrentTime();
 
@@ -261,7 +289,144 @@ BOOL CMCPforNTApp::InitInstance()
 	pMainFrame->UpdateWindow();
 
 	MassesAvailable = LoadMasses("AtomicMasses.txt");
+
+	// start DIP
+	dip = Dip::create("MCP_ISOLDE_COLLAPS");
+	handler = new GeneralDataListener(this);
+
+	//Creating an array of DipSubscriptions.
+	sub = new DipSubscription*[11];
+	dip->setDNSNode("dipnsgpn1,dipnsgpn2");
+
+	sub[0] = dip->createDipSubscription("dip/acc/ISO/HT1.HTCTL/AQN1", handler);
+	sub[1] = dip->createDipSubscription("dip/acc/ISO/BTY.TRA213/AQN", handler);
+
+	sub[2] = dip->createDipSubscription("dip/acc/ISO/GPS.MAG70/HIGHVOLT",handler);
+	sub[3] = dip->createDipSubscription("dip/acc/ISO/GPS.MAG70/MFACTOR",handler);
+	sub[4] = dip->createDipSubscription("dip/acc/ISO/GPS.MAG70/AQN",handler);
+
+	sub[5] = dip->createDipSubscription("dip/acc/ISO/HRS.MAG90/HIGHVOLT",handler);
+	sub[6] = dip->createDipSubscription("dip/acc/ISO/HRS.MAG90/MFACTOR",handler);
+	sub[7] = dip->createDipSubscription("dip/acc/ISO/HRS.MAG90/AQN",handler);
+	sub[8] = dip->createDipSubscription("dip/acc/ISO/HRS.MAG60/HIGHVOLT",handler);
+	sub[9] = dip->createDipSubscription("dip/acc/ISO/HRS.MAG60/MFACTOR",handler);
+	sub[10] = dip->createDipSubscription("dip/acc/ISO/HRS.MAG60/AQN",handler);
+
 	return TRUE;
+}
+
+void CMCPforNTApp::SetIsoHighvolt( double value )
+{
+	m_iso_highvolt = value;
+}
+
+void CMCPforNTApp::SetIsoProtons( double value )
+{
+	m_iso_protons = value;
+}
+
+double CMCPforNTApp::GetIsoHighvolt()
+{
+	return m_iso_highvolt;
+}
+
+double CMCPforNTApp::GetIsoProtons()
+{
+	return m_iso_protons;
+}
+
+double CMCPforNTApp::GetIsoGpsMass()
+{
+	double mass = 0;
+
+	if( m_iso_gps_highvolt != 0 &&
+		m_iso_gps_mfactor != 0 &&
+		m_iso_gps_aqn != 0 )
+	{
+		mass = m_iso_gps_aqn*m_iso_gps_aqn/(m_iso_gps_highvolt/m_iso_gps_mfactor/6.e4);
+	}
+
+	return mass;
+}
+
+double CMCPforNTApp::GetIsoHrsMass()
+{
+	double mass = 0;
+	return mass;
+}
+
+
+int CMCPforNTApp::SetMass(double ToMassNo, bool useGps)
+{
+	double field, field_60, field_90;
+	
+	TRACE1("Set mass %g\n", ToMassNo);
+
+	if( useGps )
+	{
+		if( ToMassNo != 0 &&
+			m_iso_gps_highvolt != 0 &&
+			m_iso_gps_mfactor != 0 &&
+			m_iso_gps_aqn != 0 )
+		{
+			DipPublication **pub = new DipPublication*[1]();
+			DipData **pubData  = new DipData*[1];
+		
+			field = sqrt(ToMassNo*m_iso_gps_highvolt/m_iso_gps_mfactor/6.e4);
+
+			ErrHandler errorHandler;
+			pub[0] = dip->createDipPublication("dip/acc/ISO/COLLAPS/GPS.MAG70/CCV.Setter",&errorHandler);
+			pubData[0] = dip->createDipData();
+			pubData[0]->insert(field,"value");
+			DipTimestamp time;
+			pub[0]->send(*pubData[0],time);
+		
+			dip->destroyDipPublication(pub[0]);
+			delete pubData;
+
+			return 0;
+		}
+	}
+	else
+	{
+		if( ToMassNo != 0 &&
+			m_iso_hrs_mag90_highvolt != 0 &&
+			m_iso_hrs_mag90_mfactor != 0 &&
+			m_iso_hrs_mag90_aqn != 0 &&
+			m_iso_hrs_mag60_highvolt != 0 &&
+			m_iso_hrs_mag60_mfactor != 0 &&
+			m_iso_hrs_mag60_aqn != 0 )
+		{
+			DipPublication **pub = new DipPublication*[1]();
+			DipData **pubData  = new DipData*[1];
+		
+			field_90 = sqrt(ToMassNo*m_iso_hrs_mag90_highvolt/m_iso_hrs_mag90_mfactor/6.e4);
+			field_60 = sqrt(ToMassNo*m_iso_hrs_mag60_highvolt/m_iso_hrs_mag60_mfactor/6.e4);
+			//--------------------------------------------------
+			ErrHandler errorHandler;
+			DipTimestamp time;
+			//---<<< HRS.MAG90 >>>---//
+			pub[0] = dip->createDipPublication("dip/acc/ISO/COLLAPS/HRS.MAG90/CCV.Setter",&errorHandler);
+			pubData[0] = dip->createDipData();
+			pubData[0]->insert(field_90,"value");
+			pub[0]->send(*pubData[0],time);
+			//---<<< HRS.MAG60 >>>---//
+			pub[1] = dip->createDipPublication("dip/acc/ISO/COLLAPS/HRS.MAG60/CCV.Setter",&errorHandler);
+			pubData[1] = dip->createDipData();
+			pubData[1]->insert(field_60,"value");
+			pub[1]->send(*pubData[1],time);
+
+			dip->destroyDipPublication(pub[0]);
+			dip->destroyDipPublication(pub[1]);
+			delete pubData;
+
+			return 0;
+		}
+	}
+
+	TRACE0("Set mass failed\n");
+
+	return -1;
 }
 
 /////////////////////////////////////////////////////////////////////////////

@@ -18,7 +18,7 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // CMinuitChild
 
-IMPLEMENT_DYNCREATE(CMinuitChild, CMDIChildWnd)
+IMPLEMENT_DYNCREATE(CMinuitChild, CMDIChildWndEx)
 
 CMinuitChild::CMinuitChild()
 {
@@ -35,7 +35,7 @@ CMinuitChild::~CMinuitChild()
 }
 
 
-BEGIN_MESSAGE_MAP(CMinuitChild, CMDIChildWnd)
+BEGIN_MESSAGE_MAP(CMinuitChild, CMDIChildWndEx)
 	//{{AFX_MSG_MAP(CMinuitChild)
 	ON_WM_SIZE()
 	//}}AFX_MSG_MAP
@@ -46,7 +46,7 @@ END_MESSAGE_MAP()
 
 void CMinuitChild::OnSize(UINT nType, int cx, int cy) 
 {
-	CMDIChildWnd::OnSize(nType, cx, cy);
+	CMDIChildWndEx::OnSize(nType, cx, cy);
 	
 	// TODO: Add your message handler code here
 	CMinuit* pData=(CMinuit*)pMinuitView;

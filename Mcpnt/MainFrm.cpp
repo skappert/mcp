@@ -5,6 +5,7 @@
 #include "MCP for NT.h"
 #include "display.h"
 #include "camac.h"
+#include "sicl.h"
 
 #include "Splash.h"
 #include "Calculator.h"
@@ -13,6 +14,7 @@
 #include "NetworkWriter.h"
 #include "GpibWriter.h"
 #include "GpibReader.h"
+#include "SiclReader.h"
 
 #include "MinuitChild.h"
 #include "minuit.h"
@@ -38,25 +40,26 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame
 
-IMPLEMENT_DYNAMIC(CMainFrame, CMDIFrameWnd)
+IMPLEMENT_DYNAMIC(CMainFrame, CMDIFrameWndEx)
 
-BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWnd)
-	ON_COMMAND_EX(CG_ID_VIEW_ISOLDEPROTONS, OnMeasProtons)
-	ON_UPDATE_COMMAND_UI(CG_ID_VIEW_ISOLDEPROTONS, OnUpdateControlBarMenu)
-	ON_COMMAND_EX(CG_ID_VIEW_GPS_HTMEAS, OnMeasHT)
-	ON_UPDATE_COMMAND_UI(CG_ID_VIEW_GPS_HTMEAS, OnUpdateControlBarMenu)
+BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWndEx)
+	ON_COMMAND(CG_ID_VIEW_ISOLDEPROTONS, OnMeasProtons)
+	ON_UPDATE_COMMAND_UI(CG_ID_VIEW_ISOLDEPROTONS, OnUpdateViewProtons)
+	ON_COMMAND(CG_ID_VIEW_GPS_HTMEAS, OnMeasHT)
+	ON_UPDATE_COMMAND_UI(CG_ID_VIEW_GPS_HTMEAS, OnUpdateViewHT)
 	ON_WM_QUERYNEWPALETTE()
 	ON_WM_PALETTECHANGED()
 	ON_UPDATE_COMMAND_UI(ID_INDICATOR_DATE, OnUpdateDate)
 	ON_UPDATE_COMMAND_UI(ID_INDICATOR_TIME, OnUpdateTime)
 	ON_COMMAND_EX(CG_ID_VIEW_LOAD, OnBarCheck)
-	ON_UPDATE_COMMAND_UI(CG_ID_VIEW_LOAD, OnUpdateControlBarMenu)
+	//ON_UPDATE_COMMAND_UI(CG_ID_VIEW_LOAD, OnUpdateViewControls)
 	ON_COMMAND_EX(CG_ID_VIEW_LOADFILEBAR, OnBarCheck)
-	ON_UPDATE_COMMAND_UI(CG_ID_VIEW_LOADFILEBAR, OnUpdateControlBarMenu)
+	//ON_UPDATE_COMMAND_UI(CG_ID_VIEW_LOADFILEBAR, OnUpdateViewControls)
 	//ON_COMMAND_EX(CG_ID_VIEW_LIST, OnBarCheck)
-	//ON_UPDATE_COMMAND_UI(CG_ID_VIEW_LIST, OnUpdateControlBarMenu)
+	//ON_UPDATE_COMMAND_UI(CG_ID_VIEW_LIST, OnUpdateControls)
 	//{{AFX_MSG_MAP(CMainFrame)
 	ON_WM_CREATE()
+	ON_WM_SIZE()
 	ON_COMMAND(ID_SAVESETTINGS, OnSavesettings)
 	ON_COMMAND(ID_VIEW_TEMPLATECALCULATOR, OnViewTemplatecalculator)
 	ON_COMMAND(ID_VIEW_SCRIPTWINDOW, OnViewScriptwindow)
@@ -64,10 +67,10 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWnd)
 	ON_COMMAND(ID_VIEW_DISPLAYSETUP, OnViewDisplaysetup)
 	ON_COMMAND(ID_VIEW_CAMACTESTER, OnViewCamactester)
 	ON_COMMAND(ID_VIEW_NETREADER, OnViewNetreader)
-	ON_WM_SIZE()
+	ON_COMMAND(ID_VIEW_SICLREADER, OnSiclreader)
 	ON_COMMAND(ID_MENU_GPIBWRITER, OnGpibwriter)
 	ON_COMMAND(ID_MENU_GPIBREADER, OnGpibreader)
-	ON_COMMAND(ID_RESET, OnReset)
+	ON_COMMAND(ID_RESET_TB, OnReset)
 	ON_COMMAND(ID_VIEW_NETWRITER, OnViewNetwriter)
 	//}}AFX_MSG_MAP
 	// Global help commands
@@ -75,10 +78,10 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWnd)
 	ON_CBN_DROPDOWN(IDC_LOADCOMBO, OnDropDown)
 	ON_CBN_SETFOCUS(IDC_LOADCOMBO, OnGetFocus)
 	ON_CBN_KILLFOCUS(IDC_LOADCOMBO, OnKillFocus)
-	ON_COMMAND(ID_HELP_FINDER, CMDIFrameWnd::OnHelpFinder)
-	ON_COMMAND(ID_HELP, CMDIFrameWnd::OnHelp)
-	ON_COMMAND(ID_CONTEXT_HELP, CMDIFrameWnd::OnContextHelp)
-	ON_COMMAND(ID_DEFAULT_HELP, CMDIFrameWnd::OnHelpFinder)
+	ON_COMMAND(ID_HELP_FINDER, CMDIFrameWndEx::OnHelpFinder)
+	ON_COMMAND(ID_HELP, CMDIFrameWndEx::OnHelp)
+	ON_COMMAND(ID_CONTEXT_HELP, CMDIFrameWndEx::OnContextHelp)
+	ON_COMMAND(ID_DEFAULT_HELP, CMDIFrameWndEx::OnHelpFinder)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -92,22 +95,30 @@ static UINT indicators[] =
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame construction/destruction
 
-afx_msg BOOL CMainFrame::OnMeasHT(UINT nID)
+void CMainFrame::OnUpdateViewProtons(CCmdUI* pCmdUI)
 {
-	//PRFX short FAR PASCAL CreateRPCHotlink(HWND hWnd,const char *Name,const char *Property,const char *Cycle,long RefreshPeriod,short ArraySize,short SubScrID,short DataType);
-	//RemoveRPCHotlink(this->GetSafeHwnd(),GPS_HTMEAS);
-	//CreateRPCHotlink(this->GetSafeHwnd(),"GPS.HTMEAS","AQN","",3000,2,GPS_HTMEAS,CF_DOUBLE);
-	OnBarCheck(nID);
-	return TRUE;
+	pCmdUI->SetCheck(m_ShowISOLDE_PROTONS);
 }
 
-afx_msg BOOL CMainFrame::OnMeasProtons(UINT nID)
+void CMainFrame::OnUpdateViewHT(CCmdUI* pCmdUI)
 {
-	//PRFX short FAR PASCAL CreateRPCHotlink(HWND hWnd,const char *Name,const char *Property,const char *Cycle,long RefreshPeriod,short ArraySize,short SubScrID,short DataType);
-	//RemoveRPCHotlink(this->GetSafeHwnd(),ISOLDE_PROTONS);
-	//CreateRPCHotlink(this->GetSafeHwnd(),"BT.TRAS","AQN","ALL",0,1,ISOLDE_PROTONS,CF_DOUBLE);
-	OnBarCheck(nID);
-	return TRUE;
+	pCmdUI->SetCheck(m_ShowGPS_HTMEAS);
+}
+
+void CMainFrame::OnMeasHT()
+{
+	m_ShowGPS_HTMEAS = !m_ShowGPS_HTMEAS;
+	ShowPane(&m_wndGPS_HTMEAS, m_ShowGPS_HTMEAS, FALSE, TRUE); 
+	if (!m_ShowGPS_HTMEAS) RecalcLayout();
+	m_wndClientArea.Invalidate();
+}
+
+void CMainFrame::OnMeasProtons()
+{
+	m_ShowISOLDE_PROTONS = !m_ShowISOLDE_PROTONS;
+	ShowPane(&m_wndISOLDE_PROTONS, m_ShowISOLDE_PROTONS, FALSE, TRUE); 
+	if (!m_ShowISOLDE_PROTONS) RecalcLayout();
+	m_wndClientArea.Invalidate();
 }
 
 CMainFrame::CMainFrame()
@@ -126,6 +137,7 @@ CMainFrame::~CMainFrame()
 {
 	DataReset();
 	ListReset();
+	OnSavesettings();
 }
 
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -133,32 +145,47 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// CG: This line was added by the Palette Support component
 	CDockState dockstate;
 
-	if (CMDIFrameWnd::OnCreate(lpCreateStruct) == -1)
+	if (CMDIFrameWndEx::OnCreate(lpCreateStruct) == -1)
 		return -1;
 
-	if (!m_wndToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC) ||
-		!m_wndToolBar.LoadToolBar(IDR_MAINFRAME))
+	CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManagerWindows7));
+	CDockingManager::SetDockingMode(DT_SMART);
+#if 0
+	if (!m_wndMenuBar.Create(this))
+	{
+		TRACE0("Failed to create menubar\n");
+		return -1;      // fail to create
+	}
+
+	m_wndMenuBar.SetPaneStyle(m_wndMenuBar.GetPaneStyle() | 
+                          CBRS_SIZE_DYNAMIC | CBRS_TOOLTIPS | CBRS_FLYBY );
+
+	m_wndMenuBar.EnableDocking(CBRS_ALIGN_ANY);
+	DockPane(&m_wndMenuBar);
+#endif
+
+	// prevent the menu bar from taking the focus on activation
+	CMFCPopupMenu::SetForceMenuFocus(FALSE);
+
+	if (!m_wndToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, CRect(1,1,1,1), IDW_USER_TOOLBAR + 1) ||
+		!m_wndToolBar.LoadToolBar(IDR_MAINFRAME_TOOLBAR1))
 	{
 		TRACE0("Failed to create toolbar\n");
 		return -1;      // fail to create
 	}
 
-	if (!m_wndStatusBar.Create(this) ||
-		!m_wndStatusBar.SetIndicators(indicators,
-		  sizeof(indicators)/sizeof(UINT)))
+	m_wndToolBar.SetSizes(CSize(30,20),CSize(27,15));
+
+	if (!m_wndStatusBar.Create(this))
 	{
 		TRACE0("Failed to create status bar\n");
 		return -1;      // fail to create
 	}
 
-	// TODO: Remove this if you don't want tool tips or a resizeable toolbar
-	m_wndToolBar.SetBarStyle(m_wndToolBar.GetBarStyle() |
-		CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_GRIPPER | CBRS_SIZE_DYNAMIC);
-
-	// TODO: Delete these three lines if you don't want the toolbar to
-	//  be dockable
+	// TODO: Delete these five lines if you don't want the toolbar and menubar to be dockable
 	m_wndToolBar.EnableDocking(CBRS_ALIGN_ANY);
 	EnableDocking(CBRS_ALIGN_ANY);
+	DockPane(&m_wndToolBar);
 
 	// CG: The following block was inserted by the 'Dialog Bar' component
 
@@ -180,21 +207,19 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// CG: The following block was inserted by the 'Dialog Bar' component
 	{
 		// Initialize dialog bar m_wndLoadFileBar
-		if (!m_wndLoadFileBar.Create(this, CG_IDD_LOADFILEBAR,
-			CBRS_TOP | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_HIDE_INPLACE,
-			CG_ID_VIEW_LOADFILEBAR))
+		if (!m_wndLoadFileBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, CRect(1,1,1,1), IDW_USER_TOOLBAR + 2))
 		{
 			TRACE0("Failed to create dialog bar m_wndLoadFileBar\n");
 			return -1;		// fail to create
 		}
 		m_wndLoadFileBar.EnableDocking(CBRS_ALIGN_TOP | CBRS_ALIGN_BOTTOM);
 		EnableDocking(CBRS_ALIGN_ANY);
-		DockControlBar(&m_wndLoadFileBar);
-
+		DockPane(&m_wndLoadFileBar);
+		m_wndLoadFileBar.ShowWindow( true );
 	}
 
-	CSplashWnd::ShowSplashScreen(this);
-	DockControlBar(&m_wndToolBar);
+	m_wndStatusBar.SetIndicators(indicators, sizeof(indicators)/sizeof(UINT));
+	//DockControlBar(&m_wndToolBar);
 	// CG: The following block was inserted by 'Status Bar' component.
 	{
 		// Find out the size of the static variable 'indicators' defined
@@ -213,11 +238,11 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		delete[] pIndicators;
 	}
 
+	CSplashWnd::ShowSplashScreen(this);
+
 	{
 		
-		if (!m_wndGPS_HTMEAS.Create(this, CG_IDD_GPS_HTMEAS,
-			CBRS_TOP | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_GRIPPER | CBRS_HIDE_INPLACE,
-			CG_ID_VIEW_GPS_HTMEAS))
+		if (!m_wndGPS_HTMEAS.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, CRect(1,1,1,1), IDW_USER_TOOLBAR + 3))
 		{
 			TRACE0("Failed to create dialog bar m_wndGPS_HTMEAS\n");
 			return -1;		// fail to create
@@ -225,12 +250,10 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		
 		m_wndGPS_HTMEAS.EnableDocking(CBRS_ALIGN_TOP | CBRS_ALIGN_BOTTOM);
 		EnableDocking(CBRS_ALIGN_ANY);
-		DockControlBar(&m_wndGPS_HTMEAS);
+		DockPane(&m_wndGPS_HTMEAS);
 	}
 	{
-		if (!m_wndISOLDE_PROTONS.Create(this, CG_IDD_ISOLDEPROTONS,
-			CBRS_TOP | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_GRIPPER | CBRS_HIDE_INPLACE,
-			CG_ID_VIEW_ISOLDEPROTONS))
+		if (!m_wndISOLDE_PROTONS.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, CRect(1,1,1,1), IDW_USER_TOOLBAR + 4))
 		{
 			TRACE0("Failed to create dialog bar m_wndISOLDE_PROTONS\n");
 			return -1;		// fail to create
@@ -238,10 +261,52 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 		m_wndISOLDE_PROTONS.EnableDocking(CBRS_ALIGN_TOP | CBRS_ALIGN_BOTTOM);
 		EnableDocking(CBRS_ALIGN_ANY);
-		DockControlBar(&m_wndISOLDE_PROTONS);
+		DockPane(&m_wndISOLDE_PROTONS);
 	}
 	dockstate.LoadState("Dockbars");
 	SetDockState(dockstate);
+
+#if 0
+	INST dvm;
+	double res;
+	int i;
+	char buf[256];
+
+	ionerror (I_ERROR_EXIT);
+
+	dvm = iopen ("lan[A-34461A-06386]:inst0");
+
+	if( dvm > 0 )
+	{
+		itimeout (dvm, 1000);
+		
+		//iprintf(dvm, "*RST\n");
+
+		ipromptf(dvm, "*IDN?\n", "%t", buf);
+		OutputDebugString(buf);
+		OutputDebugString("\n");
+
+		for (i=1;i<=2;i++)
+		{
+			OutputDebugString("measuring\n");
+
+			/* Take a measurement */
+			iprintf (dvm,"MEAS:VOLT:DC?\n");
+
+			/* Read the results */
+			iscanf (dvm,"%lf", &res);
+
+			/* Print the results */
+			sprintf (buf, "Result is %f\n",res);
+
+			OutputDebugString(buf);
+			OutputDebugString("\n");
+		}
+
+		iclose (dvm);
+	}
+#endif
+
 	return 0;
 }
 
@@ -290,7 +355,7 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 	cs.cx=1024;
 	cs.cy=740;
 
-	return CMDIFrameWnd::PreCreateWindow(cs);
+	return CMDIFrameWndEx::PreCreateWindow(cs);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -299,12 +364,12 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 #ifdef _DEBUG
 void CMainFrame::AssertValid() const
 {
-	CMDIFrameWnd::AssertValid();
+	CMDIFrameWndEx::AssertValid();
 }
 
 void CMainFrame::Dump(CDumpContext& dc) const
 {
-	CMDIFrameWnd::Dump(dc);
+	CMDIFrameWndEx::Dump(dc);
 }
 
 #endif //_DEBUG
@@ -701,7 +766,7 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
 			}
 		}
 	}
-	return CMDIFrameWnd::PreTranslateMessage(pMsg);
+	return CMDIFrameWndEx::PreTranslateMessage(pMsg);
 }
 
 void CMainFrame::OnViewCamactester() 
@@ -723,7 +788,6 @@ void CMainFrame::OnViewNetreader()
 	}
 	else Beep(1000,100);
 }
-
 
 void CMainFrame::OnViewNetwriter() 
 {
@@ -751,6 +815,12 @@ void CMainFrame::OnGpibreader()
 	pdlg->Create(IDD_GPIBREAD,NULL);
 }
 
+void CMainFrame::OnSiclreader() 
+{
+	CSiclReader* pdlg = new CSiclReader();
+	pdlg->Create(IDD_SICLREAD,NULL);
+}
+
 void CMainFrame::OnSize(UINT nType, int cx, int cy) 
 {
 	short IDs[20];
@@ -763,7 +833,7 @@ void CMainFrame::OnSize(UINT nType, int cx, int cy)
 	//if (GetRPCHotlinkIDs(&IDs[0])==0)
 	if(0)
 	{
-		CMDIFrameWnd::OnSize(nType, cx, cy);
+		CMDIFrameWndEx::OnSize(nType, cx, cy);
 	}
 	else
 	{

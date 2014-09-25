@@ -30,7 +30,6 @@ public:
 	afx_msg LRESULT OnTimer(WPARAM wparam,LPARAM lparam);
 	afx_msg LRESULT OnMeasurementKilled(WPARAM wparam,LPARAM lparam);
 	afx_msg LRESULT OnMeasurementHalted(WPARAM wparam,LPARAM lparam);
-	afx_msg LRESULT	OnSave(WPARAM wparam,LPARAM lparam);
 	afx_msg void	OnGetFocus();
 	afx_msg void	OnKillFocus();
 	BOOL			IsSelected();
@@ -125,6 +124,7 @@ public:
 	afx_msg void OnPopupNewPremavoltage();
 	afx_msg void OnConfigure();
 	afx_msg void OnGpibreader();
+	afx_msg void OnSiclreader();
 	afx_msg void OnOutbit();
 	afx_msg void OnFieldreader();
 	afx_msg void OnTempreader();

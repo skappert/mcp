@@ -57,7 +57,6 @@ END_MESSAGE_MAP()
 // CNetReader message handlers
 
 void CNetReader::OnReadnet() 
-
 {
 	double Data;
 	short cc;

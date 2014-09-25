@@ -447,45 +447,6 @@ ULONG  ListReadd(ULONG* data)
 
 /****************** Ende der List-Befehle  **********************/
 
-
-
-
-ULONG  ReadLongIOCamac(ULONG adr)
-{	
-	return ReadLongIO(adr);
-}
-
-USHORT  SendLongIOCamac(ULONG adr,ULONG data)
-{
-	return SendLongIO(adr,data);
-}
-
-USHORT  ReadWordIOCamac(ULONG adr)
-{
-	return ReadWordIO(adr);
-}
-
-USHORT  SendWordIOCamac(ULONG adr,USHORT data)
-{
-	return SendWordIO(adr,data);
-}
-
-UCHAR  ReadByteIOCamac(ULONG adr)
-{
-	return ReadByteIO(adr);
-}
-
-USHORT  SendByteIOCamac(ULONG adr,UCHAR data)
-{
-	return SendByteIO(adr,data);
-}
-
-USHORT  SendDCamac(ULONG d)
-{
-		   SendLongIO(0,(d & bytemask)+(((d>>8) & bytemask)<<16));
-	return SendByteIO(4,(UCHAR)(d>>16));
-}
-
 USHORT  SendDNAFCamac(ULONG d,UCHAR n,UCHAR a, UCHAR f)
 {
 	typedef struct _BUFFER
@@ -511,7 +472,7 @@ USHORT  SendDNAFCamac(ULONG d,UCHAR n,UCHAR a, UCHAR f)
                         0,								// Length of buffer in bytes.
                         &ReturnedLength,				// Bytes placed in outbuf.  Should be 0.
                         NULL							// NULL means wait till I/O completes.
-                        );	
+                        );
 }
 
 
@@ -627,8 +588,12 @@ BOOL  DriverIsExisting(void)
 {
 	const UCHAR Test = 55;
 	SendDNAFCamac(Test,Test,Test,Test);
-	if(Test==ReadByteIO((ULONG)10)) return DriverFound;
-	else return FALSE;
+	if(Test == ReadByteIO((ULONG)10) && 
+		Test == ReadByteIO((ULONG)10) &&
+		Test == ReadByteIO((ULONG)10)) return DriverFound;
+	
+	OutputDebugString("HW check failed...\n");
+	return FALSE;
 }
 
 ULONG GetSymbolicLink(void)
@@ -703,17 +668,23 @@ ULONG GetSymbolicLink(void)
 
 BOOL  __stdcall DllMain(HINSTANCE hinstDll,DWORD fwdReason,LPVOID lpvReserved)
 {
+	SECURITY_ATTRIBUTES sec;
+	
 	switch (fwdReason)
 	{
 	case DLL_PROCESS_ATTACH:
 
 		GetSymbolicLink();
 		
+		sec.nLength = sizeof(SECURITY_ATTRIBUTES);
+		sec.lpSecurityDescriptor = NULL;
+		sec.bInheritHandle = TRUE;
+
 		hndCamac = CreateFile(
 					symbolic_link,                    // Open the Device "file"
 					GENERIC_READ | GENERIC_WRITE,
 					0,
-					NULL, // no SECURITY_ATTRIBUTES structure
+					&sec, // SECURITY_ATTRIBUTES structure
 					OPEN_EXISTING, // No special create flags
 					0,
 					NULL);

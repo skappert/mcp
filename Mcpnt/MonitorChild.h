@@ -4,7 +4,7 @@
 /////////////////////////////////////////////////////////////////////////////
 // MonitorChild frame
 
-class MonitorChild : public CMDIChildWnd
+class MonitorChild : public CMDIChildWndEx
 {
 	DECLARE_DYNCREATE(MonitorChild)
 public:
@@ -27,7 +27,7 @@ public:
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(MonitorChild)
 	public:
-	virtual BOOL Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle = WS_CHILD | WS_VISIBLE | WS_OVERLAPPEDWINDOW, const RECT& rect = rectDefault, CMDIFrameWnd* pParentWnd = NULL, CCreateContext* pContext = NULL);
+	virtual BOOL Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle = WS_CHILD | WS_VISIBLE | WS_OVERLAPPEDWINDOW, const RECT& rect = rectDefault, CMDIFrameWndEx* pParentWnd = NULL, CCreateContext* pContext = NULL);
 	protected:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	//}}AFX_VIRTUAL
@@ -41,8 +41,8 @@ private:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 protected:
-	CDialogBar m_wndErrorbar;
-	CDialogBar m_wndDataStyle;
+	CPaneDialog m_wndErrorbar;
+	CPaneDialog m_wndDataStyle;
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	CWnd* m_pParent;
 	afx_msg void OnContextMenu(CWnd*, CPoint point);

@@ -333,6 +333,21 @@
     <ClCompile Include="NetworkWriter.cpp">
       <Filter>Quellcodedateien</Filter>
     </ClCompile>
+    <ClCompile Include="SiclReader.cpp">
+      <Filter>Quellcodedateien</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveToolBar.cpp">
+      <Filter>Quellcodedateien</Filter>
+    </ClCompile>
+    <ClCompile Include="PropShtSR.cpp">
+      <Filter>Quellcodedateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Page1SR.cpp">
+      <Filter>Quellcodedateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Page3SR.cpp">
+      <Filter>Quellcodedateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MCP for NT.rc">
@@ -673,6 +688,24 @@
     <ClInclude Include="targetver.h">
       <Filter>Header-Dateien</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header-Dateien</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveToolBar.h">
+      <Filter>Header-Dateien</Filter>
+    </ClInclude>
+    <ClInclude Include="SiclReader.h">
+      <Filter>Header-Dateien</Filter>
+    </ClInclude>
+    <ClInclude Include="PropShtSR.h">
+      <Filter>Header-Dateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Page1SR.h">
+      <Filter>Header-Dateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Page3SR.h">
+      <Filter>Header-Dateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="hlp\MCP for NT.hpj">
@@ -735,6 +768,27 @@
       <Filter>Ressourcendateien</Filter>
     </None>
     <None Include="res\icon15.ico">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="res\toolbar2.bmp">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="res\toolbar3.bmp">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="res\toolbar4.bmp">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="res\toolbar5.bmp">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="res\toolbar6.bmp">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="res\toolbar7.bmp">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="res\bmp00001.bmp">
       <Filter>Ressourcendateien</Filter>
     </None>
   </ItemGroup>

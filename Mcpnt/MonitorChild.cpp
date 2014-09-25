@@ -20,7 +20,7 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // MonitorChild
 
-IMPLEMENT_DYNCREATE(MonitorChild, CMDIChildWnd)
+IMPLEMENT_DYNCREATE(MonitorChild, CMDIChildWndEx)
 
 
 MonitorChild::MonitorChild()
@@ -37,7 +37,7 @@ MonitorChild::~MonitorChild()
 }
 
 
-BEGIN_MESSAGE_MAP(MonitorChild, CMDIChildWnd)
+BEGIN_MESSAGE_MAP(MonitorChild, CMDIChildWndEx)
 	ON_COMMAND_EX(CG_ID_VIEW_ERRORBAR, OnBarCheck)
 	ON_UPDATE_COMMAND_UI(CG_ID_VIEW_ERRORBAR, OnUpdateControlBarMenu)
 	ON_WM_CREATE()
@@ -92,19 +92,19 @@ BOOL MonitorChild::PreTranslateMessage(MSG* pMsg)
 		}
 	}
 
-	return CMDIChildWnd::PreTranslateMessage(pMsg);
+	return CMDIChildWndEx::PreTranslateMessage(pMsg);
 }
 
 int MonitorChild::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
-	if (CMDIChildWnd::OnCreate(lpCreateStruct) == -1)
+	if (CMDIChildWndEx::OnCreate(lpCreateStruct) == -1)
 		return -1;
 	return 0;
 }
 
 void MonitorChild::OnSize(UINT nType, int cx, int cy) 
 {
-	CMDIChildWnd::OnSize(nType, cx, cy);
+	CMDIChildWndEx::OnSize(nType, cx, cy);
 	//MoveWindow
 	// TODO: Add your message handler code here
 	MonitorView* pData=(MonitorView*)pDataView;
@@ -140,12 +140,12 @@ BOOL MonitorChild::PreCreateWindow(CREATESTRUCT& cs)
 		cs.y=pApp->LastY;
 	}
 
-	return CMDIChildWnd::PreCreateWindow(cs);
+	return CMDIChildWndEx::PreCreateWindow(cs);
 }
 
-BOOL MonitorChild::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CMDIFrameWnd* pParentWnd, CCreateContext* pContext) 
+BOOL MonitorChild::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CMDIFrameWndEx* pParentWnd, CCreateContext* pContext) 
 {
 	// TODO: Add your specialized code here and/or call the base class
 	
-	return CMDIChildWnd::Create(lpszClassName, lpszWindowName, dwStyle, rect, pParentWnd, pContext);
+	return CMDIChildWndEx::Create(lpszClassName, lpszWindowName, dwStyle, rect, pParentWnd, pContext);
 }

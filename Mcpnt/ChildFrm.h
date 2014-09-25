@@ -2,7 +2,9 @@
 //
 /////////////////////////////////////////////////////////////////////////////
 
-class CChildFrame : public CMDIChildWnd
+#include "SaveToolBar.h"
+
+class CChildFrame : public CMDIChildWndEx
 {
 	DECLARE_DYNCREATE(CChildFrame)
 public:
@@ -13,19 +15,18 @@ public:
 
 // Operations
 public:
-
+	LRESULT OnToolbarReset(WPARAM wp,LPARAM);
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CChildFrame)
 	public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	//}}AFX_VIRTUAL
 
 // Implementation
 public:
-	CDialogBar  m_wndSaveDialog;
-	CStatusBar  m_wndStatusBar;
+	CMFCStatusBar  m_wndStatusBar;
+	CMenu		m_ShortMenu;
 
 	virtual ~CChildFrame();
 #ifdef _DEBUG
@@ -36,7 +37,10 @@ public:
 // Generated message map functions
 protected:
 	BOOL		CloseEnabled;
-	CToolBar	m_ToolBar;
+	CMFCToolBar	m_ToolBar;
+	CMFCToolBar m_SaveDialog;
+	CEdit*		pSaveEdit;
+	CFont		m_font;
 
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	//afx_msg void OnStatus(CCmdUI *pCmdUI);
@@ -46,6 +50,7 @@ protected:
 	//{{AFX_MSG(CChildFrame)
 	afx_msg void OnSavesettings();
 	afx_msg void OnClose();
+	afx_msg void OnSave();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

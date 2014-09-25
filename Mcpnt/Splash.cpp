@@ -94,7 +94,6 @@ void CSplashWnd::HideSplashScreen()
 {
 	// Destroy the window, and update the mainframe.
 	DestroyWindow();
-	AfxGetMainWnd()->UpdateWindow();
 }
 
 void CSplashWnd::PostNcDestroy()

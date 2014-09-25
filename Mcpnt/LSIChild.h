@@ -4,7 +4,7 @@
 /////////////////////////////////////////////////////////////////////////////
 // CLSIChild frame
 
-class CLSIChild : public CMDIChildWnd
+class CLSIChild : public CMDIChildWndEx
 {
 	DECLARE_DYNCREATE(CLSIChild)
 public:

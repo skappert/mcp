@@ -25,6 +25,7 @@ LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
 //
 
 IDB_SPLASH              BITMAP                  "pillars.bmp"
+IDR_TOOLBAR7            BITMAP                  "res\\toolbar7.bmp"
 #endif    // German (Germany) resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -42,7 +43,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 
 IDR_TOOLBAR1            BITMAP                  "res\\toolbar1.bmp"
-IDR_MAINFRAME           BITMAP                  "res\\Toolbar.bmp"
+IDR_MAINFRAME_TOOLBAR1  BITMAP                  "res\\Toolbar.bmp"
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -106,7 +107,7 @@ IDI_ICON15              ICON                    "res\\icon15.ico"
 // Toolbar
 //
 
-IDR_TOOLBAR1 TOOLBAR 24, 16
+IDR_TOOLBAR1 TOOLBAR 27, 15
 BEGIN
     BUTTON      ID_ERGO
     BUTTON      ID_GO
@@ -115,7 +116,12 @@ BEGIN
     BUTTON      ID_LSIBOX
 END
 
-IDR_MAINFRAME TOOLBAR 27, 15
+IDR_TOOLBAR7 TOOLBAR 27, 15
+BEGIN
+    BUTTON      ID_TEST_ME
+END
+
+IDR_MAINFRAME_TOOLBAR1 TOOLBAR 27, 15
 BEGIN
     BUTTON      ID_FILE_NEW
     BUTTON      ID_FILE_OPEN
@@ -129,7 +135,7 @@ BEGIN
     BUTTON      ID_APP_ABOUT
     BUTTON      ID_CONTEXT_HELP
     SEPARATOR
-    BUTTON      ID_RESET
+    BUTTON      ID_RESET_TB
 END
 
 
@@ -179,6 +185,7 @@ BEGIN
             MENUITEM "FieldReader",                 ID_FIELDREADER
             MENUITEM "TempReader",                  ID_TEMPREADER
             MENUITEM "GPIBReader",                  ID_GPIBREADER
+            MENUITEM "SICLReader",                  ID_SICLREADER
         END
     END
 END
@@ -223,50 +230,6 @@ BEGIN
     BEGIN
         MENUITEM "&New\tCtrl+N",                ID_FILE_NEW
         MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
-        MENUITEM SEPARATOR
-        MENUITEM "P&rint Setup...",             ID_FILE_PRINT_SETUP
-        MENUITEM SEPARATOR
-        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1, GRAYED
-        MENUITEM SEPARATOR
-        MENUITEM "E&xit",                       ID_APP_EXIT
-    END
-    POPUP "&View"
-    BEGIN
-        MENUITEM "&GPS Voltage",                CG_ID_VIEW_GPS_HTMEAS
-        MENUITEM "&Isolde Protons",             CG_ID_VIEW_ISOLDEPROTONS
-        MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
-        MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
-        MENUITEM "&Loadbar",                    CG_ID_VIEW_LOADFILEBAR
-        MENUITEM SEPARATOR
-        MENUITEM "Script-Window",               ID_VIEW_SCRIPTWINDOW
-        MENUITEM "Empty plot",                  ID_VIEW_EMPTYPLOT
-        MENUITEM "Template &calc",              ID_VIEW_TEMPLATECALCULATOR
-        MENUITEM SEPARATOR
-        MENUITEM "Camac Tester",                ID_VIEW_CAMACTESTER
-        MENUITEM "Net Reader",                  ID_VIEW_NETREADER
-        MENUITEM "Net Writer",                  ID_VIEW_NETWRITER
-        MENUITEM "GPIB Reader",                 ID_MENU_GPIBREADER
-        MENUITEM "GPIB Writer",                 ID_MENU_GPIBWRITER
-        MENUITEM SEPARATOR
-        MENUITEM "Save settings",               ID_SAVESETTINGS
-        MENUITEM SEPARATOR
-        MENUITEM "Display setup",               ID_VIEW_DISPLAYSETUP
-        MENUITEM "Hardware setup",              ID_VIEW_HARDWARESETUP
-    END
-    POPUP "&Help"
-    BEGIN
-        MENUITEM "&Help Topics",                ID_HELP_FINDER
-        MENUITEM SEPARATOR
-        MENUITEM "&About MCP for NT...",        ID_APP_ABOUT
-    END
-END
-
-IDR_MCPTYPE MENU
-BEGIN
-    POPUP "&File"
-    BEGIN
-        MENUITEM "&New\tCtrl+N",                ID_FILE_NEW
-        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
         MENUITEM "&Close",                      ID_FILE_CLOSE
         MENUITEM "Save old &Version",           ID_FILE_SAVEOLD
         MENUITEM "Save &As...",                 ID_FILE_SAVE_AS
@@ -306,6 +269,7 @@ BEGIN
         MENUITEM "Net Writer",                  ID_VIEW_NETWRITER
         MENUITEM "GPIB Reader",                 ID_MENU_GPIBREADER
         MENUITEM "GPIB Writer",                 ID_MENU_GPIBWRITER
+        MENUITEM "SICL Reader",                 ID_VIEW_SICLREADER
         MENUITEM SEPARATOR
         MENUITEM "Save settings",               ID_SAVESETTINGS
         MENUITEM SEPARATOR
@@ -1373,8 +1337,8 @@ CAPTION "About MCP for NT"
 FONT 8, "MS Sans Serif"
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,11,17,18,20
-    LTEXT           "MCP for NT Version 1.0",IDC_STATIC,40,10,119,8,SS_NOPREFIX
-    LTEXT           "Copyright Stephan Kappertz © 1997-1998",IDC_STATIC,40,25,133,8
+    LTEXT           "MCP for NT Version 2.0",IDC_STATIC,40,10,119,8,SS_NOPREFIX
+    LTEXT           "Copyright Stephan Kappertz © 1997-2014",IDC_STATIC,40,25,133,8
     DEFPUSHBUTTON   "OK",IDOK,178,7,32,14,WS_GROUP
     GROUPBOX        "Free physical memory",IDC_STATIC,10,45,145,25
     GROUPBOX        "Free disk capacity ",IDC_STATIC,10,75,145,25
@@ -1664,6 +1628,43 @@ BEGIN
     CONTROL         "Lorentz (*) exp",IDC_LORENTZ_EXP,"Button",BS_AUTORADIOBUTTON,115,115,60,10
     CONTROL         "Voigt (*) exp",IDC_VOIGT_EXP,"Button",BS_AUTORADIOBUTTON,115,130,60,10
     CONTROL         "Common linewidth",IDC_COMMONWIDTH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,130,75,10
+END
+
+IDD_SICLREAD DIALOGEX 0, 0, 153, 95
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "SICL Reader"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    EDITTEXT        IDC_ADDRESS,37,5,109,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_SICLSTRING,38,20,108,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "Write !",IDC_WRITESICL,106,39,40,20
+    LTEXT           "Address",IDC_STATIC,9,7,26,8
+    LTEXT           "String",IDC_STATIC,10,23,19,8
+    LTEXT           "Answer :",IDC_STATIC,8,50,28,8
+    LTEXT           "",IDC_SICLANSWER,7,63,139,25
+END
+
+IDD_PAGE1SR DIALOGEX 0, 0, 202, 90
+STYLE DS_SETFONT | WS_CHILD | WS_CAPTION
+CAPTION "In scan"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    LTEXT           "Send",IDC_STATIC,15,22,20,8
+    EDITTEXT        IDC_SENDSTRING,40,20,70,12,ES_AUTOHSCROLL
+    GROUPBOX        "Send string",IDC_STATIC,5,5,110,80
+END
+
+IDD_PAGE3SR DIALOGEX 0, 0, 202, 167
+STYLE DS_SETFONT | WS_CHILD | WS_CAPTION
+CAPTION "Hardware"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    EDITTEXT        IDC_SICL,14,20,174,12,ES_AUTOHSCROLL
+    LTEXT           "Send command:",-1,15,138,55,8
+    EDITTEXT        IDC_SENDCOMMAND,75,135,100,12,ES_AUTOHSCROLL
+    GROUPBOX        "SICL-Address",-1,5,5,190,80
+    GROUPBOX        "Test Hardware",-1,5,90,190,65
+    PUSHBUTTON      "Test...",IDC_TEST,15,105,40,15
 END
 
 
@@ -2219,6 +2220,30 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 219
     END
+
+    IDD_SICLREAD, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 146
+        TOPMARGIN, 5
+        BOTTOMMARGIN, 88
+    END
+
+    IDD_PAGE1SR, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 83
+    END
+
+    IDD_PAGE3SR, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 160
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -2491,6 +2516,11 @@ END
 STRINGTABLE
 BEGIN
     ID_AUTOGO               "AutoRepeat measurement and add the data\nAutoGo (AutoRepeat measurement/add data)"
+END
+
+STRINGTABLE
+BEGIN
+    ID_SICLREADER           "Open SICL reader\nSICL reader"
 END
 
 #endif    // English (United States) resources

@@ -117,6 +117,37 @@ BOOL CMCPforNTDoc::OnNewDocument()
 	return TRUE;
 }
 
+bool CMCPforNTDoc::OnSave(CString SaveString)
+{
+	if(!IsModified() && GetTitle() == SaveString)
+	{
+		Beep(1000,100);
+		return TRUE;
+	}
+
+	CFile File;
+	if(File.Open(SaveString,CFile::modeRead))
+	{
+		AfxMessageBox("File exists, not saving !",MB_OK,0);
+		File.Close();
+		return TRUE;
+	}
+	else
+	{ 
+		if(!OnSaveDocument(SaveString))
+		{
+			AfxMessageBox("Document not saved !",MB_OK,0);
+		}
+		else 
+		{
+			SetTitle(SaveString);
+			SetPathName(SaveString);
+		}
+	}
+
+	return FALSE;
+}
+
 CString	CMCPforNTDoc::GetInfo(void)
 {
 	
@@ -475,6 +506,16 @@ void CMCPforNTDoc::DispatchActionObj(CArchive& ar)
 	if(TheObject==_GPIBReaderObj)
 	{
 		ActionObject* pActionObj = new GPIBReaderObj;
+		pActionObj->pDocument=this;
+		pActionObj->pTrack = pActualTrack;
+		pActionObj->Load(ar);
+		ActionObjList.AddTail(pActionObj);
+		CouldDispatch=TRUE;
+
+	}
+	if(TheObject==_SiclReaderObj)
+	{
+		ActionObject* pActionObj = new SiclReaderObj;
 		pActionObj->pDocument=this;
 		pActionObj->pTrack = pActualTrack;
 		pActionObj->Load(ar);

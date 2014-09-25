@@ -30,7 +30,7 @@ CEditorView::CEditorView()
 	rect.left           = 300;
 	rect.right          = 850;
 	rect.bottom         = 600;
-	pEditorChild->CMDIChildWnd::Create(NULL,
+	pEditorChild->CMDIChildWndEx::Create(NULL,
 						"Script-Window", 
 						WS_CHILD|WS_VISIBLE|WS_OVERLAPPEDWINDOW|WS_CLIPCHILDREN|WS_CLIPSIBLINGS, 
 						rect, 

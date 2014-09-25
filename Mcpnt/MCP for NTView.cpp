@@ -98,6 +98,7 @@ BEGIN_MESSAGE_MAP(CMCPforNTView, CListView)
 	ON_COMMAND(ID_POPUP_NEW_PREMAVOLTAGE, OnPopupNewPremavoltage)
 	ON_COMMAND(ID_CONFIGURE, OnConfigure)
 	ON_COMMAND(ID_GPIBREADER, OnGpibreader)
+	ON_COMMAND(ID_SICLREADER, OnSiclreader)
 	ON_COMMAND(ID_OUTBIT, OnOutbit)
 	ON_COMMAND(ID_FIELDREADER, OnFieldreader)
 	ON_COMMAND(ID_TEMPREADER, OnTempreader)
@@ -112,13 +113,14 @@ BEGIN_MESSAGE_MAP(CMCPforNTView, CListView)
 	ON_UPDATE_COMMAND_UI(ID_GO,IsRunningGo)
 	ON_UPDATE_COMMAND_UI(ID_AUTOGO,IsRunningAutoGo)
 	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE_AS,IsRunningSave)
+	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE_AS_TB,IsRunningSave)
 	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE,IsRunningSave)
 	ON_EN_SETFOCUS(IDC_SAVEEDIT, OnGetFocus)
 	ON_EN_KILLFOCUS(IDC_SAVEEDIT, OnKillFocus)
 	ON_COMMAND(ID_FILE_PRINT, CListView::OnFilePrint)
+	ON_COMMAND(ID_FILE_PRINT_TB, CListView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, CListView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, CListView::OnFilePrintPreview)
-	ON_MESSAGE(WM_SAVEIT,CMCPforNTView::OnSave)
 	ON_MESSAGE(WM_TIMER,CMCPforNTView::OnTimer)
 	ON_MESSAGE(WM_MEASUREMENTKILLED,CMCPforNTView::OnMeasurementKilled)
 	ON_MESSAGE(WM_MEASUREMENTHALTED,CMCPforNTView::OnMeasurementHalted)
@@ -145,7 +147,7 @@ CMCPforNTView::CMCPforNTView()
 	m_nClipboardFormat = ::RegisterClipboardFormat(_T("ActionObject"));
 
 	NewFont1 = new CFont();
-	
+	SetWindowTheme(this->GetSafeHwnd(), L"Explorer", NULL );
 }
 
 
@@ -1077,6 +1079,7 @@ void CMCPforNTView::OnPopupNewAlexmotor()
 		GetDocument()->UpdateAllViews(NULL);
 	}
 }
+
 void CMCPforNTView::OnGpibreader() 
 {
 	// TODO: Add your command handler code here
@@ -1084,6 +1087,23 @@ void CMCPforNTView::OnGpibreader()
 	{
 
 		GPIBReaderObj* pAction = new GPIBReaderObj;
+		pAction->DoString		= "normal";
+		pAction->pTrack			= GetSelectedTrack();
+		pAction->pDocument		= GetDocument();
+
+		GetDocument()->ActionObjList.InsertAfter(GetSelectedPosition(),pAction);
+		GetDocument()->SetModifiedFlag(TRUE);
+		GetDocument()->UpdateAllViews(NULL);
+	}	
+}
+
+void CMCPforNTView::OnSiclreader() 
+{
+	// TODO: Add your command handler code here
+	if(GetSelectedTrack()!=NULL)
+	{
+
+		SiclReaderObj* pAction = new SiclReaderObj;
 		pAction->DoString		= "normal";
 		pAction->pTrack			= GetSelectedTrack();
 		pAction->pDocument		= GetDocument();
@@ -2336,40 +2356,6 @@ BOOL CMCPforNTView::SaveAuto(void)
 	if(!GetDocument()->OnSaveDocument(SaveFile))
 	{
 		AfxMessageBox("Document not saved !",MB_OK,0);
-	}
-	return TRUE;
-}
-
-LRESULT CMCPforNTView::OnSave(WPARAM wparam,LPARAM lparam)
-{
-	if(SaveWindow)
-	{
-		if(!GetDocument()->IsModified())
-		{
-			Beep(1000,100);
-			return TRUE;
-		}
-		CString SaveString((LPCSTR)lparam);
-		CFile File;
-		if(File.Open(SaveString,CFile::modeRead))
-		{
-			AfxMessageBox("File exists, not saving !",MB_OK,0);
-			File.Close();
-			return TRUE;
-		}
-		else
-		{ 
-			if(!GetDocument()->OnSaveDocument(SaveString))
-			{
-				AfxMessageBox("Document not saved !",MB_OK,0);
-			}
-			else 
-			{
-				GetDocument()->SetTitle(SaveString);
-				GetDocument()->SetPathName(SaveString);
-				if(pCLSIView!=NULL)pCLSIView->GetParent()->SetWindowText("LSI-Box for "+GetDocument()->GetTitle());
-			}
-		}	
 	}
 	return TRUE;
 }

@@ -326,7 +326,7 @@ CLSIView::CLSIView(CView* pParent)
 	CString Title;
 	Title="LSI-Box for "+pMCPView->GetDocument()->GetTitle();
 	pCLSIChild = new CLSIChild(this);
-	pCLSIChild->CMDIChildWnd::Create(NULL,
+	pCLSIChild->CMDIChildWndEx::Create(NULL,
 						Title, 
 						WS_CHILD|WS_VISIBLE|WS_OVERLAPPEDWINDOW|WS_CLIPCHILDREN|WS_CLIPSIBLINGS, 
 						rect, 

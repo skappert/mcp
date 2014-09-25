@@ -4,7 +4,7 @@
 /////////////////////////////////////////////////////////////////////////////
 // CMinuitChild frame
 
-class CMinuitChild : public CMDIChildWnd
+class CMinuitChild : public CMDIChildWndEx
 {
 	DECLARE_DYNCREATE(CMinuitChild)
 public:

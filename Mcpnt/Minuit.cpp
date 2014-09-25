@@ -135,7 +135,7 @@ CMinuit::CMinuit(DataView* pParent,CString Title,
 	rect.left           = 10;
 	rect.right          = 550;
 	rect.bottom         = 600;
-	pMinuitChild->CMDIChildWnd::Create(NULL,
+	pMinuitChild->CMDIChildWndEx::Create(NULL,
 						"Minuit fit: "+Title, 
 						WS_CHILD|WS_VISIBLE|WS_OVERLAPPEDWINDOW|WS_CLIPCHILDREN|WS_CLIPSIBLINGS, 
 						rect, 

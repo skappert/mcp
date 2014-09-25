@@ -137,7 +137,7 @@ DataView::DataView()
 	rect.bottom         = 400;
 
 	pDataChild = new DataChild(this);
-	pDataChild->CMDIChildWnd::Create(NULL,
+	pDataChild->CMDIChildWndEx::Create(NULL,
 						"Scaler", 
 						WS_CHILD|WS_VISIBLE|WS_OVERLAPPEDWINDOW|WS_CLIPCHILDREN|WS_CLIPSIBLINGS, 
 						CFrameWnd::rectDefault, 
@@ -214,7 +214,7 @@ DataView::DataView(CMinuit* pMinuitParent)
 	rect.bottom         = 400;
 
 	pDataChild = new DataChild(this);
-	pDataChild->CMDIChildWnd::Create(NULL,
+	pDataChild->CMDIChildWndEx::Create(NULL,
 						"Scaler", 
 						WS_CHILD|WS_VISIBLE|WS_OVERLAPPEDWINDOW|WS_CLIPCHILDREN|WS_CLIPSIBLINGS, 
 						CFrameWnd::rectDefault, 
@@ -290,7 +290,7 @@ DataView::DataView(ActionObject* pAction)
 	rect.bottom         = 400;
 
 	pDataChild = new DataChild(this);
-	pDataChild->CMDIChildWnd::Create(NULL,
+	pDataChild->CMDIChildWndEx::Create(NULL,
 						"Scaler", 
 						WS_CHILD|WS_VISIBLE|WS_OVERLAPPEDWINDOW|WS_CLIPCHILDREN|WS_CLIPSIBLINGS, 
 						rect, 
@@ -321,9 +321,15 @@ BEGIN_MESSAGE_MAP(DataView, CView)
 	ON_UPDATE_COMMAND_UI(ID_EDIT_COPY, OnUpdateEditCopyCut)
 	ON_UPDATE_COMMAND_UI(ID_EDIT_CUT, OnUpdateEditCopyCut)
 	ON_UPDATE_COMMAND_UI(ID_EDIT_PASTE, OnUpdateEditPaste)
+	ON_UPDATE_COMMAND_UI(ID_EDIT_COPY_TB, OnUpdateEditCopyCut)
+	ON_UPDATE_COMMAND_UI(ID_EDIT_CUT_TB, OnUpdateEditCopyCut)
+	ON_UPDATE_COMMAND_UI(ID_EDIT_PASTE_TB, OnUpdateEditPaste)
 	ON_COMMAND(ID_EDIT_COPY, OnEditCopy)
 	ON_COMMAND(ID_EDIT_CUT, OnEditCut)
 	ON_COMMAND(ID_EDIT_PASTE, OnEditPaste)
+	ON_COMMAND(ID_EDIT_COPY_TB, OnEditCopy)
+	ON_COMMAND(ID_EDIT_CUT_TB, OnEditCut)
+	ON_COMMAND(ID_EDIT_PASTE_TB, OnEditPaste)
 	//{{AFX_MSG_MAP(DataView)
 	ON_WM_LBUTTONDBLCLK()
 	ON_WM_LBUTTONDOWN()

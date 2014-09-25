@@ -2,7 +2,7 @@
 //
 /////////////////////////////////////////////////////////////////////////////
 
-class CMainFrame : public CMDIFrameWnd
+class CMainFrame : public CMDIFrameWndEx
 {
 	DECLARE_DYNAMIC(CMainFrame)
 public:
@@ -41,19 +41,23 @@ public:
 #endif
 
 protected:  // control bar embedded members
-	
-	
 	afx_msg void OnUpdateDate(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateTime(CCmdUI* pCmdUI);
-	afx_msg BOOL OnMeasHT(UINT nID);
-	afx_msg BOOL OnMeasProtons(UINT nID);
+	void OnUpdateViewProtons(CCmdUI* pCmdUI);
+	void OnUpdateViewHT(CCmdUI* pCmdUI);
+	void OnMeasHT();
+	void OnMeasProtons();
 	void OnReturn();
 
-	CDialogBar m_wndGPS_HTMEAS;
-	CDialogBar m_wndLoadFileBar;
-	CDialogBar m_wndISOLDE_PROTONS;
-	CStatusBar m_wndStatusBar;
-	CToolBar   m_wndToolBar;
+	CMFCMenuBar	m_wndMenuBar;
+	CMFCStatusBar m_wndStatusBar;
+	CMFCToolBar	m_wndGPS_HTMEAS;
+	bool m_ShowGPS_HTMEAS;
+	CMFCToolBar	m_wndLoadFileBar;
+	bool m_ShowLoadFileBar;
+	CMFCToolBar	m_wndISOLDE_PROTONS;
+	bool m_ShowISOLDE_PROTONS;
+	CMFCToolBar	m_wndToolBar;
 
 // Generated message map functions
 protected:
@@ -66,9 +70,11 @@ protected:
 	afx_msg void OnViewDisplaysetup();
 	afx_msg void OnViewCamactester();
 	afx_msg void OnViewNetreader();
+	afx_msg void OnViewSiclReader();
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnGpibwriter();
 	afx_msg void OnGpibreader();
+	afx_msg void OnSiclreader();
 	afx_msg void OnReset();
 	afx_msg void OnViewNetwriter();
 	//}}AFX_MSG

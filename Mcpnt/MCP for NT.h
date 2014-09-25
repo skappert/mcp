@@ -15,9 +15,140 @@
 class ActionObject;
 class MonitorView;
 
-class CMCPforNTApp : public CWinApp
+class ErrHandler:public DipPublicationErrorHandler
 {
 public:
+	void handleException(DipPublication* publication, DipException& ex)
+	{
+		TRACE1("Error because %s", ex.what());
+	}
+};
+
+class CMCPforNTApp : public CWinAppEx
+{
+private:
+	// hold reference to subscription objects
+	DipSubscription **sub;
+
+	// DIP object
+	DipFactory *dip;
+
+	/**
+	* handler for connect/disconnect/data reception events
+	* Nested class
+	* */
+	class GeneralDataListener:public DipSubscriptionListener
+	{
+	private:
+		// allow us to access subscription objects
+		CMCPforNTApp* client;
+
+	public:
+		GeneralDataListener(CMCPforNTApp *c):client(c){};
+
+		/**
+		* handle changes to subscribed to publications
+		* Simply prints the contents of the received data.
+		* @param subscription - the subsciption to the publications thats changed.
+		* @param message - object containing publication data
+		* */
+		void handleMessage(DipSubscription *subscription, DipData &message)
+		{
+			// Isolde general
+			if(strcmp(subscription->getTopicName(),"dip/acc/ISO/HT1.HTCTL/AQN1")==0)
+			{
+				client->SetIsoHighvolt( message.extractDouble("value") );
+			}
+			if(strcmp(subscription->getTopicName(),"dip/acc/ISO/BTY.TRA213/AQN")==0)
+			{
+				client->SetIsoProtons( message.extractDouble("value") );
+			}
+			// GPS
+			if(strcmp(subscription->getTopicName(),"dip/acc/ISO/GPS.MAG70/HIGHVOLT")==0)
+			{
+				client->m_iso_gps_highvolt = message.extractDouble("value");
+			}
+			if(strcmp(subscription->getTopicName(),"dip/acc/ISO/GPS.MAG70/MFACTOR")==0)
+			{
+				client->m_iso_gps_mfactor = message.extractDouble("value");
+			}
+			if(strcmp(subscription->getTopicName(),"dip/acc/ISO/GPS.MAG70/AQN")==0)
+			{
+				client->m_iso_gps_aqn = message.extractDouble("value");
+			}
+			//---<<< HRS.MAG90 >>>---//
+			if(strcmp(subscription->getTopicName(),"dip/acc/ISO/HRS.MAG90/HIGHVOLT")==0)
+			{
+				client->m_iso_hrs_mag90_highvolt = message.extractDouble("value");
+			}
+			if(strcmp(subscription->getTopicName(),"dip/acc/ISO/HRS.MAG90/MFACTOR")==0)
+			{
+				client->m_iso_hrs_mag90_mfactor = message.extractDouble("value");
+			}
+			if(strcmp(subscription->getTopicName(),"dip/acc/ISO/HRS.MAG90/AQN")==0)
+			{
+				client->m_iso_hrs_mag90_aqn = message.extractDouble("value");
+			}
+			//---<<< HRS.MAG60 >>>---//
+			if(strcmp(subscription->getTopicName(),"dip/acc/ISO/HRS.MAG60/HIGHVOLT")==0)
+			{
+				client->m_iso_hrs_mag60_highvolt = message.extractDouble("value");
+			}
+			if(strcmp(subscription->getTopicName(),"dip/acc/ISO/HRS.MAG60/MFACTOR")==0)
+			{
+				client->m_iso_hrs_mag60_mfactor = message.extractDouble("value");
+			}
+			if(strcmp(subscription->getTopicName(),"dip/acc/ISO/HRS.MAG60/AQN")==0)
+			{
+				client->m_iso_hrs_mag60_aqn = message.extractDouble("value");
+			}
+		}
+
+
+		/**
+		* called when a publication subscribed to is available.
+		* @param arg0 - the subsctiption who's publication is available.
+		* */
+		void connected(DipSubscription *arg0)
+		{
+			TRACE1("Publication source %s available\n", arg0->getTopicName());
+		}
+
+		/**
+		* called when a publication subscribed to is unavailable.
+		* @param arg0 - the subsctiption who's publication is unavailable.
+		* @param arg1 - string providing more information about why the publication is unavailable.
+		* */
+		void disconnected(DipSubscription *arg0, char *arg1)
+		{
+			TRACE1("Publication source %s unavailable\n", arg0->getTopicName());
+		}
+
+		void handleException(DipSubscription* subscription, DipException& ex)
+		{
+			TRACE2("Subs %s has error %s\n", subscription->getTopicName(), ex.what());
+		}
+
+	};
+
+	//A handle on the DIP Data recipient.
+	GeneralDataListener *handler;
+
+public:
+	double m_iso_highvolt;
+	double m_iso_protons;
+
+	double m_iso_gps_highvolt;
+	double m_iso_gps_mfactor;
+	double m_iso_gps_aqn;
+
+	double m_iso_hrs_mag90_highvolt;
+	double m_iso_hrs_mag90_mfactor;
+	double m_iso_hrs_mag90_aqn;
+	double m_iso_hrs_mag60_highvolt;
+	double m_iso_hrs_mag60_mfactor;
+	double m_iso_hrs_mag60_aqn;
+
 	double	GlobalActPosition;
 	BOOL	MassesAvailable;
 	CMapStringToString MassesMap;
@@ -162,7 +293,14 @@ public:
 	USHORT LastY;
 
 	double GlobalKepcoFactor;
+	void SetIsoHighvolt( double value );
+	void SetIsoProtons( double value );
+	double GetIsoHighvolt();
+	double GetIsoProtons();
+	double GetIsoGpsMass();
+	double GetIsoHrsMass();
 
+	int SetMass(double ToMassNo, bool useGps = true);
 	void EmptyActionList(void);
 	BOOL LoadMasses(CString MassFile);
 	virtual BOOL PreTranslateMessage(MSG* pMsg);

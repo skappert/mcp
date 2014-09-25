@@ -2,6 +2,7 @@
 //
 /////////////////////////////////////////////////////////////////////////////
 #include "HardwareConfig.h"
+#include "sicl.h"
 
 #define ERGO	0
 #define GO		1
@@ -688,6 +689,44 @@ class ActionObject
 		void TrackBeginAction(USHORT track);
 	};
 	
+	/************************ SiclReaderObj ***************************/
+
+	class SiclReaderObj				: public ActionObject
+	{
+	public:
+		SiclReaderObj()
+		{
+			CMCPforNTApp* pApp = (CMCPforNTApp*)AfxGetApp();
+			Slot		= 0;
+			SubAddress	= 0;
+			Gpib		= 0;
+			Name		= _SiclReaderObj;
+			ShortName	= __SiclReaderObj;
+			SICLAddress = "lan[A-34461A-06386]:inst0";
+			SICLQuestion= "MEAS:VOLT:DC?";
+			for(int i=0;i<100;i++)Data[i]= 0;
+			NumOfSamples	= 0;
+		}
+
+		INST SiclHandle;
+		double Data[100];
+		int NumOfSamples;
+		CString SICLAddress;
+		CString SICLQuestion;
+		CString GetName(void){return ShortName;};
+		BOOL TestHardware(void){return TRUE;};
+		void CopyObject(ActionObject* pSource);
+		void DoDoubleClickAction(void);
+		void DoConfigureAction(void);
+		void Load(CArchive& ar);
+		void Save(CArchive& ar);
+		CString GetInfo(void);
+		void MeasurementBeginAction(BOOL RUNMODE);
+		void MeasurementEndAction(void);
+		void TrackBeginAction(USHORT track);
+		void TrackEndAction(USHORT track,USHORT scansdone);
+	};
+
 	/************************ KepcoEichungVoltageObj ***************************/
 
 	class KepcoEichungVoltageObj	: public ActionObject
@@ -1009,6 +1048,7 @@ class ActionObject
 
 			ToFlukeNo	= 0;
 			ToMassNo	= 0;
+			UseHrs		= false;
 		}
 		BOOL	UseHrs;
 		int		ToFlukeNo;

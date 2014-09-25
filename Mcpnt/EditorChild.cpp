@@ -15,7 +15,7 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // CEditorChild
 
-IMPLEMENT_DYNCREATE(CEditorChild, CMDIChildWnd)
+IMPLEMENT_DYNCREATE(CEditorChild, CMDIChildWndEx)
 
 CEditorChild::CEditorChild()
 {
@@ -31,7 +31,7 @@ CEditorChild::~CEditorChild()
 }
 
 
-BEGIN_MESSAGE_MAP(CEditorChild, CMDIChildWnd)
+BEGIN_MESSAGE_MAP(CEditorChild, CMDIChildWndEx)
 	//{{AFX_MSG_MAP(CEditorChild)
 	ON_WM_SIZE()
 	ON_WM_CLOSE()
@@ -43,7 +43,7 @@ END_MESSAGE_MAP()
 
 void CEditorChild::OnSize(UINT nType, int cx, int cy) 
 {
-	CMDIChildWnd::OnSize(nType, cx, cy);
+	CMDIChildWndEx::OnSize(nType, cx, cy);
 	
 	// TODO: Add your message handler code here
 	CEditorView* pEditor=(CEditorView*)pEditorView;
@@ -78,7 +78,7 @@ BOOL CEditorChild::PreCreateWindow(CREATESTRUCT& cs)
 		cs.x=pApp->LastX;
 		cs.y=pApp->LastY;
 	}
-	return CMDIChildWnd::PreCreateWindow(cs);
+	return CMDIChildWndEx::PreCreateWindow(cs);
 }
 
 void CEditorChild::OnClose() 
@@ -88,7 +88,7 @@ void CEditorChild::OnClose()
 	if(pEdit->GetBufferLength()!=0)
 	{
 		if(IDYES==AfxMessageBox("Modified buffer, quit anyway?",MB_YESNO,0))
-		CMDIChildWnd::OnClose();
+		CMDIChildWndEx::OnClose();
 	}
-	else CMDIChildWnd::OnClose();
+	else CMDIChildWndEx::OnClose();
 }

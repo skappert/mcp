@@ -44,6 +44,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseOfMfc>Dynamic</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
+    <UseOfAtl>false</UseOfAtl>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -120,7 +121,7 @@
     <OutDir>.\Release\</OutDir>
     <IntDir>.\Release\</IntDir>
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>..\dip-5.4.4\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>..\dip-5.4.2\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>.\Release\</OutDir>
@@ -142,7 +143,7 @@
     <IntDir>.\Debug\</IntDir>
     <LinkIncremental>true</LinkIncremental>
     <EnableManagedIncrementalBuild>true</EnableManagedIncrementalBuild>
-    <LibraryPath>..\dip-5.4.4\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>..\dip-5.4.2\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>.\Debug\</OutDir>
@@ -178,7 +179,7 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <ObjectFileName>.\Release\</ObjectFileName>
       <ProgramDataBaseFileName>.\Release\</ProgramDataBaseFileName>
-      <AdditionalIncludeDirectories>..\dip-5.4.4\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\dip-5.4.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -200,8 +201,14 @@
       <SubSystem>Windows</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <OutputFile>.\Release\MCP for NT.exe</OutputFile>
-      <AdditionalDependencies>winmm.lib;dip.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sicl32.lib;setupapi.lib;uxtheme.lib;winmm.lib;dip.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Manifest>
+      <InputResourceManifests>
+      </InputResourceManifests>
+      <AdditionalManifestFiles>
+      </AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -339,7 +346,7 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <ObjectFileName>.\Debug\</ObjectFileName>
       <ProgramDataBaseFileName>.\Debug\</ProgramDataBaseFileName>
-      <AdditionalIncludeDirectories>..\dip-5.4.4\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\dip-5.4.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -362,11 +369,20 @@
       <SubSystem>Windows</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <OutputFile>.\Debug\MCP for NT.exe</OutputFile>
-      <AdditionalDependencies>dip.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sicl32.lib;setupapi.lib;uxtheme.lib;dip.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <UACExecutionLevel>AsInvoker</UACExecutionLevel>
     </Link>
     <CustomBuild>
       <Command>..</Command>
     </CustomBuild>
+    <Manifest>
+      <ManifestFromManagedAssembly>
+      </ManifestFromManagedAssembly>
+      <AdditionalManifestFiles>
+      </AdditionalManifestFiles>
+      <InputResourceManifests>
+      </InputResourceManifests>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -555,6 +571,7 @@
     <ClCompile Include="Page1PM.cpp" />
     <ClCompile Include="Page1PR.cpp" />
     <ClCompile Include="Page1RS.cpp" />
+    <ClCompile Include="Page1SR.cpp" />
     <ClCompile Include="Page1TI.cpp" />
     <ClCompile Include="Page1TR.cpp" />
     <ClCompile Include="Page2FV.cpp" />
@@ -581,6 +598,7 @@
     <ClCompile Include="Page3PM.cpp" />
     <ClCompile Include="Page3PR.cpp" />
     <ClCompile Include="Page3RS.cpp" />
+    <ClCompile Include="Page3SR.cpp" />
     <ClCompile Include="Page3TI.cpp" />
     <ClCompile Include="Page3TR.cpp" />
     <ClCompile Include="PropShtam.cpp" />
@@ -602,8 +620,11 @@
     <ClCompile Include="PropShtPM.cpp" />
     <ClCompile Include="PropShtPR.cpp" />
     <ClCompile Include="PropShtRS.cpp" />
+    <ClCompile Include="PropShtSR.cpp" />
     <ClCompile Include="PropShtTI.cpp" />
     <ClCompile Include="PropShtTR.cpp" />
+    <ClCompile Include="SaveToolBar.cpp" />
+    <ClCompile Include="SiclReader.cpp" />
     <ClCompile Include="Splash.cpp" />
     <ClCompile Include="StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -730,6 +751,7 @@
     <ClInclude Include="Page1PM.h" />
     <ClInclude Include="Page1PR.h" />
     <ClInclude Include="Page1RS.h" />
+    <ClInclude Include="Page1SR.h" />
     <ClInclude Include="page1ti.h" />
     <ClInclude Include="Page1TR.h" />
     <ClInclude Include="Page2FV.h" />
@@ -756,6 +778,7 @@
     <ClInclude Include="Page3PM.h" />
     <ClInclude Include="Page3PR.h" />
     <ClInclude Include="Page3RS.h" />
+    <ClInclude Include="Page3SR.h" />
     <ClInclude Include="Page3TI.h" />
     <ClInclude Include="Page3TR.h" />
     <ClInclude Include="PropShtam.h" />
@@ -777,9 +800,13 @@
     <ClInclude Include="PropShtPM.h" />
     <ClInclude Include="PropShtPR.h" />
     <ClInclude Include="PropShtRS.h" />
+    <ClInclude Include="PropShtSR.h" />
     <ClInclude Include="PropShtTI.h" />
     <ClInclude Include="PropShtTR.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="rpcapi32.h" />
+    <ClInclude Include="SaveToolBar.h" />
+    <ClInclude Include="SiclReader.h" />
     <ClInclude Include="Splash.h" />
     <ClInclude Include="StdAfx.h" />
     <ClInclude Include="StepTimer.h" />
@@ -790,12 +817,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="pillars.bmp" />
+    <None Include="res\bmp00001.bmp" />
     <None Include="res\Galaxy3.ico" />
     <None Include="res\ico00001.ico" />
     <None Include="res\icon14.ico" />
     <None Include="res\icon15.ico" />
+    <None Include="res\toolbar2.bmp" />
+    <None Include="res\toolbar3.bmp" />
+    <None Include="res\toolbar4.bmp" />
+    <None Include="res\toolbar5.bmp" />
+    <None Include="res\toolbar6.bmp" />
+    <None Include="res\toolbar7.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="MCP for NT.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

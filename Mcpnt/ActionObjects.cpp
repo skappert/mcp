@@ -38,6 +38,7 @@
 #include "PropShtGW.h"
 #include "PropShtKR.h"
 #include "PropShtKW.h"
+#include "PropShtSR.h"
 
 #include "Configure.h"
 
@@ -2536,6 +2537,7 @@ void TriggerObj::TrackBeginAction(USHORT track)
 	SendNAFCamac(pApp->ScalerSlot,0,9);
 	ReadCSRCamac();
 	ReadENCLCamac();
+	SendNAFCamac(Slot,2,24);
 }
 
 void TriggerObj::TrackStepAction(USHORT step, USHORT track, USHORT scan)
@@ -3180,6 +3182,214 @@ void IsoldeNetVoltageObj::TrackBeginAction(USHORT track)
 	//if (cc) Data = -1;
 	Voltage[NumOfSamples] = Data*Factor; 
 	NumOfSamples++;
+}
+
+/****************   Methods for Class SiclReaderObj  ***********************/
+
+void SiclReaderObj::DoConfigureAction(void)
+{
+	CString TrackNo;
+	CString XName,XUnit;
+	TrackNo.Format("%u",pTrack->MyPosition);
+	CPropShtSR propSheet(ShortName+" in Track ["+TrackNo+"] of "+pDocument->GetTitle(),AfxGetMainWnd(),0);
+
+	propSheet.m_page1.m_sendstring = SICLQuestion;
+	propSheet.m_page3.m_gpib = SICLAddress;
+	if(propSheet.DoModal())
+	{
+		if(!pDocument->MeasurementRunning)
+		{
+			SICLQuestion = propSheet.m_page1.m_sendstring;
+			SICLAddress = propSheet.m_page3.m_gpib;
+			pDocument->SetModifiedFlag(TRUE);
+			pDocument->UpdateAllViews(NULL,0,NULL);
+		}
+		else Beep(1000,100);
+	}
+}
+
+void SiclReaderObj::DoDoubleClickAction(void)
+{
+	if(NumOfSamples>0)
+	{
+		int i;
+		CString TrackNo;
+		TrackNo.Format("%u",pTrack->MyPosition);
+		if(pDataView==NULL)pDataView = new DataView(this);
+		else pDataView->Reset();
+		pDataView->SetWindowTitle(ShortName+" in Track ["+TrackNo+"]  of "+pDocument->GetTitle());
+		pDataView->SetDrawType((int)0,TRUE);
+
+		pDataView->SetYTitle("Data measured in "+ShortName,"");
+		pDataView->SetXTitle("Sample no.","");
+		pDataView->SetTitle(pTrack->Isotope);
+		for(i=0;i<NumOfSamples;i++)
+		{
+			pDataView->AddDataPoint((float)i+1,
+									(float)Data[i],
+									(float)0);
+		}
+		pDataView->RedrawNow();
+	}
+}
+
+void SiclReaderObj::CopyObject(ActionObject* pSource)
+{
+	SiclReaderObj* pActionObject = (SiclReaderObj*) pSource;
+
+	pDocument		= pActionObject->pDocument;
+	pTrack			= pActionObject->pTrack;	
+	HardwareReady	= pActionObject->HardwareReady;
+	Name			= pActionObject->Name;
+	ShortName		= pActionObject->ShortName;
+	DoString		= pActionObject->DoString;
+	Isotope			= pActionObject->Isotope;
+	Gpib			= pActionObject->Gpib;
+	SICLAddress		= pActionObject->SICLAddress;
+	SICLQuestion	= pActionObject->SICLQuestion;
+	for(int i=0;i<100;i++)Data[i]= pActionObject->Data[i];
+	NumOfSamples		= pActionObject->NumOfSamples;
+}
+
+CString SiclReaderObj::GetInfo(void)
+{
+	CString answer;
+	if (pTrack->RealScans>0 && NumOfSamples>0)
+	{
+		answer.Format("LAST: %.3f",Data[NumOfSamples-1]);
+	}
+	else answer = "NOT MEASURED";
+	return answer;
+}
+
+void SiclReaderObj::Load(CArchive& ar)
+{
+	BOOL ERR = FALSE;
+	int i=0;
+	unsigned char TheChar;
+	CString TheString;
+	Name = ReadString(ar);
+	ShortName = __SiclReaderObj;
+	ReadSeparator(ar);
+	SICLAddress = ReadString(ar);
+	SICLQuestion = ReadString(ar);
+	if (pTrack->RealScans>0)
+	{
+		do
+		{
+			Data[i]=ReadFloat(ar);
+			if(Data[i]==-999999)
+			{
+				ERR = TRUE;
+				i = 0;
+			}
+			++i;
+			TheChar = ReadChar(ar);
+		} while (TheChar ==','&&!ERR);
+		NumOfSamples = i;
+	}
+	else
+	{
+		ReadStructBegin(ar);
+		ReadStructEnd(ar);
+	}
+	ReadSeparator(ar);	
+}
+
+void SiclReaderObj::Save(CArchive& ar)
+{
+	USHORT i,j=0;
+	WriteNameBegin(ar);
+	WriteString(ar,Name);
+	WriteNameEnd(ar);
+	WriteLine(ar);
+	WriteStructBegin(ar);
+	WriteString(ar,Name);
+	WriteSeparator(ar);
+
+	WriteString(ar,SICLAddress);
+	WriteSeparator(ar);
+	WriteString(ar,SICLQuestion);
+	WriteSeparator(ar);
+	WriteStructBegin(ar);
+	if (pTrack->RealScans>0)
+	{
+		for(i=0;i<NumOfSamples;i++)
+		{
+			WriteFloat(ar,Data[i]);
+			if(i!=(NumOfSamples-1))WriteSeparator(ar);
+			j++;
+			if(j==5)
+			{
+				j = 0;
+				WriteLine(ar);
+			}
+		} 
+	}
+	WriteStructEnd(ar);
+	WriteLine(ar);
+	WriteStructEnd(ar);
+	WriteLine(ar);
+}
+
+void SiclReaderObj::MeasurementBeginAction(BOOL RUNMODE)
+{
+	if(RUNMODE==ERGO) NumOfSamples = 0;
+
+	CT2A address(SICLAddress);
+
+	if(SiclHandle <= 0 && !SICLAddress.IsEmpty())
+	{
+		SiclHandle = iopen (address);
+		itimeout (SiclHandle, 10000);
+	}
+}
+
+void SiclReaderObj::MeasurementEndAction(void)
+{
+	if(SiclHandle > 0)
+	{
+		/* Close SICL handle */
+		iclose (SiclHandle);
+
+		SiclHandle = 0;
+	}
+}
+
+void SiclReaderObj::TrackBeginAction(USHORT track)
+{
+	CT2A address(SICLAddress);
+	
+	if(SiclHandle <= 0 && !SICLAddress.IsEmpty())
+	{
+		SiclHandle = iopen (address);
+		itimeout (SiclHandle, 10000);
+	}
+
+	if(SiclHandle > 0)
+	{
+		CT2A question(SICLQuestion);
+
+		/* trailing line feed */ 
+		strcat(question,"\n");
+
+		/* Take measurement */
+		iprintf (SiclHandle,question);
+	}
+}
+
+void SiclReaderObj::TrackEndAction(USHORT track,USHORT scansdone)
+{
+	double res;
+	
+	if(SiclHandle > 0)
+	{
+		/* Read the results */
+		iscanf (SiclHandle,"%lf", &res);
+
+		Data[NumOfSamples] = res; 
+		NumOfSamples++;
+	}
 }
 
 /****************   Methods for Class KepcoEichungVoltageObj  ***********************/
@@ -4089,17 +4299,8 @@ void MassSwitchObj::Save(CArchive& ar)
 void MassSwitchObj::TrackBeginAction(USHORT track)
 {
 	CMCPforNTApp* pApp = (CMCPforNTApp*)AfxGetApp();
-	
-	double Massfactor = 0;
-	double Mass;
-	short cc;
 
-	//cc=SyncRPC("GPS.MAG70","MASSFACTOR","",1,(void *)&Massfactor,sizeof(double),CF_DOUBLE,CF_DOUBLE);
-	if(Massfactor!=0)
-	{
-		Mass = sqrt(ToMassNo/Massfactor);
-		//cc=SyncRPC("GPS.MAG70","CCV","",-1,(void *)&Mass,sizeof(double),CF_DOUBLE,CF_DOUBLE);
-	}
+	pApp->SetMass(ToMassNo);
 
 	ListDelayCamac(pApp->PresetSlot,pApp->MassDelay);
 }

@@ -52,6 +52,7 @@ public:
 	void	UpdateAllData(int track);
 	void	SetNewCenter(USHORT track,USHORT step);
 	void	SetNewMinMax(USHORT track,double minstep, double maxstep);
+	bool	OnSave(CString SaveString);
 
 public:
 	BOOL			SaveActualVersion;

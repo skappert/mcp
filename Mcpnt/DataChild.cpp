@@ -22,7 +22,7 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // DataChild
 
-IMPLEMENT_DYNCREATE(DataChild, CMDIChildWnd)
+IMPLEMENT_DYNCREATE(DataChild, CMDIChildWndEx)
 
 
 DataChild::DataChild()
@@ -39,7 +39,7 @@ DataChild::~DataChild()
 }
 
 
-BEGIN_MESSAGE_MAP(DataChild, CMDIChildWnd)
+BEGIN_MESSAGE_MAP(DataChild, CMDIChildWndEx)
 	ON_COMMAND_EX(CG_ID_VIEW_ERRORBAR, OnBarCheck)
 	ON_UPDATE_COMMAND_UI(CG_ID_VIEW_ERRORBAR, OnUpdateControlBarMenu)
 	ON_WM_CREATE()
@@ -94,19 +94,19 @@ BOOL DataChild::PreTranslateMessage(MSG* pMsg)
 		}
 	}
 
-	return CMDIChildWnd::PreTranslateMessage(pMsg);
+	return CMDIChildWndEx::PreTranslateMessage(pMsg);
 }
 
 int DataChild::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
-	if (CMDIChildWnd::OnCreate(lpCreateStruct) == -1)
+	if (CMDIChildWndEx::OnCreate(lpCreateStruct) == -1)
 		return -1;
 	return 0;
 }
 
 void DataChild::OnSize(UINT nType, int cx, int cy) 
 {
-	CMDIChildWnd::OnSize(nType, cx, cy);
+	CMDIChildWndEx::OnSize(nType, cx, cy);
 	//MoveWindow
 	// TODO: Add your message handler code here
 	DataView* pData=(DataView*)pDataView;
@@ -142,12 +142,12 @@ BOOL DataChild::PreCreateWindow(CREATESTRUCT& cs)
 		cs.y=pApp->LastY;
 	}
 
-	return CMDIChildWnd::PreCreateWindow(cs);
+	return CMDIChildWndEx::PreCreateWindow(cs);
 }
 
-BOOL DataChild::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CMDIFrameWnd* pParentWnd, CCreateContext* pContext) 
+BOOL DataChild::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CMDIFrameWndEx* pParentWnd, CCreateContext* pContext) 
 {
 	// TODO: Add your specialized code here and/or call the base class
 	
-	return CMDIChildWnd::Create(lpszClassName, lpszWindowName, dwStyle, rect, pParentWnd, pContext);
+	return CMDIChildWndEx::Create(lpszClassName, lpszWindowName, dwStyle, rect, pParentWnd, pContext);
 }

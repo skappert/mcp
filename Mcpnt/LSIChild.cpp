@@ -15,7 +15,7 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // CLSIChild
 
-IMPLEMENT_DYNCREATE(CLSIChild, CMDIChildWnd)
+IMPLEMENT_DYNCREATE(CLSIChild, CMDIChildWndEx)
 
 CLSIChild::CLSIChild()
 {
@@ -32,7 +32,7 @@ CLSIChild::~CLSIChild()
 }
 
 
-BEGIN_MESSAGE_MAP(CLSIChild, CMDIChildWnd)
+BEGIN_MESSAGE_MAP(CLSIChild, CMDIChildWndEx)
 	//{{AFX_MSG_MAP(CLSIChild)
 	ON_WM_SIZE()
 	//}}AFX_MSG_MAP
@@ -43,7 +43,7 @@ END_MESSAGE_MAP()
 
 void CLSIChild::OnSize(UINT nType, int cx, int cy) 
 {
-	CMDIChildWnd::OnSize(nType, cx, cy);
+	CMDIChildWndEx::OnSize(nType, cx, cy);
 	//MoveWindow
 	// TODO: Add your message handler code here
 	CLSIView* pData=(CLSIView*)pCLSIView;
@@ -79,5 +79,5 @@ BOOL CLSIChild::PreCreateWindow(CREATESTRUCT& cs)
 		cs.x=pApp->LastX+300;
 		cs.y=pApp->LastY;
 	}
-	return CMDIChildWnd::PreCreateWindow(cs);
+	return CMDIChildWndEx::PreCreateWindow(cs);
 }

@@ -93,12 +93,12 @@ private:
 		* */
 		void disconnected(DipSubscription *arg0, char *arg1)
 		{
-			//printf("\nPublication source %s unavailable\n", arg0->getTopicName());
+			TRACE1("\nPublication source %s unavailable\n", arg0->getTopicName());
 		}
 
 		void handleException(DipSubscription* subscription, DipException& ex)
 		{
-			//printf("Subs %s has error %s\n", subscription->getTopicName(), ex.what());
+			TRACE2("Subs %s has error %s\n", subscription->getTopicName(), ex.what());
 		}
 
 	};

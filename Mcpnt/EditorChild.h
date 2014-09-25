@@ -4,7 +4,7 @@
 /////////////////////////////////////////////////////////////////////////////
 // CEditorChild frame
 
-class CEditorChild : public CMDIChildWnd
+class CEditorChild : public CMDIChildWndEx
 {
 	DECLARE_DYNCREATE(CEditorChild)
 public:
