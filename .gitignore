@@ -43,6 +43,8 @@ local.properties
 
 # Build results
 
+Win7Debug/
+Win7Release/
 [Dd]ebug/
 [Rr]elease/
 x64/
@@ -216,3 +218,4 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+Mcpnt/dip.lib
