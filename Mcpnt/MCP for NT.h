@@ -15,15 +15,6 @@
 class ActionObject;
 class MonitorView;
 
-class ErrHandler:public DipPublicationErrorHandler
-{
-public:
-	void handleException(DipPublication* publication, DipException& ex)
-	{
-		TRACE1("Error because %s", ex.what());
-	}
-};
-
 class CMCPforNTApp : public CWinAppEx
 {
 private:
@@ -297,9 +288,10 @@ public:
 	void SetIsoProtons( double value );
 	double GetIsoHighvolt();
 	double GetIsoProtons();
-	double GetIsoGpsMass();
-	double GetIsoHrsMass();
+	double GetMassFactor();
+	double GetField();
 
+	double GetMass(bool useGps = true);
 	int SetMass(double ToMassNo, bool useGps = true);
 	void EmptyActionList(void);
 	BOOL LoadMasses(CString MassFile);

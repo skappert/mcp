@@ -336,9 +336,6 @@
     <ClCompile Include="SiclReader.cpp">
       <Filter>Quellcodedateien</Filter>
     </ClCompile>
-    <ClCompile Include="SaveToolBar.cpp">
-      <Filter>Quellcodedateien</Filter>
-    </ClCompile>
     <ClCompile Include="PropShtSR.cpp">
       <Filter>Quellcodedateien</Filter>
     </ClCompile>
@@ -691,9 +688,6 @@
     <ClInclude Include="resource.h">
       <Filter>Header-Dateien</Filter>
     </ClInclude>
-    <ClInclude Include="SaveToolBar.h">
-      <Filter>Header-Dateien</Filter>
-    </ClInclude>
     <ClInclude Include="SiclReader.h">
       <Filter>Header-Dateien</Filter>
     </ClInclude>
@@ -780,12 +774,6 @@
       <Filter>Ressourcendateien</Filter>
     </None>
     <None Include="res\toolbar5.bmp">
-      <Filter>Ressourcendateien</Filter>
-    </None>
-    <None Include="res\toolbar6.bmp">
-      <Filter>Ressourcendateien</Filter>
-    </None>
-    <None Include="res\toolbar7.bmp">
       <Filter>Ressourcendateien</Filter>
     </None>
     <None Include="res\bmp00001.bmp">

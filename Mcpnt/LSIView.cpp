@@ -1791,25 +1791,16 @@ CString _rs0modoff(CMCPforNTView* pView,...)
 CString _getmass(CMCPforNTView* pView,...)
 {
 	CString answer;
-	double Field,Massfactor;
-	short cc;
-	char buffer[255];
-	char name[255];
-	char property[255];
+	double value;
 
-    strcpy(name,"GPS.MAG70");
-	strcpy(property,"AQN");
+	CMCPforNTApp* pMyApp = (CMCPforNTApp*)AfxGetApp();
 
-	//cc=SyncRPC(&name[0],&property[0],"",1,(void *)&Field,sizeof(double),CF_DOUBLE,0);
+	//
+	// Get mass value
+	//
+	value = pMyApp->GetMass();
 
-	strcpy(name,"GPS.MAG70");
-	strcpy(property,"massfactor");
-	//cc=SyncRPC(&name[0],&property[0],"",1,(void *)&Massfactor,sizeof(double),CF_DOUBLE,0);
-	
-	//if (cc) GetRPCLastError(&buffer[0],255);
-	//else sprintf(buffer,"mass = %.5f amu",Field*Field*Massfactor);
-
-	answer = buffer;
+	answer.Format("mass = %.5f amu",value);
 
 	return answer;
 }
@@ -1825,20 +1816,16 @@ CString _getstatus(CMCPforNTView* pView,...)
 CString _getmassfactor(CMCPforNTView* pView,...)
 {
 	CString answer;
-	double Data;
-	short cc;
-	char buffer[255];
-	char name[255];
-	char property[255];
+	double value;
 
-    strcpy(name,"GPS.MAG70");
-	strcpy(property,"MASSFACTOR");
+	CMCPforNTApp* pMyApp = (CMCPforNTApp*)AfxGetApp();
 
-	//cc=SyncRPC(&name[0],&property[0],"",1,(void *)&Data,sizeof(double),CF_DOUBLE,0);
-	//if (cc) GetRPCLastError(&buffer[0],255);
-	//else sprintf(buffer,"%s / %s = %.2f",name,property,Data);
+	//
+	// Get massFactor value
+	//
+	value = pMyApp->GetMassFactor();
 
-	answer = buffer;
+	answer.Format("massfactor = %.5f",value);
 
 	return answer;
 }
@@ -1847,20 +1834,16 @@ CString _getmassfactor(CMCPforNTView* pView,...)
 CString _getfield(CMCPforNTView* pView,...)
 {
 	CString answer;
-	double Data;
-	short cc;
-	char buffer[255];
-	char name[255];
-	char property[255];
+	double value;
 
-    strcpy(name,"GPS.MAG70");
-	strcpy(property,"AQN");
+	CMCPforNTApp* pMyApp = (CMCPforNTApp*)AfxGetApp();
 
-	//cc=SyncRPC(&name[0],&property[0],"",1,(void *)&Data,sizeof(double),CF_DOUBLE,0);
-	//if (cc) GetRPCLastError(&buffer[0],255);
-	//else sprintf(buffer,"%s / %s = %.5f T",name,property,Data);
+	//
+	// Get field value
+	//
+	value = pMyApp->GetField();
 
-	answer = buffer;
+	answer.Format("field = %.5f",value);
 
 	return answer;
 }
@@ -1869,20 +1852,16 @@ CString _getfield(CMCPforNTView* pView,...)
 CString _getht(CMCPforNTView* pView,...)
 {
 	CString answer;
-	double Data;
-	short cc;
-	char buffer[255];
-	char name[255];
-	char property[255];
+	double value;
 
-    strcpy(name,"GPS.HTMEAS");
-	strcpy(property,"AQN");
+	CMCPforNTApp* pMyApp = (CMCPforNTApp*)AfxGetApp();
 
-	//cc=SyncRPC(&name[0],&property[0],"",1,(void *)&Data,sizeof(double),CF_DOUBLE,0);
-	//if (cc) GetRPCLastError(&buffer[0],255);
-	//else sprintf(buffer,"%s / %s = %.5f kV",name,property,Data);
+	//
+	// Get field value
+	//
+	value = pMyApp->GetIsoHighvolt();
 
-	answer = buffer;
+	answer.Format("HT = %.5f V",value);
 
 	return answer;
 }
@@ -2473,7 +2452,6 @@ CString _setmass(CMCPforNTView* pView,...)
 	double SetMass;
 	double Massfactor = 0;
 	double Mass = 0;
-	short cc;
 	
 	va_list arg_ptr;
 	va_start(arg_ptr,pView);
@@ -2496,24 +2474,15 @@ CString _setmass(CMCPforNTView* pView,...)
 	
 	if(NumArgs == 0) 
 	{
-		//cc=SyncRPC("GPS.MAG70","MASSFACTOR","",1,(void *)&Massfactor,sizeof(double),CF_DOUBLE,CF_DOUBLE);
-		if(Massfactor!=0)
-		{
-			//cc=SyncRPC("GPS.MAG70","AQN","",1,(void *)&Mass,sizeof(double),CF_DOUBLE,CF_DOUBLE);
-		}
-		answer.Format("%.8g",Mass*Mass*Massfactor);
+		CMCPforNTApp* pApp = (CMCPforNTApp*)AfxGetApp();
+		Mass = pApp->GetMass();
+		answer.Format("%.8g",Mass);
 	}
 	if(NumArgs == 1) 
 	{
-		
-
-		//cc=SyncRPC("GPS.MAG70","MASSFACTOR","",1,(void *)&Massfactor,sizeof(double),CF_DOUBLE,CF_DOUBLE);
-		if(Massfactor!=0)
-		{
-			Mass = sqrt(SetMass/Massfactor);
-			//cc=SyncRPC("GPS.MAG70","CCV","",-1,(void *)&Mass,sizeof(double),CF_DOUBLE,CF_DOUBLE);
-			answer.Format("Mass set to %.4f amu",SetMass);
-		}
+		CMCPforNTApp* pApp = (CMCPforNTApp*)AfxGetApp();
+		pApp->SetMass(SetMass);
+		answer.Format("Mass set to %.4f amu",SetMass);
 	}
 	return answer;
 }

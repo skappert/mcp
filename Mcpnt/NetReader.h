@@ -18,12 +18,13 @@ class CNetReader : public CDialog
 public:
 	CNetReader(CWnd* pParent = NULL);   // standard constructor
 
+	void HandleNetMessage( CString topic, double value );
+
 // Dialog Data
 	//{{AFX_DATA(CNetReader)
 	enum { IDD = IDD_NETREAD };
 	CString	m_name;
 	CString	m_netanswer;
-	CString	m_property;
 	//}}AFX_DATA
 
 	// Overrides
@@ -71,8 +72,7 @@ private:
 		* */
 		void handleMessage(DipSubscription *subscription, DipData &message)
 		{
-			std::cout<<"Received data from "<<subscription->getTopicName()<<std::endl;
-			std::cout<<"value :"<<message.extractDouble("value")<<std::endl;
+			client->HandleNetMessage( subscription->getTopicName(), message.extractDouble("value") );
 		}
 
 
@@ -82,7 +82,7 @@ private:
 		* */
 		void connected(DipSubscription *arg0)
 		{
-			std::cout << "\nPublication source  " << arg0->getTopicName()<< " available\n";
+			TRACE1("\nPublication source %s available\n", arg0->getTopicName());
 		}
 
 

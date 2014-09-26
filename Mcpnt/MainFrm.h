@@ -15,13 +15,12 @@ public:
 
 // Operations
 public:
-
+	LRESULT OnToolbarReset(WPARAM wp,LPARAM);
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CMainFrame)
 	public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	//}}AFX_VIRTUAL
 
 // Implementation
@@ -47,7 +46,6 @@ protected:  // control bar embedded members
 	void OnUpdateViewHT(CCmdUI* pCmdUI);
 	void OnMeasHT();
 	void OnMeasProtons();
-	void OnReturn();
 
 	CMFCMenuBar	m_wndMenuBar;
 	CMFCStatusBar m_wndStatusBar;
@@ -58,6 +56,9 @@ protected:  // control bar embedded members
 	CMFCToolBar	m_wndISOLDE_PROTONS;
 	bool m_ShowISOLDE_PROTONS;
 	CMFCToolBar	m_wndToolBar;
+
+	UINT_PTR		mytimer;
+	bool			m_icon_on;
 
 // Generated message map functions
 protected:
@@ -78,11 +79,16 @@ protected:
 	afx_msg void OnReset();
 	afx_msg void OnViewNetwriter();
 	//}}AFX_MSG
+	afx_msg void OnLoad();
 	afx_msg void OnSelChange();
 	afx_msg void OnDropDown();
-	afx_msg void OnGetFocus();
-	afx_msg void OnKillFocus();
-	afx_msg void OnLoadCombo(UINT nID);
+	afx_msg void OnHtMeasIcon();
+	afx_msg void OnProtonsIcon();
+	void OnUpdateHtMeas(CCmdUI* pCmdUI);
+	void OnUpdateProtons(CCmdUI* pCmdUI);
+	void OnUpdateHtMeasText(CCmdUI* pCmdUI);
+	void OnUpdateProtonsText(CCmdUI* pCmdUI);
+	afx_msg LRESULT OnTimer(WPARAM wparam,LPARAM lparam);
 
 	DECLARE_MESSAGE_MAP()
 };

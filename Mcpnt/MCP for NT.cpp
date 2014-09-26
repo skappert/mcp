@@ -51,6 +51,16 @@ BEGIN_MESSAGE_MAP(CMCPforNTApp, CWinApp)
 	ON_COMMAND(ID_FILE_PRINT_SETUP, CWinApp::OnFilePrintSetup)
 END_MESSAGE_MAP()
 
+class MainErrHandler:public DipPublicationErrorHandler
+{
+public:
+	void handleException(DipPublication* publication, DipException& ex)
+	{
+		TRACE1("Error because %s", ex.what());
+	}
+};
+
+
 /////////////////////////////////////////////////////////////////////////////
 // CMCPforNTApp construction
 
@@ -66,7 +76,7 @@ CMCPforNTApp::CMCPforNTApp()
 	//The CWinApp destructor will free the memory.
 	m_pszAppName = _tcsdup(_T("MCP for NT"));
 
-	SetRegistryKey(_T("MCP"));
+	SetRegistryKey(_T("MCP2"));
 	SetRegistryBase(_T("Settings"));
 }
 
@@ -335,26 +345,35 @@ double CMCPforNTApp::GetIsoProtons()
 	return m_iso_protons;
 }
 
-double CMCPforNTApp::GetIsoGpsMass()
+double CMCPforNTApp::GetMassFactor()
+{
+	return m_iso_gps_mfactor;
+}
+
+double CMCPforNTApp::GetField()
+{
+	return m_iso_gps_aqn;
+}
+
+double CMCPforNTApp::GetMass(bool useGps)
 {
 	double mass = 0;
 
-	if( m_iso_gps_highvolt != 0 &&
-		m_iso_gps_mfactor != 0 &&
-		m_iso_gps_aqn != 0 )
+	if(useGps)
 	{
-		mass = m_iso_gps_aqn*m_iso_gps_aqn/(m_iso_gps_highvolt/m_iso_gps_mfactor/6.e4);
+		if( m_iso_gps_highvolt != 0 &&
+			m_iso_gps_mfactor != 0 &&
+			m_iso_gps_aqn != 0 )
+		{
+			mass = m_iso_gps_aqn*m_iso_gps_aqn/(m_iso_gps_highvolt/m_iso_gps_mfactor/6.e4);
+		}
+	}
+	else
+	{
 	}
 
 	return mass;
 }
-
-double CMCPforNTApp::GetIsoHrsMass()
-{
-	double mass = 0;
-	return mass;
-}
-
 
 int CMCPforNTApp::SetMass(double ToMassNo, bool useGps)
 {
@@ -374,7 +393,7 @@ int CMCPforNTApp::SetMass(double ToMassNo, bool useGps)
 		
 			field = sqrt(ToMassNo*m_iso_gps_highvolt/m_iso_gps_mfactor/6.e4);
 
-			ErrHandler errorHandler;
+			MainErrHandler errorHandler;
 			pub[0] = dip->createDipPublication("dip/acc/ISO/COLLAPS/GPS.MAG70/CCV.Setter",&errorHandler);
 			pubData[0] = dip->createDipData();
 			pubData[0]->insert(field,"value");
@@ -403,7 +422,7 @@ int CMCPforNTApp::SetMass(double ToMassNo, bool useGps)
 			field_90 = sqrt(ToMassNo*m_iso_hrs_mag90_highvolt/m_iso_hrs_mag90_mfactor/6.e4);
 			field_60 = sqrt(ToMassNo*m_iso_hrs_mag60_highvolt/m_iso_hrs_mag60_mfactor/6.e4);
 			//--------------------------------------------------
-			ErrHandler errorHandler;
+			MainErrHandler errorHandler;
 			DipTimestamp time;
 			//---<<< HRS.MAG90 >>>---//
 			pub[0] = dip->createDipPublication("dip/acc/ISO/COLLAPS/HRS.MAG90/CCV.Setter",&errorHandler);

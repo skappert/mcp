@@ -61,9 +61,3 @@
 #include "DipSubscription.h"
 #include "DipPublication.h"
 
-#define IDW_USER_TOOLBAR (AFX_IDW_TOOLBAR + 0x20)
-
-
-
-
-

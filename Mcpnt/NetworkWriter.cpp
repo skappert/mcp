@@ -18,11 +18,19 @@ static char THIS_FILE[] = __FILE__;
 CNetworkWriter::CNetworkWriter(CWnd* pParent /*=NULL*/)
 	: CDialog(CNetworkWriter::IDD, pParent)
 {
+	CMCPforNTApp* pApp = (CMCPforNTApp*)AfxGetApp();
+	
 	//{{AFX_DATA_INIT(CNetworkWriter)
-	m_name = _T("");
-	m_property = _T("CCV");
+	m_name = pApp->GetProfileString("DIPWriter", "name" );
 	m_value = _T("");
 	//}}AFX_DATA_INIT
+
+	if(m_name.IsEmpty()) m_name = "dip/acc/ISO/COLLAPS/GPS.MAG70/CCV.Setter";
+
+	dip = Dip::create("MCP_ISOLDE_COLLAPS_NETWRITER");
+	handler = new GeneralDataListener(this);
+	
+	dip->setDNSNode("dipnsgpn1,dipnsgpn2");
 }
 
 
@@ -31,7 +39,6 @@ void CNetworkWriter::DoDataExchange(CDataExchange* pDX)
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CNetworkWriter)
 	DDX_Text(pDX, IDC_NAME, m_name);
-	DDX_Text(pDX, IDC_PROPERTY, m_property);
 	DDX_Text(pDX, IDC_VALUE, m_value);
 	//}}AFX_DATA_MAP
 }
@@ -46,27 +53,50 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CNetworkWriter message handlers
 
+class WriterErrHandler:public DipPublicationErrorHandler
+{
+public:
+	void handleException(DipPublication* publication, DipException& ex)
+	{
+		TRACE1("Error because %s", ex.what());
+	}
+};
+
+
+
+void CNetworkWriter::HandleNetMessage( CString topic, double value )
+{
+	if(m_name == topic)
+	{
+		TRACE1("Received topic %s\n", topic);
+	}
+	else
+	{
+		TRACE1("Received unexpected topic %s\n", topic);
+	}
+}
+
 void CNetworkWriter::OnWritenet() 
 {
 	// TODO: Add your control notification handler code here
 	double Data;
-	short cc;
-	char buffer[255];
-	char name[255];
-	char property[255];
 
 	UpdateData(TRUE);
 
-    strcpy(name,m_name);
-	strcpy(property,m_property);
 	Data = atof(m_value);
-	{
-		//cc=SyncRPC(&name[0],&property[0],"",-1,&Data,sizeof(Data),CF_DOUBLE,CF_TEXT);
-		//if (cc) GetRPCLastError(&buffer[0],255);
-		//else sprintf(buffer,"\n%s / %s = %lf\n\n",name,property,Data);
-	}
 
-	//m_netanswer = buffer;
+	DipPublication **pub = new DipPublication*[1]();
+	DipData **pubData  = new DipData*[1];
+
+	WriterErrHandler errorHandler;
+	pub[0] = dip->createDipPublication(m_name,&errorHandler);
+	pubData[0] = dip->createDipData();
+	pubData[0]->insert(Data,"value");
+	DipTimestamp time;
+	pub[0]->send(*pubData[0],time);
+
+	dip->destroyDipPublication(pub[0]);
+	delete pubData;
 
 	UpdateData(FALSE);
 }

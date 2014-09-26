@@ -623,7 +623,6 @@
     <ClCompile Include="PropShtSR.cpp" />
     <ClCompile Include="PropShtTI.cpp" />
     <ClCompile Include="PropShtTR.cpp" />
-    <ClCompile Include="SaveToolBar.cpp" />
     <ClCompile Include="SiclReader.cpp" />
     <ClCompile Include="Splash.cpp" />
     <ClCompile Include="StdAfx.cpp">
@@ -805,7 +804,6 @@
     <ClInclude Include="PropShtTR.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="rpcapi32.h" />
-    <ClInclude Include="SaveToolBar.h" />
     <ClInclude Include="SiclReader.h" />
     <ClInclude Include="Splash.h" />
     <ClInclude Include="StdAfx.h" />
@@ -826,8 +824,6 @@
     <None Include="res\toolbar3.bmp" />
     <None Include="res\toolbar4.bmp" />
     <None Include="res\toolbar5.bmp" />
-    <None Include="res\toolbar6.bmp" />
-    <None Include="res\toolbar7.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

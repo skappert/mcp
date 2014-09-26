@@ -3171,16 +3171,15 @@ void IsoldeNetVoltageObj::MeasurementBeginAction(BOOL RUNMODE)
 
 void IsoldeNetVoltageObj::TrackBeginAction(USHORT track)
 {
-	double Data = 0;
-	short cc;
-	char name[255];
-	char property[255];
+	double value;
+	CMCPforNTApp* pMyApp = (CMCPforNTApp*)AfxGetApp();
 
-    strcpy(name,"gps.htmeas");
-	strcpy(property,"aqn");
-	//cc=SyncRPC(&name[0],&property[0],"",1,(void *)&Data,sizeof(double),CF_DOUBLE,0);
-	//if (cc) Data = -1;
-	Voltage[NumOfSamples] = Data*Factor; 
+	//
+	// Get Protons value
+	//
+	value = pMyApp->GetIsoProtons();
+
+	Voltage[NumOfSamples] = value*Factor; 
 	NumOfSamples++;
 }
 

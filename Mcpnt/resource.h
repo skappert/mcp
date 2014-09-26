@@ -90,10 +90,12 @@
 #define IDB_BITMAP3                     212
 #define IDR_TOOLBAR5                    213
 #define IDB_BITMAP4                     214
-#define IDR_TOOLBAR6                    215
-#define IDR_TOOLBAR7                    217
 #define IDB_BITMAP5                     218
 #define IDC_DEVICE_TOOLBAR_COMBO        219
+#define IDB_BITMAP6                     221
+#define IDB_BITMAP7                     222
+#define IDB_BITMAP8                     223
+#define IDB_BITMAP9                     224
 #define CG_IDD_LOADFILEBAR              315
 #define IDD_PAGE1PM                     316
 #define IDD_PAGE3PM                     317
@@ -159,7 +161,6 @@
 #define IDC_TIMELEFT                    1005
 #define IDC_ACCELVOLTAGE                1005
 #define IDC_DISK_SPACE                  1006
-#define IDC_LOADCOMBO                   1006
 #define IDC_FIT_RED                     1006
 #define IDC_F                           1006
 #define IDC_PRESETSLOT                  1006
@@ -449,7 +450,13 @@
 #define IDC_SICLANSWER                  1201
 #define IDC_WRITESICL                   1202
 #define IDC_SICL                        1203
-#define ID_TEST_ME                      32876
+#define ID_HTMEAS_ICON                  32870
+#define ID_PROTONS_ICON                 32871
+#define ID_DUMMY_LABEL                  32872
+#define ID_HTMEAS                       32873
+#define ID_PROTONS                      32874
+#define ID_SAVEFILE                     32875
+#define ID_LOADFILE                     32876
 #define ID_NEW_SICLREADER               32877
 #define ID_SICLREADER                   32878
 #define ID_BUTTON32772                  38772
@@ -538,7 +545,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        220
+#define _APS_NEXT_RESOURCE_VALUE        225
 #define _APS_NEXT_COMMAND_VALUE         32879
 #define _APS_NEXT_CONTROL_VALUE         1204
 #define _APS_NEXT_SYMED_VALUE           143

@@ -2,8 +2,6 @@
 //
 /////////////////////////////////////////////////////////////////////////////
 
-#include "SaveToolBar.h"
-
 class CChildFrame : public CMDIChildWndEx
 {
 	DECLARE_DYNCREATE(CChildFrame)

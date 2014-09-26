@@ -61,7 +61,7 @@ BEGIN_MESSAGE_MAP(CChildFrame, CMDIChildWndEx)
 	ON_MESSAGE(WM_ENABLECLOSE,CChildFrame::OnEnableClose)
 	ON_REGISTERED_MESSAGE(AFX_WM_RESETTOOLBAR, OnToolbarReset)
 
-	ON_COMMAND(ID_TEST_ME, OnSave)
+	ON_COMMAND(ID_SAVEFILE, OnSave)
 
 END_MESSAGE_MAP()
 
@@ -175,17 +175,13 @@ int CChildFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	{
 		// Initialize dialog bar m_template
 
-	if (!m_ToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, CRect(1,1,1,1), IDW_USER_TOOLBAR + 5))
+	if (!m_ToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, CRect(1,1,1,1), IDR_TOOLBAR1) ||
+		!m_ToolBar.LoadToolBar(IDR_TOOLBAR1))
 	{
 		TRACE0("Failed to create toolbar\n");
 		return -1;      // fail to create
 	}
 
-	// TODO: Remove this if you don't want tool tips or a resizeable toolbar
-	//m_ToolBar.SetBarStyle(m_ToolBar.GetBarStyle() |
-	//	CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_GRIPPER | CBRS_SIZE_DYNAMIC);
-
-	m_ToolBar.SetSizes(CSize(30,25),CSize(27,15));
 	m_ToolBar.LoadToolBar(IDR_TOOLBAR1);
 	m_ToolBar.SetPaneStyle( CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_TOP | CBRS_GRIPPER );
 	m_ToolBar.EnableDocking( CBRS_ALIGN_TOP | CBRS_ALIGN_BOTTOM );
@@ -229,18 +225,13 @@ int CChildFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	//      0xE804 to 0xE81A that is not already used by another symbol
 
 	// CG: The following block was inserted by the 'Dialog Bar' component
-	if (!m_SaveDialog.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, CRect(1,1,1,1), IDW_USER_TOOLBAR + 6))
+	if (!m_SaveDialog.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, CRect(1,1,1,1), IDR_TOOLBAR5) ||
+		!m_SaveDialog.LoadToolBar(IDR_TOOLBAR5))
 	{
 		TRACE0("Failed to create toolbar\n");
 		return -1;      // fail to create
 	}
 
-	//m_SaveDialog.OnReset();
-	// TODO: Remove this if you don't want tool tips or a resizeable toolbar
-	//m_ToolBar.SetBarStyle(m_ToolBar.GetBarStyle() |
-	//	CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_GRIPPER | CBRS_SIZE_DYNAMIC);
-	m_SaveDialog.SetSizes(CSize(30,20),CSize(27,15));
-	m_SaveDialog.LoadToolBar(IDR_TOOLBAR7);
 	m_SaveDialog.EnableDocking(CBRS_ALIGN_TOP | CBRS_ALIGN_BOTTOM);
 	EnableDocking(CBRS_ALIGN_ANY);
 	DockPane(&m_SaveDialog);
@@ -258,44 +249,18 @@ LRESULT CChildFrame::OnToolbarReset(WPARAM wp,LPARAM)
 {
 	UINT uiToolBarId = (UINT) wp;
 
-#if 1
 	switch (uiToolBarId)
 	{
-	case IDR_TOOLBAR7:
+	case IDR_TOOLBAR5:
 		{
-#if 1
-		CMFCToolBarEditBoxButton editBox(ID_TEST_ME, 0, ES_AUTOHSCROLL, 120);
-
-		//deviceCombo.GetComboBox()->SetCurSel(1);
-		//deviceCombo.CreateEdit(&m_SaveDialog, CRect(1,1,10,15));
-		m_SaveDialog.ReplaceButton ( ID_TEST_ME, editBox );
-		editBox.EnableWindow();
-		//pSaveEdit = editBox.CreateEdit( m_SaveDialog, CRect(1,1,100,14));
-		//editBox.SetFont(&m_font, TRUE); 
+		CMFCToolBarEditBoxButton editBox(ID_SAVEFILE, 0, ES_AUTOHSCROLL, 85);
+		m_SaveDialog.ReplaceButton (ID_SAVEFILE, editBox);
 		}
 		break;
-#else
-		CMFCToolBarComboBoxButton deviceCombo(ID_TEST_ME, GetCmdMgr()->GetCmdImage(IDR_TOOLBAR7, FALSE), CBS_DROPDOWNLIST,100);
-
-		//deviceCombo.GetComboBox()->SetCurSel(1);
-		//deviceCombo.CreateEdit(&m_SaveDialog, CRect(1,1,10,15));
-		m_SaveDialog.ReplaceButton ( ID_TEST_ME, deviceCombo );
-		
-		pCombo = deviceCombo.CreateCombo(&m_SaveDialog,CRect(1,1,100,14));
-		pCombo->AddString("Test1, 1");
-		pCombo->AddString("Test2, 2");
-		pCombo->AddString("Test3, 3");
-		pCombo->AddString("Test4, 4");
-		deviceCombo.SetFlatMode(true);
-		pCombo->SetCurSel(1);
-		pCombo->SetFont(&m_font, TRUE); 
-		}
-		break;
-#endif
 	default:
 		break;
 	}
-#endif
+
 	return 0;
 }
 
@@ -311,7 +276,7 @@ void CChildFrame::OnSave()
 {
 	CString filename;
 
-	CMFCToolBarEditBoxButton* pEditButton = (CMFCToolBarEditBoxButton*) m_SaveDialog.GetButton(0);
+	CMFCToolBarEditBoxButton* pEditButton = (CMFCToolBarEditBoxButton*) m_SaveDialog.GetButton(1);
 	pEditButton->GetEditBox()->GetWindowText(filename);
 
 	((CMCPforNTDoc*)GetActiveView()->GetDocument())->OnSave(filename);

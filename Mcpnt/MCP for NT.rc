@@ -25,7 +25,6 @@ LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
 //
 
 IDB_SPLASH              BITMAP                  "pillars.bmp"
-IDR_TOOLBAR7            BITMAP                  "res\\toolbar7.bmp"
 #endif    // German (Germany) resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -43,6 +42,10 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 
 IDR_TOOLBAR1            BITMAP                  "res\\toolbar1.bmp"
+IDR_TOOLBAR2            BITMAP                  "res\\toolbar2.bmp"
+IDR_TOOLBAR3            BITMAP                  "res\\toolbar3.bmp"
+IDR_TOOLBAR4            BITMAP                  "res\\toolbar4.bmp"
+IDR_TOOLBAR5            BITMAP                  "res\\toolbar5.bmp"
 IDR_MAINFRAME_TOOLBAR1  BITMAP                  "res\\Toolbar.bmp"
 
 #ifdef APSTUDIO_INVOKED
@@ -116,9 +119,30 @@ BEGIN
     BUTTON      ID_LSIBOX
 END
 
-IDR_TOOLBAR7 TOOLBAR 27, 15
+IDR_TOOLBAR2 TOOLBAR 27, 15
 BEGIN
-    BUTTON      ID_TEST_ME
+    BUTTON      ID_DUMMY_LABEL
+    BUTTON      ID_LOADFILE
+END
+
+IDR_TOOLBAR3 TOOLBAR 27, 15
+BEGIN
+    BUTTON      ID_DUMMY_LABEL
+    BUTTON      ID_HTMEAS
+    BUTTON      ID_HTMEAS_ICON
+END
+
+IDR_TOOLBAR4 TOOLBAR 27, 15
+BEGIN
+    BUTTON      ID_DUMMY_LABEL
+    BUTTON      ID_PROTONS
+    BUTTON      ID_PROTONS_ICON
+END
+
+IDR_TOOLBAR5 TOOLBAR 27, 15
+BEGIN
+    BUTTON      ID_DUMMY_LABEL
+    BUTTON      ID_SAVEFILE
 END
 
 IDR_MAINFRAME_TOOLBAR1 TOOLBAR 27, 15
@@ -1126,18 +1150,16 @@ BEGIN
     LTEXT           "HV-Voltage",IDC_STATIC,15,168,40,8
 END
 
-IDD_NETREAD DIALOG 0, 0, 127, 95
+IDD_NETREAD DIALOGEX 0, 0, 186, 95
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 CAPTION "Network Reader"
-FONT 8, "MS Sans Serif"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
-    EDITTEXT        IDC_NAME,45,5,70,14
-    EDITTEXT        IDC_PROPERTY,45,20,70,14
+    EDITTEXT        IDC_NAME,42,5,137,14,ES_AUTOHSCROLL
     PUSHBUTTON      "Read !",IDC_READNET,75,40,40,20
     LTEXT           "Name",-1,10,7,30,8
-    LTEXT           "Property",-1,10,23,30,8
     LTEXT           "Answer :",-1,15,50,28,8
-    LTEXT           "",IDC_NETANSWER,10,65,95,25
+    LTEXT           "",IDC_NETANSWER,7,65,170,25
 END
 
 IDD_PAGE1PR DIALOG 0, 0, 212, 90
@@ -1354,14 +1376,6 @@ BEGIN
     LTEXT           "Save as",IDC_STATIC,9,4,27,8
 END
 
-CG_IDD_LOADFILEBAR DIALOGEX 0, 0, 156, 16
-STYLE DS_SETFONT | WS_CHILD
-FONT 8, "MS Sans Serif", 0, 0, 0x0
-BEGIN
-    COMBOBOX        IDC_LOADCOMBO,55,2,95,99,CBS_DROPDOWN | CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Load this file",IDC_STATIC,9,4,40,8
-END
-
 CG_IDD_GPS_HTMEAS DIALOG 0, 0, 134, 20
 STYLE DS_SETFONT | WS_CHILD
 FONT 8, "MS Sans Serif"
@@ -1536,18 +1550,16 @@ BEGIN
     ICON            IDI_ICON3,IDC_PROTONICON,1,0,18,20
 END
 
-IDD_NETWRITE DIALOG 0, 0, 127, 95
+IDD_NETWRITE DIALOGEX 0, 0, 186, 95
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 CAPTION "Network Writer"
-FONT 8, "MS Sans Serif"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
-    EDITTEXT        IDC_NAME,45,5,70,14
-    EDITTEXT        IDC_PROPERTY,45,20,70,14
+    EDITTEXT        IDC_NAME,45,5,134,14
     PUSHBUTTON      "Write !",IDC_WRITENET,70,60,40,20
     LTEXT           "Name",IDC_STATIC,10,7,30,8
-    LTEXT           "Property",IDC_STATIC,10,23,30,8
-    EDITTEXT        IDC_VALUE,45,35,70,14
-    LTEXT           "Value",IDC_STATIC,10,38,19,8
+    EDITTEXT        IDC_VALUE,45,24,134,14
+    LTEXT           "Value",IDC_STATIC,10,27,19,8
 END
 
 IDD_PAGE1LV DIALOG 0, 0, 202, 90
@@ -1967,7 +1979,7 @@ BEGIN
     IDD_NETREAD, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 120
+        RIGHTMARGIN, 179
         TOPMARGIN, 7
         BOTTOMMARGIN, 88
     END
@@ -2063,10 +2075,6 @@ BEGIN
     CG_IDD_SAVEDIALOG, DIALOG
     BEGIN
         BOTTOMMARGIN, 15
-    END
-
-    CG_IDD_LOADFILEBAR, DIALOG
-    BEGIN
     END
 
     IDD_GPIBREAD, DIALOG
@@ -2184,7 +2192,7 @@ BEGIN
     IDD_NETWRITE, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 120
+        RIGHTMARGIN, 179
         TOPMARGIN, 7
         BOTTOMMARGIN, 88
     END

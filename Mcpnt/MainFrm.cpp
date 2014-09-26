@@ -37,6 +37,8 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
+#define TimerID 4444
+
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame
 
@@ -74,14 +76,22 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWndEx)
 	ON_COMMAND(ID_VIEW_NETWRITER, OnViewNetwriter)
 	//}}AFX_MSG_MAP
 	// Global help commands
-	ON_CBN_SELCHANGE(IDC_LOADCOMBO, OnSelChange)
-	ON_CBN_DROPDOWN(IDC_LOADCOMBO, OnDropDown)
-	ON_CBN_SETFOCUS(IDC_LOADCOMBO, OnGetFocus)
-	ON_CBN_KILLFOCUS(IDC_LOADCOMBO, OnKillFocus)
 	ON_COMMAND(ID_HELP_FINDER, CMDIFrameWndEx::OnHelpFinder)
 	ON_COMMAND(ID_HELP, CMDIFrameWndEx::OnHelp)
 	ON_COMMAND(ID_CONTEXT_HELP, CMDIFrameWndEx::OnContextHelp)
 	ON_COMMAND(ID_DEFAULT_HELP, CMDIFrameWndEx::OnHelpFinder)
+	ON_REGISTERED_MESSAGE(AFX_WM_RESETTOOLBAR, OnToolbarReset)
+	ON_COMMAND(ID_LOADFILE, OnLoad)
+	ON_CBN_SELCHANGE(ID_LOADFILE, OnSelChange)
+	ON_CBN_DROPDOWN(ID_LOADFILE, OnDropDown)
+	//ON_COMMAND(ID_HTMEAS_ICON, OnHtMeasIcon)
+	//ON_COMMAND(ID_PROTONS_ICON, OnProtonsIcon)
+	ON_UPDATE_COMMAND_UI(ID_HTMEAS_ICON, OnUpdateHtMeas)
+	ON_UPDATE_COMMAND_UI(ID_PROTONS_ICON, OnUpdateProtons)
+	ON_UPDATE_COMMAND_UI(ID_HTMEAS, OnUpdateHtMeasText)
+	ON_UPDATE_COMMAND_UI(ID_PROTONS, OnUpdateProtonsText)
+	ON_MESSAGE(WM_TIMER,CMainFrame::OnTimer)
+
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -95,13 +105,153 @@ static UINT indicators[] =
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame construction/destruction
 
+void CMainFrame::OnUpdateHtMeasText(CCmdUI* pCmdUI)
+{
+	pCmdUI->Enable(false);
+}
+
+void CMainFrame::OnUpdateProtonsText(CCmdUI* pCmdUI)
+{
+	pCmdUI->Enable(false);
+}
+
+void CMainFrame::OnUpdateHtMeas(CCmdUI* pCmdUI)
+{
+	double value;
+	CMCPforNTApp* pMyApp = (CMCPforNTApp*)AfxGetApp();
+	//
+	// Get HT value
+	//
+	value = pMyApp->GetIsoHighvolt();
+
+	if(value)
+	{
+		pCmdUI->Enable(false);
+	}
+	else
+	{
+		pCmdUI->Enable(m_icon_on);
+	}
+}
+
+void CMainFrame::OnUpdateProtons(CCmdUI* pCmdUI)
+{
+	double value;
+	CMCPforNTApp* pMyApp = (CMCPforNTApp*)AfxGetApp();
+	//
+	// Get Protons value
+	//
+	value = pMyApp->GetIsoProtons();
+
+	if(value)
+	{
+		pCmdUI->Enable(false);
+	}
+	else
+	{
+		pCmdUI->Enable(m_icon_on);
+	}
+}
+
+LRESULT CMainFrame::OnTimer(WPARAM wparam,LPARAM lparam)
+{
+	double value;
+	CString value_string;
+	
+	CMCPforNTApp* pMyApp = (CMCPforNTApp*)AfxGetApp();
+
+	if(m_icon_on)
+	{
+		m_icon_on = false;
+	}
+	else
+	{
+		m_icon_on = true;
+	}
+
+	//
+	// HT text
+	//
+	value = pMyApp->GetIsoHighvolt();
+	value_string.Format("%.3g", value);
+
+	CMFCToolBarEditBoxButton* pEditHtmeas = (CMFCToolBarEditBoxButton*) m_wndGPS_HTMEAS.GetButton(1);
+	pEditHtmeas->GetEditBox()->SetWindowText(value_string);
+
+	//
+	// Protons text
+	//
+	value = pMyApp->GetIsoProtons();
+	value_string.Format("%.3g", value);
+
+	CMFCToolBarEditBoxButton* pEditProtons = (CMFCToolBarEditBoxButton*) m_wndISOLDE_PROTONS.GetButton(1);
+	pEditProtons->GetEditBox()->SetWindowText(value_string);
+
+	return 0;
+}
+
+LRESULT CMainFrame::OnToolbarReset(WPARAM wp,LPARAM)
+{
+	UINT uiToolBarId = (UINT) wp;
+
+	switch (uiToolBarId)
+	{
+	case IDR_TOOLBAR2:
+		{
+		CMFCToolBarComboBoxButton deviceCombo(ID_LOADFILE, GetCmdMgr()->GetCmdImage(IDR_TOOLBAR2, FALSE), CBS_DROPDOWNLIST,150);
+		m_wndLoadFileBar.ReplaceButton (ID_LOADFILE,deviceCombo);
+		}
+		break;
+
+	case IDR_TOOLBAR3:
+		{
+		CMFCToolBarEditBoxButton editBox(ID_HTMEAS, 0, ES_AUTOHSCROLL, 80);
+		m_wndGPS_HTMEAS.ReplaceButton (ID_HTMEAS, editBox);
+		}
+		break;
+
+	case IDR_TOOLBAR4:
+		{
+		CMFCToolBarEditBoxButton editBox(ID_PROTONS, 0, ES_AUTOHSCROLL, 80);
+		m_wndISOLDE_PROTONS.ReplaceButton (ID_PROTONS, editBox);
+		}
+		break;
+
+	default:
+		break;
+	}
+
+	return 0;
+}
+
+void CMainFrame::OnLoad()
+{
+	TRACE0("CMainFrame::OnLoad\n" );
+}
+
+void CMainFrame::OnHtMeasIcon()
+{
+	TRACE0("CMainFrame::OnHtMeasIcon\n" );
+	CMFCToolBarButton* pButton = (CMFCToolBarButton*) m_wndGPS_HTMEAS.GetButton(2);
+	pButton->EnableWindow(false);
+}
+
+void CMainFrame::OnProtonsIcon()
+{
+	TRACE0("CMainFrame::OnProtonsIcon\n" );
+	CMFCToolBarButton* pButton = (CMFCToolBarButton*) m_wndISOLDE_PROTONS.GetButton(2);
+	pButton->EnableWindow(false);
+}
+
 void CMainFrame::OnUpdateViewProtons(CCmdUI* pCmdUI)
 {
+	TRACE0("CMainFrame::OnUpdateViewProtons\n" );
 	pCmdUI->SetCheck(m_ShowISOLDE_PROTONS);
 }
 
 void CMainFrame::OnUpdateViewHT(CCmdUI* pCmdUI)
 {
+	TRACE0("CMainFrame::OnUpdateViewHT\n" );
 	pCmdUI->SetCheck(m_ShowGPS_HTMEAS);
 }
 
@@ -135,6 +285,8 @@ CMainFrame::CMainFrame()
 
 CMainFrame::~CMainFrame()
 {
+	KillTimer(mytimer);
+	
 	DataReset();
 	ListReset();
 	OnSavesettings();
@@ -167,164 +319,86 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// prevent the menu bar from taking the focus on activation
 	CMFCPopupMenu::SetForceMenuFocus(FALSE);
 
-	if (!m_wndToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, CRect(1,1,1,1), IDW_USER_TOOLBAR + 1) ||
+	if (!m_wndToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, CRect(1,1,1,1), IDR_MAINFRAME_TOOLBAR1) ||
 		!m_wndToolBar.LoadToolBar(IDR_MAINFRAME_TOOLBAR1))
 	{
 		TRACE0("Failed to create toolbar\n");
 		return -1;      // fail to create
 	}
 
-	m_wndToolBar.SetSizes(CSize(30,20),CSize(27,15));
-
 	if (!m_wndStatusBar.Create(this))
 	{
 		TRACE0("Failed to create status bar\n");
 		return -1;      // fail to create
 	}
+	m_wndStatusBar.SetIndicators(indicators, sizeof(indicators)/sizeof(UINT));
+	
+	int nOrigSize = sizeof(indicators) / sizeof(UINT);
+
+	UINT* pIndicators = new UINT[nOrigSize + 2];
+	memcpy(pIndicators, indicators, sizeof(indicators));
+
+	// Call the Status Bar Component's status bar creation function
+	if (!InitStatusBar(pIndicators, nOrigSize, 60))
+	{
+		TRACE0("Failed to initialize Status Bar\n");
+		return -1;
+	}
+	delete[] pIndicators;
 
 	// TODO: Delete these five lines if you don't want the toolbar and menubar to be dockable
 	m_wndToolBar.EnableDocking(CBRS_ALIGN_ANY);
+
+	if (!m_wndLoadFileBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, CRect(1,1,1,1), IDR_TOOLBAR2) ||
+		!m_wndLoadFileBar.LoadToolBar(IDR_TOOLBAR2))
+	{
+		TRACE0("Failed to create dialog bar m_wndLoadFileBar\n");
+		return -1;		// fail to create
+	}
+	m_wndLoadFileBar.EnableDocking(CBRS_ALIGN_TOP | CBRS_ALIGN_BOTTOM);
+
+	if (!m_wndGPS_HTMEAS.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, CRect(1,1,1,1), IDR_TOOLBAR3) ||
+		!m_wndGPS_HTMEAS.LoadToolBar(IDR_TOOLBAR3))
+	{
+		TRACE0("Failed to create dialog bar m_wndGPS_HTMEAS\n");
+		return -1;		// fail to create
+	}
+		
+	m_wndGPS_HTMEAS.EnableDocking(CBRS_ALIGN_TOP | CBRS_ALIGN_BOTTOM);
+
+	if (!m_wndISOLDE_PROTONS.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, CRect(1,1,1,1), IDR_TOOLBAR4) ||
+		!m_wndISOLDE_PROTONS.LoadToolBar(IDR_TOOLBAR4))
+	{
+		TRACE0("Failed to create dialog bar m_wndISOLDE_PROTONS\n");
+		return -1;		// fail to create
+	}
+
+	m_wndISOLDE_PROTONS.EnableDocking(CBRS_ALIGN_TOP | CBRS_ALIGN_BOTTOM);
 	EnableDocking(CBRS_ALIGN_ANY);
-	DockPane(&m_wndToolBar);
 
-	// CG: The following block was inserted by the 'Dialog Bar' component
+	// dock all panes in desired right to left order
+	DockPane(&m_wndLoadFileBar);
+	DockPaneLeftOf(&m_wndISOLDE_PROTONS,&m_wndLoadFileBar);
+	DockPaneLeftOf(&m_wndGPS_HTMEAS,&m_wndISOLDE_PROTONS);
+	DockPaneLeftOf(&m_wndToolBar,&m_wndGPS_HTMEAS);
 
-	// TODO: Add a menu item that will toggle the visibility of the
-	// dialog bar named "LoadFileBar":
-	//   1. In ResourceView, open the menu resource that is used by
-	//      the CMainFrame class
-	//   2. Select the View submenu
-	//   3. Double-click on the blank item at the bottom of the submenu
-	//   4. Assign the new item an ID: CG_ID_VIEW_LOADFILEBAR
-	//   5. Assign the item a Caption: LoadFileBar
-
-	// TODO: Change the value of CG_ID_VIEW_LOADFILEBAR to an appropriate value:
-	//   1. Open the file resource.h
-	//   2. Find the definition for the symbol CG_ID_VIEW_LOADFILEBAR
-	//   3. Change the value of the symbol. Use a value in the range
-	//      0xE804 to 0xE81A that is not already used by another symbol
-
-	// CG: The following block was inserted by the 'Dialog Bar' component
-	{
-		// Initialize dialog bar m_wndLoadFileBar
-		if (!m_wndLoadFileBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, CRect(1,1,1,1), IDW_USER_TOOLBAR + 2))
-		{
-			TRACE0("Failed to create dialog bar m_wndLoadFileBar\n");
-			return -1;		// fail to create
-		}
-		m_wndLoadFileBar.EnableDocking(CBRS_ALIGN_TOP | CBRS_ALIGN_BOTTOM);
-		EnableDocking(CBRS_ALIGN_ANY);
-		DockPane(&m_wndLoadFileBar);
-		m_wndLoadFileBar.ShowWindow( true );
-	}
-
-	m_wndStatusBar.SetIndicators(indicators, sizeof(indicators)/sizeof(UINT));
-	//DockControlBar(&m_wndToolBar);
-	// CG: The following block was inserted by 'Status Bar' component.
-	{
-		// Find out the size of the static variable 'indicators' defined
-		// by AppWizard and copy it
-		int nOrigSize = sizeof(indicators) / sizeof(UINT);
-
-		UINT* pIndicators = new UINT[nOrigSize + 2];
-		memcpy(pIndicators, indicators, sizeof(indicators));
-
-		// Call the Status Bar Component's status bar creation function
-		if (!InitStatusBar(pIndicators, nOrigSize, 60))
-		{
-			TRACE0("Failed to initialize Status Bar\n");
-			return -1;
-		}
-		delete[] pIndicators;
-	}
-
-	CSplashWnd::ShowSplashScreen(this);
-
-	{
-		
-		if (!m_wndGPS_HTMEAS.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, CRect(1,1,1,1), IDW_USER_TOOLBAR + 3))
-		{
-			TRACE0("Failed to create dialog bar m_wndGPS_HTMEAS\n");
-			return -1;		// fail to create
-		}
-		
-		m_wndGPS_HTMEAS.EnableDocking(CBRS_ALIGN_TOP | CBRS_ALIGN_BOTTOM);
-		EnableDocking(CBRS_ALIGN_ANY);
-		DockPane(&m_wndGPS_HTMEAS);
-	}
-	{
-		if (!m_wndISOLDE_PROTONS.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, CRect(1,1,1,1), IDW_USER_TOOLBAR + 4))
-		{
-			TRACE0("Failed to create dialog bar m_wndISOLDE_PROTONS\n");
-			return -1;		// fail to create
-		}
-
-		m_wndISOLDE_PROTONS.EnableDocking(CBRS_ALIGN_TOP | CBRS_ALIGN_BOTTOM);
-		EnableDocking(CBRS_ALIGN_ANY);
-		DockPane(&m_wndISOLDE_PROTONS);
-	}
 	dockstate.LoadState("Dockbars");
 	SetDockState(dockstate);
 
-#if 0
-	INST dvm;
-	double res;
-	int i;
-	char buf[256];
+	CSplashWnd::ShowSplashScreen(this);
 
-	ionerror (I_ERROR_EXIT);
-
-	dvm = iopen ("lan[A-34461A-06386]:inst0");
-
-	if( dvm > 0 )
-	{
-		itimeout (dvm, 1000);
-		
-		//iprintf(dvm, "*RST\n");
-
-		ipromptf(dvm, "*IDN?\n", "%t", buf);
-		OutputDebugString(buf);
-		OutputDebugString("\n");
-
-		for (i=1;i<=2;i++)
-		{
-			OutputDebugString("measuring\n");
-
-			/* Take a measurement */
-			iprintf (dvm,"MEAS:VOLT:DC?\n");
-
-			/* Read the results */
-			iscanf (dvm,"%lf", &res);
-
-			/* Print the results */
-			sprintf (buf, "Result is %f\n",res);
-
-			OutputDebugString(buf);
-			OutputDebugString("\n");
-		}
-
-		iclose (dvm);
-	}
-#endif
+	mytimer = SetTimer(TimerID,1000,NULL);
 
 	return 0;
-}
-
-void CMainFrame::OnGetFocus()
-{
-	LoadFocus=TRUE;
-}
-
-void CMainFrame::OnKillFocus()
-{
-	LoadFocus=FALSE;
 }
 
 void CMainFrame::OnSelChange()
 {
 	CString FileName;
-	CComboBox* pLoadFile = (CComboBox*)m_wndLoadFileBar.GetDlgItem(IDC_LOADCOMBO);
-	if (CB_ERR!=pLoadFile->GetCurSel())
+	CMFCToolBarComboBoxButton* pComboButton = (CMFCToolBarComboBoxButton*) m_wndLoadFileBar.GetButton(1);
+	CComboBox* pLoadFile = pComboButton->GetComboBox();
+
+	if(CB_ERR!=pLoadFile->GetCurSel())
 	{
 		pLoadFile->GetLBText(pLoadFile->GetCurSel(),FileName);
 		AfxGetApp()->OpenDocumentFile(FileName);
@@ -334,7 +408,9 @@ void CMainFrame::OnSelChange()
 void CMainFrame::OnDropDown()
 {
 	CString FileName;
-	CComboBox* pLoadFile = (CComboBox*)m_wndLoadFileBar.GetDlgItem(IDC_LOADCOMBO);
+	CMFCToolBarComboBoxButton* pComboButton = (CMFCToolBarComboBoxButton*) m_wndLoadFileBar.GetButton(1);
+	CComboBox* pLoadFile = pComboButton->GetComboBox();
+
 	pLoadFile->GetWindowText(FileName);
 	pLoadFile->ResetContent();
 	pLoadFile->Dir(DDL_READWRITE,"*.*");
@@ -383,18 +459,6 @@ void CMainFrame::OnSavesettings()
 	CDockState dockstate;
 	CFrameWnd::GetDockState(dockstate);
 	dockstate.SaveState("Dockbars");
-}
-
-void CMainFrame::OnReturn() 
-{
-	// TODO: Add your command handler code here
-	CString FileName;
-	if (LoadFocus)
-	{
-		CComboBox* pLoadFile = (CComboBox*)m_wndLoadFileBar.GetDlgItem(IDC_LOADCOMBO);
-		pLoadFile->GetWindowText(FileName);
-		AfxGetApp()->OpenDocumentFile(FileName);
-	}
 }
 
 void CMainFrame::OnViewTemplatecalculator() 
@@ -750,23 +814,6 @@ void CMainFrame::OnViewDisplaysetup()
 	delete pDisplay;
 	
 
-}
-
-
-BOOL CMainFrame::PreTranslateMessage(MSG* pMsg) 
-{
-	// TODO: Add your specialized code here and/or call the base class
-	{
-		// Shift+F10: show pop-up menu.
-		if (pMsg->message == WM_KEYDOWN)
-		{// If we hit a key and
-			if(pMsg->wParam == VK_RETURN)		//Natural keyboard key
-			{
-				OnReturn();
-			}
-		}
-	}
-	return CMDIFrameWndEx::PreTranslateMessage(pMsg);
 }
 
 void CMainFrame::OnViewCamactester() 
