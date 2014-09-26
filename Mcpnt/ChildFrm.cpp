@@ -55,7 +55,7 @@ BEGIN_MESSAGE_MAP(CChildFrame, CMDIChildWndEx)
 	ON_COMMAND(ID_SAVESETTINGS, OnSavesettings)
 	ON_WM_CLOSE()
 	//}}AFX_MSG_MAP
-	//ON_UPDATE_COMMAND_UI(ID_TEMPLATEPANE,OnStatus)
+	ON_UPDATE_COMMAND_UI(ID_TEMPLATEPANE,CChildFrame::OnStatus)
 	ON_MESSAGE(WM_SETPANE,CChildFrame::OnSetPane)
 	ON_MESSAGE(WM_DISABLECLOSE,CChildFrame::OnDisableClose)
 	ON_MESSAGE(WM_ENABLECLOSE,CChildFrame::OnEnableClose)
@@ -156,25 +156,6 @@ int CChildFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	m_bEnableFloatingBars = true;
 
-	// TODO: Add a menu item that will toggle the visibility of the
-	// dialog bar named "My Dialog Bar":
-	//   1. In ResourceView, open the menu resource that is used by
-	//      the CChildFrame class
-	//   2. Select the View submenu
-	//   3. Double-click on the blank item at the bottom of the submenu
-	//   4. Assign the new item an ID: CG_ID_VIEW_MYDIALOGBAR
-	//   5. Assign the item a Caption: My Dialog Bar
-
-	// TODO: Change the value of CG_ID_VIEW_MYDIALOGBAR to an appropriate value:
-	//   1. Open the file resource.h
-	//   2. Find the definition for the symbol CG_ID_VIEW_MYDIALOGBAR
-	//   3. Change the value of the symbol. Use a value in the range
-	//      0xE804 to 0xE81A that is not already used by another symbol
-
-	// CG: The following block was inserted by the 'Dialog Bar' component
-	{
-		// Initialize dialog bar m_template
-
 	if (!m_ToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, CRect(1,1,1,1), IDR_TOOLBAR1) ||
 		!m_ToolBar.LoadToolBar(IDR_TOOLBAR1))
 	{
@@ -187,44 +168,15 @@ int CChildFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_ToolBar.EnableDocking( CBRS_ALIGN_TOP | CBRS_ALIGN_BOTTOM );
 	m_ToolBar.EnableReflections(true);
 	EnableDocking(CBRS_ALIGN_ANY);
-		
-	if (!m_wndStatusBar.Create(this))
+	
+	if (!m_wndStatusBar.Create(this) ||
+		!m_wndStatusBar.SetIndicators(indicators, sizeof(indicators)/sizeof(UINT)))
 	{
 		TRACE0("Failed to create status bar\n");
 		return -1;      // fail to create
 	}
-	m_wndStatusBar.SetIndicators(indicators, sizeof(indicators)/sizeof(UINT));
 	m_wndStatusBar.SetPaneStyle(0,SBPS_STRETCH);
 
-	/*
-	if (!m_wndStatusBar.Create(this, WS_CHILD | WS_VISIBLE | CBRS_BOTTOM, IDW_USER_TOOLBAR + 5) ||
-		!m_wndStatusBar.SetIndicators(indicators,
-		  sizeof(indicators)/sizeof(UINT)))
-	{
-		TRACE0("Failed to create status bar\n");
-		return -1;      // fail to create
-	}
-	    
-		*/
-
-	}
-
-	// TODO: Add a menu item that will toggle the visibility of the
-	// dialog bar named "SaveDialog":
-	//   1. In ResourceView, open the menu resource that is used by
-	//      the CChildFrame class
-	//   2. Select the View submenu
-	//   3. Double-click on the blank item at the bottom of the submenu
-	//   4. Assign the new item an ID: CG_ID_VIEW_SAVEDIALOG
-	//   5. Assign the item a Caption: SaveDialog
-
-	// TODO: Change the value of CG_ID_VIEW_SAVEDIALOG to an appropriate value:
-	//   1. Open the file resource.h
-	//   2. Find the definition for the symbol CG_ID_VIEW_SAVEDIALOG
-	//   3. Change the value of the symbol. Use a value in the range
-	//      0xE804 to 0xE81A that is not already used by another symbol
-
-	// CG: The following block was inserted by the 'Dialog Bar' component
 	if (!m_SaveDialog.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, CRect(1,1,1,1), IDR_TOOLBAR5) ||
 		!m_SaveDialog.LoadToolBar(IDR_TOOLBAR5))
 	{
@@ -282,10 +234,17 @@ void CChildFrame::OnSave()
 	((CMCPforNTDoc*)GetActiveView()->GetDocument())->OnSave(filename);
 }
 
+void CChildFrame::OnStatus(CCmdUI* pCmdUI)
+{
+	pCmdUI->Enable();
+}
+
 LRESULT CChildFrame::OnSetPane(WPARAM wparam,LPARAM lparam)
 {
-	CString Text = (char*)lparam;
-	m_wndStatusBar.SetPaneText(m_wndStatusBar.CommandToIndex(ID_TEMPLATEPANE),Text);
+	CString statusText;
+	
+	statusText = (char*)lparam;
+	m_wndStatusBar.SetPaneText(m_wndStatusBar.CommandToIndex(ID_TEMPLATEPANE),statusText);
 	return TRUE;
 }
 

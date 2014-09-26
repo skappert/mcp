@@ -37,7 +37,6 @@ protected:
 	BOOL		CloseEnabled;
 	CMFCToolBar	m_ToolBar;
 	CMFCToolBar m_SaveDialog;
-	CEdit*		pSaveEdit;
 	CFont		m_font;
 
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
@@ -49,6 +48,7 @@ protected:
 	afx_msg void OnSavesettings();
 	afx_msg void OnClose();
 	afx_msg void OnSave();
+	afx_msg void OnStatus(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
