@@ -38,6 +38,8 @@ public:
 	UINT	m_massdelay;
 	UINT	m_premadelay;
 	UINT	m_fvoltslot;
+	CString m_dip_ht;
+	CString m_dip_pc;
 	//}}AFX_DATA
 
 

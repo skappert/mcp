@@ -219,8 +219,11 @@
 #define IDC_HVVOLTSLOT                  1027
 #define IDC_SLOWRESETCH                 1028
 #define IDC_PLOT_X                      1028
+#define IDC_DIP_HT                      1028
 #define IDC_AMPOFF                      1029
 #define IDC_PLOT_DY                     1029
+#define IDC_DIP_HT2                     1029
+#define IDC_DIP_PC                      1029
 #define IDC_NOMOD                       1030
 #define IDC_PLOT_Y                      1030
 #define IDC_MODAM                       1031

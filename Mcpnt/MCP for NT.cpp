@@ -21,7 +21,10 @@
 #include "MonitorView.h"
 #include "MCP for NTView.h"
 
-
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
 
 #include "dos.h"
 #include <direct.h>
@@ -76,7 +79,7 @@ CMCPforNTApp::CMCPforNTApp()
 	//The CWinApp destructor will free the memory.
 	m_pszAppName = _tcsdup(_T("MCP for NT"));
 
-	SetRegistryKey(_T("MCP2"));
+	SetRegistryKey(_T("MCP2.1"));
 	SetRegistryBase(_T("Settings"));
 }
 
@@ -249,6 +252,8 @@ BOOL CMCPforNTApp::InitInstance()
 	FlukeDelay		= GetProfileInt("Hardware","flukedelay",	100);
 	MassDelay		= GetProfileInt("Hardware","massdelay",		5000);
 	GPIBDelay		= GetProfileInt("Hardware","gpibdelay",		20);
+	DipHT			= GetProfileString("Hardware", "dip_ht_string", "dip/acc/ISO/HT2.HTCTL/AQN1");
+	DipPC			= GetProfileString("Hardware", "dip_pc_string", "dip/acc/ISO/HT2.HTCTL/AQN1");
 
 	GlobalKepcoFactor = (double)GetProfileInt("Hardware","globalkepcofactor",5000000)/100000;
 
@@ -308,8 +313,8 @@ BOOL CMCPforNTApp::InitInstance()
 	sub = new DipSubscription*[11];
 	dip->setDNSNode("dipnsgpn1,dipnsgpn2");
 
-	sub[0] = dip->createDipSubscription("dip/acc/ISO/HT1.HTCTL/AQN1", handler);
-	sub[1] = dip->createDipSubscription("dip/acc/ISO/BTY.TRA213/AQN", handler);
+	sub[0] = dip->createDipSubscription(DipHT, handler);
+	sub[1] = dip->createDipSubscription(DipPC, handler);
 
 	sub[2] = dip->createDipSubscription("dip/acc/ISO/GPS.MAG70/HIGHVOLT",handler);
 	sub[3] = dip->createDipSubscription("dip/acc/ISO/GPS.MAG70/MFACTOR",handler);
@@ -617,6 +622,8 @@ void CMCPforNTApp::OnViewHardwaresetup()
 	pdlg->m_flukedelay		= GetProfileInt("Hardware","flukedelay",	100);
 	pdlg->m_massdelay		= GetProfileInt("Hardware","massdelay",		5000);
 	pdlg->m_gpibdelay		= GetProfileInt("Hardware","gpibdelay",		20);
+	pdlg->m_dip_ht			= GetProfileString("Hardware", "dip_ht_string", "dip/acc/ISO/HT2.HTCTL/AQN1");
+	pdlg->m_dip_pc			= GetProfileString("Hardware", "dip_pc_string", "dip/acc/ISO/HT2.HTCTL/AQN1");
 
 	if(IDOK==pdlg->DoModal())
 	{
@@ -670,28 +677,12 @@ void CMCPforNTApp::OnViewHardwaresetup()
 		HvSlot			= pdlg->m_hvvoltslot;
 		WriteProfileInt("Hardware","fvoltslot",pdlg->m_fvoltslot);
 		FSlot			= pdlg->m_fvoltslot;
-
+		WriteProfileString("Hardware", "dip_ht_string", pdlg->m_dip_ht);
+		DipHT			= pdlg->m_dip_ht;
+		WriteProfileString("Hardware", "dip_pc_string", pdlg->m_dip_pc);
+		DipPC			= pdlg->m_dip_pc;
 	}
 	delete pdlg;
-}
-
-BOOL ReadLine(HANDLE pFile,char str[])
-{
-	char TheChar;
-	unsigned long len = 124;
-	ULONG read;
-	ReadFile(pFile,(LPSTR)str,len,&read,NULL);
-	if (read!=len)
-	{
-		return FALSE;
-	};
-	do
-	{
-		ReadFile(pFile,&TheChar,1,&read,NULL);
-	}while ((TheChar!=10)&&(read==1));
-	str[124]=0;
-	if(read==1)return TRUE;
-	else return FALSE;
 }
 
 void strip(char str[])
@@ -711,37 +702,35 @@ void strip(char str[])
 
 BOOL CMCPforNTApp::LoadMasses(CString MassFile)
 {
-	HANDLE DataBaseFP;
-	USHORT i;
-	char str[200];
-	char element[10];
-	char mass[20];
+	char element[7];
+	char mass[10];
 
 	CString data;
 
-	DataBaseFP=CreateFile(MassFile,
-							GENERIC_READ,
-							FILE_SHARE_READ,
-							NULL,
-							OPEN_EXISTING,
-							(DWORD) 0,
-							NULL);
-	if (DataBaseFP==INVALID_HANDLE_VALUE) 
-		return FALSE;
-	// Header
-	for(i=0;i<39;i++)ReadLine(DataBaseFP,str);
-	
-	while (ReadLine(DataBaseFP,str))
+	string input_line;
+    ifstream infile;
+    infile.open (MassFile);
+
+	if(infile.good())
 	{
-		strncpy(&element[0],&str[16],3);
-		strncpy(&element[3],&str[20],3);
-		str[99]='.';
-		strncpy(mass,&str[96],10);
-		strip(element);
-		strip(mass);
-		MassesMap.SetAt(element,mass);
+		// Read Header
+		for(int i=0;i<39;i++) getline(infile,input_line);
+	
+		while (getline(infile,input_line))
+		{
+			strncpy(&element[0],&input_line[16],3);
+			strncpy(&element[3],&input_line[20],3);
+			strncpy(mass,&input_line[96],9);
+			element[6] = 0;
+			mass[3]='.';
+			mass[9] = 0;
+			strip(element);
+			strip(mass);
+			MassesMap.SetAt(element,mass);
+		}
+
+		infile.close();
 	}
 
-	CloseHandle(DataBaseFP);
 	return TRUE;
 }

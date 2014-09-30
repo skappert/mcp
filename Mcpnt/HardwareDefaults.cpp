@@ -44,6 +44,8 @@ CHardwareDefaults::CHardwareDefaults(CWnd* pParent /*=NULL*/)
 	m_massdelay = 0;
 	m_premadelay = 0;
 	m_fvoltslot = 1;
+	m_dip_ht = _T("");
+	m_dip_pc = _T("");
 	//}}AFX_DATA_INIT
 }
 
@@ -100,6 +102,10 @@ void CHardwareDefaults::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_FIELDGPIB, m_fieldgpib);
 	DDX_Text(pDX, IDC_GELBEBOX2SLOT, m_gelbebox2slot);
 	//}}AFX_DATA_MAP
+	DDX_Text(pDX, IDC_DIP_HT, m_dip_ht);
+	DDV_MaxChars(pDX, m_dip_ht, 200);
+	DDX_Text(pDX, IDC_DIP_PC, m_dip_pc);
+	DDV_MaxChars(pDX, m_dip_pc, 200);
 }
 
 

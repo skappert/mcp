@@ -46,11 +46,11 @@ private:
 		void handleMessage(DipSubscription *subscription, DipData &message)
 		{
 			// Isolde general
-			if(strcmp(subscription->getTopicName(),"dip/acc/ISO/HT1.HTCTL/AQN1")==0)
+			if(strcmp(subscription->getTopicName(),client->DipHT)==0)
 			{
 				client->SetIsoHighvolt( message.extractDouble("value") );
 			}
-			if(strcmp(subscription->getTopicName(),"dip/acc/ISO/BTY.TRA213/AQN")==0)
+			if(strcmp(subscription->getTopicName(),client->DipPC)==0)
 			{
 				client->SetIsoProtons( message.extractDouble("value") );
 			}
@@ -181,6 +181,8 @@ public:
 	USHORT	FlukeDelay;
 	USHORT	MassDelay;
 	USHORT	GPIBDelay;
+	CString DipHT;
+	CString DipPC;
 
 	CPtrList CopyActionList;
 	
