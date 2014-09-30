@@ -1,18 +1,13 @@
 ;/*++
 ;
-;Copyright (c) Microsoft Corporation.  All rights reserved.
-;
-;   THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
-;   KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
-;   IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR
-;   PURPOSE.
+;Copyright (c) 2014 Stephan Kappertz
 ;
 ;Module Name:
 ;
 ;    Hytec.INF
 ;
 ;Abstract:
-;    INF file for Hytec PCI CAMAC controller.
+;    INF file for Hytec 5331/5332 PCI CAMAC controller.
 ;
 ;--*/
 
@@ -119,5 +114,5 @@ KmdfLibraryVersion = $KMDFVERSION$
 MSFT           = "Hytec"
 ClassName      = "CAMAC controller"
 HytecPCI.SVCDESC = "Service for Hytec CAMAC Controller"
-HytecPCI.DRVDESC = "Hytec CAMAC Controller"
+HytecPCI.DRVDESC = "Hytec 5332 CAMAC Controller"
 DISK_NAME      = "Hytec driver Install Disk"

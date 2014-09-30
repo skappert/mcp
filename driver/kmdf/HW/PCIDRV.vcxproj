@@ -208,7 +208,7 @@
     <Inf Include="..\hytec.inx">
       <Architecture>$(InfArch)</Architecture>
       <SpecifyArchitecture>true</SpecifyArchitecture>
-      <CopyOutput>.\$(IntDir)\genpci.inf</CopyOutput>
+      <CopyOutput>.\$(IntDir)\HYTEC.inf</CopyOutput>
     </Inf>
     <OtherWpp Include="..\pcidrv.rc">
       <WppEnabled>true</WppEnabled>
