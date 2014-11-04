@@ -449,6 +449,16 @@ void CLSIView::PostNcDestroy()
 	CRichEditView::PostNcDestroy();
 }
 
+void CLSIView::Help()
+{
+	int i;
+	printf("\r\n");
+	for( i = 0; Commands[i].NumArgsMin!=-1; i++ )
+	{
+		printf("%s : %s\r\n", Commands[i].comm, Commands[i].Help);
+	}
+}
+
 void CLSIView::Dispatch(CString TheCommand)
 {
 	char input[255];
@@ -571,7 +581,7 @@ CString CLSIView::getline(void)
 	string[len]='\0';
 	InString = string;
 	InString = InString.Right(InString.GetLength()-InString.Find('>')-2);
-	InString = InString.Left(InString.GetLength()-2);
+	InString = InString.Left(InString.GetLength()-1);
 	return InString;
 }
 
@@ -806,7 +816,7 @@ CString _exit(CMCPforNTView* pView,...)
 CString _help(CMCPforNTView* pView,...)
 {
 	CString answer = "";
-	pView->SendMessage(WM_HELP,0,0x0012fbe8);
+	pView->pCLSIView->Help();
 	return answer;
 }
 

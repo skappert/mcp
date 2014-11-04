@@ -285,6 +285,7 @@ public:
 // Operations
 public:
 	void Dispatch(CString TheCommand);
+	void Help();
 
 // Overrides
 	// ClassWizard generated virtual function overrides
