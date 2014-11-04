@@ -17,6 +17,7 @@ static char THIS_FILE[] = __FILE__;
 
 CNetworkWriter::CNetworkWriter(CWnd* pParent /*=NULL*/)
 	: CDialog(CNetworkWriter::IDD, pParent)
+	, m_SetProperty(_T(""))
 {
 	CMCPforNTApp* pApp = (CMCPforNTApp*)AfxGetApp();
 	
@@ -26,6 +27,9 @@ CNetworkWriter::CNetworkWriter(CWnd* pParent /*=NULL*/)
 	//}}AFX_DATA_INIT
 
 	if(m_name.IsEmpty()) m_name = "dip/acc/ISO/COLLAPS/GPS.MAG70/CCV.Setter";
+
+	m_SetProperty = pApp->GetProfileString("DIPWriter", "set_property" );
+	if(m_SetProperty.IsEmpty()) m_SetProperty = "value";
 
 	dip = Dip::create("MCP_ISOLDE_COLLAPS_NETWRITER");
 	handler = new GeneralDataListener(this);
@@ -41,6 +45,7 @@ void CNetworkWriter::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_NAME, m_name);
 	DDX_Text(pDX, IDC_VALUE, m_value);
 	//}}AFX_DATA_MAP
+	DDX_Text(pDX, IDC_SET_PROPERTY, m_SetProperty);
 }
 
 
@@ -78,10 +83,14 @@ void CNetworkWriter::HandleNetMessage( CString topic, double value )
 
 void CNetworkWriter::OnWritenet() 
 {
-	// TODO: Add your control notification handler code here
 	double Data;
-
+	
+	CMCPforNTApp* pApp = (CMCPforNTApp*)AfxGetApp();
+	
 	UpdateData(TRUE);
+
+	pApp->WriteProfileString("DIPWriter", "name", m_name);
+	pApp->WriteProfileString("DIPWriter", "set_property", m_SetProperty);
 
 	Data = atof(m_value);
 
@@ -91,7 +100,7 @@ void CNetworkWriter::OnWritenet()
 	WriterErrHandler errorHandler;
 	pub[0] = dip->createDipPublication(m_name,&errorHandler);
 	pubData[0] = dip->createDipData();
-	pubData[0]->insert(Data,"value");
+	pubData[0]->insert(Data,m_SetProperty);
 	DipTimestamp time;
 	pub[0]->send(*pubData[0],time);
 

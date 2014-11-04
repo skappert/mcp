@@ -222,12 +222,13 @@
 #define IDC_DIP_HT                      1028
 #define IDC_AMPOFF                      1029
 #define IDC_PLOT_DY                     1029
-#define IDC_DIP_HT2                     1029
 #define IDC_DIP_PC                      1029
 #define IDC_NOMOD                       1030
 #define IDC_PLOT_Y                      1030
+#define IDC_DIP_HT_VALUE                1030
 #define IDC_MODAM                       1031
 #define IDC_LSI_DX                      1031
+#define IDC_DIP_PC_VALUE                1031
 #define IDC_MODFM                       1032
 #define IDC_LSI_X                       1032
 #define IDC_MODFREQ                     1033
@@ -418,6 +419,8 @@
 #define IDC_READNET                     1164
 #define IDC_NAME                        1165
 #define IDC_PROPERTY                    1166
+#define IDC_GET_PROPERTY                1166
+#define IDC_SET_PROPERTY                1166
 #define IDC_NETANSWER                   1167
 #define IDC_VALUE                       1167
 #define IDC_GPS_HTMEAS                  1168
@@ -462,6 +465,8 @@
 #define ID_LOADFILE                     32876
 #define ID_NEW_SICLREADER               32877
 #define ID_SICLREADER                   32878
+#define ID_NEW_SICLREADERSTEP           32879
+#define ID_SICLREADERSTEP               32880
 #define ID_BUTTON32772                  38772
 #define ID_BUTTON32773                  38773
 #define ID_BUTTON32774                  38774
@@ -549,7 +554,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        225
-#define _APS_NEXT_COMMAND_VALUE         32879
+#define _APS_NEXT_COMMAND_VALUE         32881
 #define _APS_NEXT_CONTROL_VALUE         1204
 #define _APS_NEXT_SYMED_VALUE           143
 #endif

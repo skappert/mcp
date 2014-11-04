@@ -99,6 +99,7 @@ BEGIN_MESSAGE_MAP(CMCPforNTView, CListView)
 	ON_COMMAND(ID_CONFIGURE, OnConfigure)
 	ON_COMMAND(ID_GPIBREADER, OnGpibreader)
 	ON_COMMAND(ID_SICLREADER, OnSiclreader)
+	ON_COMMAND(ID_SICLREADERSTEP, OnSiclreaderstep)
 	ON_COMMAND(ID_OUTBIT, OnOutbit)
 	ON_COMMAND(ID_FIELDREADER, OnFieldreader)
 	ON_COMMAND(ID_TEMPREADER, OnTempreader)
@@ -1104,6 +1105,23 @@ void CMCPforNTView::OnSiclreader()
 	{
 
 		SiclReaderObj* pAction = new SiclReaderObj;
+		pAction->DoString		= "normal";
+		pAction->pTrack			= GetSelectedTrack();
+		pAction->pDocument		= GetDocument();
+
+		GetDocument()->ActionObjList.InsertAfter(GetSelectedPosition(),pAction);
+		GetDocument()->SetModifiedFlag(TRUE);
+		GetDocument()->UpdateAllViews(NULL);
+	}	
+}
+
+void CMCPforNTView::OnSiclreaderstep() 
+{
+	// TODO: Add your command handler code here
+	if(GetSelectedTrack()!=NULL)
+	{
+
+		SiclStepObj* pAction = new SiclStepObj;
 		pAction->DoString		= "normal";
 		pAction->pTrack			= GetSelectedTrack();
 		pAction->pDocument		= GetDocument();

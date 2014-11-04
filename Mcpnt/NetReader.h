@@ -72,7 +72,7 @@ private:
 		* */
 		void handleMessage(DipSubscription *subscription, DipData &message)
 		{
-			client->HandleNetMessage( subscription->getTopicName(), message.extractDouble("value") );
+			client->HandleNetMessage( subscription->getTopicName(), message.extractDouble(client->m_GetProperty) );
 		}
 
 
@@ -105,4 +105,6 @@ private:
 
 	//A handle on the DIP Data recipient.
 	GeneralDataListener *handler;
+public:
+	CString m_GetProperty;
 };

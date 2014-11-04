@@ -6,6 +6,7 @@
 #include "resource.h"  // e.g. resource.h
 
 #include "Splash.h"  // e.g. splash.h
+#include <vector>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -116,9 +117,57 @@ int CSplashWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 
+bool CSplashWnd::GetProductAndVersion(CString & strProductName, CString & strProductVersion)
+{
+    // get the filename of the executable containing the version resource
+    TCHAR szFilename[MAX_PATH + 1] = {0};
+    if (GetModuleFileName(NULL, szFilename, MAX_PATH) == 0)
+    {
+        TRACE("GetModuleFileName failed with error %d\n", GetLastError());
+        return false;
+    }
+
+    // allocate a block of memory for the version info
+    DWORD dummy;
+    DWORD dwSize = GetFileVersionInfoSize(szFilename, &dummy);
+    if (dwSize == 0)
+    {
+        TRACE("GetFileVersionInfoSize failed with error %d\n", GetLastError());
+        return false;
+    }
+    std::vector<BYTE> data(dwSize);
+
+    // load the version info
+    if (!GetFileVersionInfo(szFilename, NULL, dwSize, &data[0]))
+    {
+        TRACE("GetFileVersionInfo failed with error %d\n", GetLastError());
+        return false;
+    }
+
+    // get the name and version strings
+    LPVOID pvProductName = NULL;
+    unsigned int iProductNameLen = 0;
+    LPVOID pvProductVersion = NULL;
+    unsigned int iProductVersionLen = 0;
+
+    // replace "040904e4" with the language ID of your resources
+    if (!VerQueryValue(&data[0], _T("\\StringFileInfo\\040904b0\\ProductName"), &pvProductName, &iProductNameLen) ||
+        !VerQueryValue(&data[0], _T("\\StringFileInfo\\040904b0\\ProductVersion"), &pvProductVersion, &iProductVersionLen))
+    {
+        TRACE("Can't obtain ProductName and ProductVersion from resources\n");
+        return false;
+    }
+
+    strProductName.SetString((LPCTSTR)pvProductName, iProductNameLen);
+    strProductVersion.SetString((LPCTSTR)pvProductVersion, iProductVersionLen);
+
+    return true;
+}
+
 void CSplashWnd::OnPaint()
 {
 	CPaintDC dc(this);
+	CString strProductName, strProductVersion;
 
 	CDC dcImage;
 	if (!dcImage.CreateCompatibleDC(&dc))
@@ -131,6 +180,14 @@ void CSplashWnd::OnPaint()
 	CBitmap* pOldBitmap = dcImage.SelectObject(&m_bitmap);
 	dc.BitBlt(0, 0, bm.bmWidth, bm.bmHeight, &dcImage, 0, 0, SRCCOPY);
 	dcImage.SelectObject(pOldBitmap);
+
+	GetProductAndVersion(strProductName, strProductVersion);
+
+	dc.SetTextAlign(TA_RIGHT|TA_BASELINE); 
+	dc.SetBkMode(TRANSPARENT);
+	dc.SetTextColor(RGB(255,255,255));
+	dc.TextOut(380,220,strProductName);
+	dc.TextOut(380,240,strProductVersion);
 }
 
 void CSplashWnd::OnTimer(UINT_PTR nIDEvent)

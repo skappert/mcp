@@ -3357,6 +3357,7 @@ void SiclReaderObj::MeasurementEndAction(void)
 
 void SiclReaderObj::TrackBeginAction(USHORT track)
 {
+	double res;
 	CT2A address(SICLAddress);
 	
 	if(SiclHandle <= 0 && !SICLAddress.IsEmpty())
@@ -3374,20 +3375,348 @@ void SiclReaderObj::TrackBeginAction(USHORT track)
 
 		/* Take measurement */
 		iprintf (SiclHandle,question);
-	}
-}
 
-void SiclReaderObj::TrackEndAction(USHORT track,USHORT scansdone)
-{
-	double res;
-	
-	if(SiclHandle > 0)
-	{
 		/* Read the results */
 		iscanf (SiclHandle,"%lf", &res);
 
 		Data[NumOfSamples] = res; 
 		NumOfSamples++;
+	}
+}
+
+/****************   Methods for Class SiclStepObj  ***********************/
+
+void SiclStepObj::DoConfigureAction(void)
+{
+	CString TrackNo;
+	CString XName,XUnit;
+	TrackNo.Format("%u",pTrack->MyPosition);
+	CPropShtSR propSheet(ShortName+" in Track ["+TrackNo+"] of "+pDocument->GetTitle(),AfxGetMainWnd(),0);
+
+	propSheet.m_page1.m_sendstring = SICLQuestion;
+	propSheet.m_page3.m_gpib = SICLAddress;
+	if(propSheet.DoModal())
+	{
+		if(!pDocument->MeasurementRunning)
+		{
+			SICLQuestion = propSheet.m_page1.m_sendstring;
+			SICLAddress = propSheet.m_page3.m_gpib;
+			pDocument->SetModifiedFlag(TRUE);
+			pDocument->UpdateAllViews(NULL,0,NULL);
+		}
+		else Beep(1000,100);
+	}
+}
+
+double SiclStepObj::GetY(USHORT channel)
+{
+	return (double) Data[channel];
+}
+
+double SiclStepObj::GetYErr(USHORT channel)
+{
+	return (double)1e-5;
+}
+
+void SiclStepObj::DoDoubleClickAction(void)
+{
+	int i;
+	double Start,Stop;
+	ActionObject* pActionObject;
+	CString TheObject="";
+	CString ScalNo;
+	CString TrackNo;
+	CString XName,XUnit;
+	TrackNo.Format("%u",pTrack->MyPosition);
+	if(pDataView==NULL)pDataView = new DataView(this);
+	else pDataView->Reset();
+	pDataView->SetWindowTitle(ShortName+" in Track ["+TrackNo+"]  of "+pDocument->GetTitle());
+	pDataView->SetDrawType((int)0,FALSE);
+
+	pDataView->SetYTitle("Voltage","V");
+	POSITION pos=pDocument->ActionObjList.GetHeadPosition();
+	int Channels = pTrack->Channels;
+	do
+	{
+		pActionObject = (ActionObject*)pDocument->ActionObjList.GetNext(pos);
+		TheObject     = pActionObject->GetName();
+	}
+	while ((pActionObject->pTrack->MyPosition != this->pTrack->MyPosition)||((pos!=NULL)&&(TheObject!=__HP_VoltageSweepObj)&&(TheObject!=__Line_VoltageSweepObj)));
+	if((pos!=NULL)&&(TheObject==__HP_VoltageSweepObj))
+	{
+		HP_VoltageSweepObj* pAction = (HP_VoltageSweepObj*)pActionObject;
+		Start = pAction->Sweep_Start;
+		Stop  = pAction->Sweep_Stop;
+		XName = "HP-Voltage";
+		XUnit = "V";
+		pDataView->SetXTitle(XName,XUnit);
+	}
+
+	if((pos!=NULL)&&(TheObject==__Line_VoltageSweepObj))
+	{
+		Line_VoltageSweepObj* pAction = (Line_VoltageSweepObj*)pActionObject;
+		Start = pAction->Sweep_Start;
+		Stop  = pAction->Sweep_Stop;
+		XName = "Line-Voltage";
+		XUnit = "V";
+		pDataView->SetXTitle(XName,XUnit);
+	}
+
+	pDataView->SetTitle(pTrack->Isotope);
+	for(i=0;i<Channels;i++)
+	{
+		pDataView->AddDataPoint((float)(i*((Stop-Start)/(Channels-1))+Start),
+								(float)Data[i],
+								(float)(1e-5));
+	}
+	pDataView->RedrawNow();
+}
+
+void SiclStepObj::CopyObject(ActionObject* pSource)
+{
+	SiclStepObj* pActionObject = (SiclStepObj*) pSource;
+
+	pDocument		= pActionObject->pDocument;
+	pTrack			= pActionObject->pTrack;	
+	HardwareReady	= pActionObject->HardwareReady;
+	Name			= pActionObject->Name;
+	ShortName		= pActionObject->ShortName;
+	DoString		= pActionObject->DoString;
+	Isotope			= pActionObject->Isotope;
+	Gpib			= pActionObject->Gpib;
+	SICLAddress		= pActionObject->SICLAddress;
+	SICLQuestion	= pActionObject->SICLQuestion;
+	for(int i=0;i<100;i++)Data[i]= pActionObject->Data[i];
+	NumOfSamples		= pActionObject->NumOfSamples;
+}
+
+CString SiclStepObj::GetInfo(void)
+{
+	CString answer;
+	CString in1;
+	in1.Format("%g",DelayBeforeMeas);
+	answer = "PreDelay: "+in1+" ms";
+	return answer;
+}
+
+void SiclStepObj::Load(CArchive& ar)
+{
+	BOOL ERR = FALSE;
+	int i=0;
+	unsigned char TheChar;
+	CString TheString;
+	Name = ReadString(ar);
+	ShortName = __SiclStepObj;
+	ReadSeparator(ar);
+	SICLAddress = ReadString(ar);
+	SICLQuestion = ReadString(ar);
+	if (pTrack->RealScans>0)
+	{
+		do
+		{
+			Data[i]=ReadFloat(ar);
+			if(Data[i]==-999999)
+			{
+				ERR = TRUE;
+				i = 0;
+			}
+			++i;
+			TheChar = ReadChar(ar);
+		} while (TheChar ==','&&!ERR);
+		NumOfSamples = i;
+	}
+	else
+	{
+		ReadStructBegin(ar);
+		ReadStructEnd(ar);
+	}
+	ReadSeparator(ar);	
+}
+
+void SiclStepObj::Save(CArchive& ar)
+{
+	USHORT i,j=0;
+	WriteNameBegin(ar);
+	WriteString(ar,Name);
+	WriteNameEnd(ar);
+	WriteLine(ar);
+	WriteStructBegin(ar);
+	WriteString(ar,Name);
+	WriteSeparator(ar);
+
+	WriteString(ar,SICLAddress);
+	WriteSeparator(ar);
+	WriteString(ar,SICLQuestion);
+	WriteSeparator(ar);
+	WriteStructBegin(ar);
+	if (pTrack->RealScans>0)
+	{
+		for(i=0;i<NumOfSamples;i++)
+		{
+			WriteFloat(ar,Data[i]);
+			if(i!=(NumOfSamples-1))WriteSeparator(ar);
+			j++;
+			if(j==5)
+			{
+				j = 0;
+				WriteLine(ar);
+			}
+		} 
+	}
+	WriteStructEnd(ar);
+	WriteLine(ar);
+	WriteStructEnd(ar);
+	WriteLine(ar);
+}
+
+void SiclStepObj::MeasurementBeginAction(BOOL RUNMODE)
+{
+	if(RUNMODE==ERGO) NumOfSamples = 0;
+
+	CT2A address(SICLAddress);
+
+	if(SiclHandle <= 0 && !SICLAddress.IsEmpty())
+	{
+		SiclHandle = iopen (address);
+		itimeout (SiclHandle, 10000);
+	}
+}
+
+void SiclStepObj::MeasurementEndAction(void)
+{
+	if(SiclHandle > 0)
+	{
+		/* Close SICL handle */
+		iclose (SiclHandle);
+
+		SiclHandle = 0;
+	}
+}
+
+void SiclStepObj::TrackBeginAction(USHORT track)
+{
+		int i;
+	BOOL ENDE = FALSE;
+	CString XName,XUnit;
+	CString YTitle,YUnit;
+	CMCPforNTApp* pApp = (CMCPforNTApp*)AfxGetApp();
+	
+	if(DispMonitorMode == 1)
+	{
+		if(pApp->pMonitorView==NULL)pApp->pMonitorView = new MonitorView();
+
+		double Start,Stop;
+		CString DoNew = "";
+		ActionObject* pActionObject;
+		CString TheObject="";
+		CString TrackNo;
+		
+		TrackNo.Format("%u",pTrack->MyPosition);
+		
+		XName = "Channel";
+		XUnit = "";
+		Start = (double)1;
+		Stop  = (double)pTrack->Channels;
+		 
+		pApp->pMonitorView->SetWindowTitle("Monitor for Track ["+TrackNo+"]  of "+pDocument->GetTitle());
+
+		for(i=0;i<4;i++)pApp->pMonitorView->ActualIndex[i] = 0;
+
+		POSITION pos=pDocument->ActionObjList.GetHeadPosition();
+		int Channels = pTrack->Channels;
+		
+		pActionObject = (ActionObject*)pDocument->ActionObjList.GetHead();
+		pos = pDocument->ActionObjList.GetHeadPosition();
+		do
+		{
+			pActionObject = (ActionObject*)pDocument->ActionObjList.GetNext(pos);
+			if (pActionObject!=NULL&&pActionObject->pTrack->MyPosition == track)
+			{
+				TheObject     = pActionObject->GetName();
+				if((TheObject==__HP_VoltageSweepObj)||	
+				(TheObject==__Line_VoltageSweepObj)||
+				(TheObject==__HP8660B_FrequencySweepObj)||
+				(TheObject==__HP3325B_FrequencySweepObj)||
+				(TheObject==__HP3325B2_FrequencySweepObj)||
+				(TheObject==__RS_FrequencySweepObj))ENDE = TRUE;
+			}
+		}
+		while (pos!=NULL&&ENDE==FALSE);
+
+		if(pos!=NULL)
+		{
+			if((TheObject==__HP_VoltageSweepObj)||(TheObject==__Line_VoltageSweepObj))
+			{
+				if(TheObject==__HP_VoltageSweepObj)
+				{
+					CMCPforNTApp* pApp = (CMCPforNTApp*)AfxGetApp();
+					HP_VoltageSweepObj* pAction1 = (HP_VoltageSweepObj*)pActionObject;
+					Start	= pAction1->Sweep_Start;
+					Stop	= pAction1->Sweep_Stop;
+					XName	= "HPVoltage";
+					XUnit	= "V";
+				}
+				if(TheObject==__Line_VoltageSweepObj)
+				{
+					Line_VoltageSweepObj* pAction2 = (Line_VoltageSweepObj*)pActionObject;
+					Start	= pAction2->Sweep_Start;
+					Stop	= pAction2->Sweep_Stop;
+					XName	= "LineVoltage";
+					XUnit	= "V";
+				}
+				if (Start==Stop)
+				{
+					XName = "Channel";
+					XUnit = "";
+					Start = (double)1;
+					Stop  = (double)pTrack->Channels;
+				}
+			}
+		}
+		YTitle = "Voltage [V]";
+		YUnit="V";
+		{
+			if(pApp->pMonitorView->MonitorFree())
+				pApp->pMonitorView->AddView(Channels,XName,XUnit,YTitle,YUnit,(float)Start,(float)Stop,(ActionObject*)this,pTrack->RealScans,ShowExpected);
+		
+			else 
+			{
+				DispMonitorMode = 0;
+				AfxMessageBox("Too much monitors defined,\n\r disabled last",MB_OK,0);
+			}
+		}
+	}
+	
+	CT2A address(SICLAddress);
+	
+	if(SiclHandle <= 0 && !SICLAddress.IsEmpty())
+	{
+		SiclHandle = iopen (address);
+		itimeout (SiclHandle, 10000);
+	}
+}
+
+void SiclStepObj::TrackStepAction(USHORT step, USHORT track, USHORT scan)
+{
+	double res;
+	
+	if(SiclHandle > 0)
+	{
+		if(DelayBeforeMeas > 0)DelayCamac((USHORT)DelayBeforeMeas);
+		
+		CT2A question(SICLQuestion);
+
+		/* trailing line feed */ 
+		strcat(question,"\n");
+
+		/* Take measurement */
+		iprintf (SiclHandle,question);
+
+		/* Read the results */
+		iscanf (SiclHandle,"%lf", &res);
+
+		Data[step] = res; 
+		NumOfSamples = step + 1;
 	}
 }
 

@@ -58,4 +58,7 @@ protected:
 		// NOTE: the ClassWizard will add member functions here
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
+public:
+	CString m_dip_ht_value;
+	CString m_dip_pc_value;
 };

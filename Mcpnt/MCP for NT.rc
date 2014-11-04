@@ -210,6 +210,7 @@ BEGIN
             MENUITEM "TempReader",                  ID_TEMPREADER
             MENUITEM "GPIBReader",                  ID_GPIBREADER
             MENUITEM "SICLReader",                  ID_SICLREADER
+            MENUITEM "SICLStep",                    ID_SICLREADERSTEP
         END
     END
 END
@@ -280,9 +281,7 @@ BEGIN
     BEGIN
         MENUITEM "&GPS Voltage",                CG_ID_VIEW_GPS_HTMEAS
         MENUITEM "&Isolde Protons",             CG_ID_VIEW_ISOLDEPROTONS
-        MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
         MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
-        MENUITEM "&Savebar",                    CG_ID_VIEW_SAVEDIALOG
         MENUITEM SEPARATOR
         MENUITEM "Template &calc",              ID_VIEW_TEMPLATECALCULATOR
         MENUITEM "Script-Window",               ID_VIEW_SCRIPTWINDOW
@@ -294,8 +293,6 @@ BEGIN
         MENUITEM "GPIB Reader",                 ID_MENU_GPIBREADER
         MENUITEM "GPIB Writer",                 ID_MENU_GPIBWRITER
         MENUITEM "SICL Reader",                 ID_VIEW_SICLREADER
-        MENUITEM SEPARATOR
-        MENUITEM "Save settings",               ID_SAVESETTINGS
         MENUITEM SEPARATOR
         MENUITEM "Display setup",               ID_VIEW_DISPLAYSETUP
         MENUITEM "Hardware setup",              ID_VIEW_HARDWARESETUP
@@ -1150,23 +1147,29 @@ BEGIN
     LTEXT           "HV-Voltage",IDC_STATIC,15,168,40,8
     GROUPBOX        "DIP addresses",IDC_STATIC,109,195,267,120
     LTEXT           "High tension (HT)",IDC_STATIC,117,216,56,8
-    LTEXT           "Proton count (PC)",IDC_STATIC,117,256,57,8
+    LTEXT           "Proton count (PC)",IDC_STATIC,117,275,57,8
     EDITTEXT        IDC_DIP_HT,176,214,200,14,ES_AUTOHSCROLL
-    EDITTEXT        IDC_DIP_PC,176,254,200,14
-    LTEXT           "for HT1 use: dip/acc/ISO/HT1.HTCTL/AQN1",IDC_STATIC,185,230,148,8
-    LTEXT           "for HT2 use: dip/acc/ISO/HT2.HTCTL/AQN1",IDC_STATIC,185,239,148,8
+    EDITTEXT        IDC_DIP_PC,176,273,200,14
+    LTEXT           "for HT1 use: dip/acc/ISO/HT1.HTCTL/AQN1",IDC_STATIC,185,245,148,8
+    LTEXT           "for HT2 use: dip/acc/ISO/HT2.HTCTL/AQN1",IDC_STATIC,185,254,148,8
+    EDITTEXT        IDC_DIP_HT_VALUE,176,229,200,14,ES_AUTOHSCROLL
+    LTEXT           "Value",IDC_STATIC,117,231,19,8
+    EDITTEXT        IDC_DIP_PC_VALUE,176,288,200,14,ES_AUTOHSCROLL
+    LTEXT           "Value",IDC_STATIC,117,291,19,8
 END
 
-IDD_NETREAD DIALOGEX 0, 0, 200, 95
+IDD_NETREAD DIALOGEX 0, 0, 200, 94
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 CAPTION "Network Reader"
 FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
     EDITTEXT        IDC_NAME,56,5,137,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "Read !",IDC_READNET,57,24,40,20
-    LTEXT           "Name",-1,10,7,30,8
-    LTEXT           "Answer :",-1,15,50,28,8
-    LTEXT           "",IDC_NETANSWER,7,65,186,23
+    PUSHBUTTON      "Read !",IDC_READNET,153,45,40,20
+    LTEXT           "Name",-1,6,7,30,8
+    LTEXT           "Answer :",-1,7,54,28,8
+    LTEXT           "",IDC_NETANSWER,7,70,186,17
+    LTEXT           "Value",-1,7,28,19,8
+    EDITTEXT        IDC_GET_PROPERTY,56,24,137,14,ES_AUTOHSCROLL
 END
 
 IDD_PAGE1PR DIALOG 0, 0, 212, 90
@@ -1563,10 +1566,12 @@ CAPTION "Network Writer"
 FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
     EDITTEXT        IDC_NAME,55,5,138,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "Write !",IDC_WRITENET,59,43,40,20
-    LTEXT           "Name",IDC_STATIC,10,7,30,8
-    EDITTEXT        IDC_VALUE,56,24,137,14,ES_AUTOHSCROLL
-    LTEXT           "Value",IDC_STATIC,10,27,19,8
+    PUSHBUTTON      "Write !",IDC_WRITENET,56,68,40,20
+    LTEXT           "Name",IDC_STATIC,6,7,30,8
+    EDITTEXT        IDC_VALUE,56,46,137,14,ES_AUTOHSCROLL
+    LTEXT           "Value",IDC_STATIC,7,49,19,8
+    LTEXT           "Value name",IDC_STATIC,7,28,38,8
+    EDITTEXT        IDC_SET_PROPERTY,55,25,138,14,ES_AUTOHSCROLL
 END
 
 IDD_PAGE1LV DIALOG 0, 0, 202, 90
@@ -1988,7 +1993,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 193
         TOPMARGIN, 7
-        BOTTOMMARGIN, 88
+        BOTTOMMARGIN, 87
     END
 
     IDD_PAGE1PR, DIALOG
@@ -2294,8 +2299,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,1
- PRODUCTVERSION 1,0,0,1
+ FILEVERSION 2,0,0,2
+ PRODUCTVERSION 2,0,0,2
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -2310,13 +2315,13 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "FileDescription", "MCP FOR NT"
-            VALUE "FileVersion", "1, 0, 0, 1"
-            VALUE "InternalName", "MCP FOR NT"
-            VALUE "LegalCopyright", "Copyright Stephan Kappertz© 1997-1998"
+            VALUE "FileDescription", "MCP for NT"
+            VALUE "FileVersion", "2.0.0.2"
+            VALUE "InternalName", "MCP forNT"
+            VALUE "LegalCopyright", "Copyright Stephan Kappertz© 1997-2014"
             VALUE "OriginalFilename", "MCP FOR NT.EXE"
-            VALUE "ProductName", "MCP FOR NT"
-            VALUE "ProductVersion", "1, 0, 0, 1"
+            VALUE "ProductName", "MCP for NT"
+            VALUE "ProductVersion", "2.0.0.2"
         END
     END
     BLOCK "VarFileInfo"
@@ -2541,6 +2546,11 @@ END
 STRINGTABLE
 BEGIN
     ID_SICLREADER           "Open SICL reader\nSICL reader"
+END
+
+STRINGTABLE
+BEGIN
+    ID_SICLREADERSTEP       "Open SICL step reader\nSICL step reader"
 END
 
 #endif    // English (United States) resources

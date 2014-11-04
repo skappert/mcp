@@ -98,4 +98,6 @@ private:
 
 	//A handle on the DIP Data recipient.
 	GeneralDataListener *handler;
+public:
+	CString m_SetProperty;
 };

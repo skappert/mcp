@@ -40,6 +40,7 @@ protected:
 	void HideSplashScreen();
 	static BOOL c_bShowSplashWnd;
 	static CSplashWnd* c_pSplashWnd;
+	bool GetProductAndVersion(CString & strProductName, CString & strProductVersion);
 
 // Generated message map functions
 protected:

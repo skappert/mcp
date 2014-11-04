@@ -724,7 +724,51 @@ class ActionObject
 		void MeasurementBeginAction(BOOL RUNMODE);
 		void MeasurementEndAction(void);
 		void TrackBeginAction(USHORT track);
-		void TrackEndAction(USHORT track,USHORT scansdone);
+	};
+
+	/************************ SiclStepObj ***************************/
+
+	class SiclStepObj				: public ActionObject
+	{
+	public:
+		SiclStepObj()
+		{
+			CMCPforNTApp* pApp = (CMCPforNTApp*)AfxGetApp();
+			Slot		= 0;
+			SubAddress	= 0;
+			Gpib		= 0;
+			Name		= _SiclStepObj;
+			ShortName	= __SiclStepObj;
+			SICLAddress = "lan[A-34461A-06386]:inst0";
+			SICLQuestion= "MEAS:VOLT:DC?";
+			for(int i=0;i<MAXPOINTS;i++)Data[i]= 0;
+			NumOfSamples	= 0;
+			TakesData		= TRUE;
+			DataCount		= 2;
+			DispMonitorMode = 1;
+			DelayBeforeMeas	= pApp->PremaDelay;
+		}
+
+		INST SiclHandle;
+		double		DelayBeforeMeas;
+		double Data[MAXPOINTS];
+		int NumOfSamples;
+		CString SICLAddress;
+		CString SICLQuestion;
+		CString GetName(void){return ShortName;};
+		BOOL TestHardware(void){return TRUE;};
+		void CopyObject(ActionObject* pSource);
+		void DoDoubleClickAction(void);
+		void DoConfigureAction(void);
+		void Load(CArchive& ar);
+		void Save(CArchive& ar);
+		CString GetInfo(void);
+		void MeasurementBeginAction(BOOL RUNMODE);
+		void MeasurementEndAction(void);
+		void TrackBeginAction(USHORT track);
+		void TrackStepAction(USHORT step, USHORT track, USHORT scan);
+		double GetY(USHORT channel);
+		double GetYErr(USHORT channel);
 	};
 
 	/************************ KepcoEichungVoltageObj ***************************/

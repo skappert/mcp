@@ -48,50 +48,32 @@ private:
 			// Isolde general
 			if(strcmp(subscription->getTopicName(),client->DipHT)==0)
 			{
-				client->SetIsoHighvolt( message.extractDouble("value") );
+				client->SetIsoHighvolt( message.extractDouble(client->DipHTValue) );
 			}
 			if(strcmp(subscription->getTopicName(),client->DipPC)==0)
 			{
-				client->SetIsoProtons( message.extractDouble("value") );
+				client->SetIsoProtons( message.extractDouble(client->DipPCValue) );
 			}
 			// GPS
-			if(strcmp(subscription->getTopicName(),"dip/acc/ISO/GPS.MAG70/HIGHVOLT")==0)
+			if(strcmp(subscription->getTopicName(),"dip/acc/ISO/GPS.MAG70/UserSettings")==0)
 			{
-				client->m_iso_gps_highvolt = message.extractDouble("value");
-			}
-			if(strcmp(subscription->getTopicName(),"dip/acc/ISO/GPS.MAG70/MFACTOR")==0)
-			{
-				client->m_iso_gps_mfactor = message.extractDouble("value");
-			}
-			if(strcmp(subscription->getTopicName(),"dip/acc/ISO/GPS.MAG70/AQN")==0)
-			{
-				client->m_iso_gps_aqn = message.extractDouble("value");
+				client->m_iso_gps_highvolt = message.extractDouble("highVoltage");
+				client->m_iso_gps_mfactor = message.extractDouble("massFactor");
+				client->m_iso_gps_aqn = message.extractDouble("fieldAqn");
 			}
 			//---<<< HRS.MAG90 >>>---//
-			if(strcmp(subscription->getTopicName(),"dip/acc/ISO/HRS.MAG90/HIGHVOLT")==0)
+			if(strcmp(subscription->getTopicName(),"dip/acc/ISO/HRS.MAG90/UserSettings")==0)
 			{
-				client->m_iso_hrs_mag90_highvolt = message.extractDouble("value");
-			}
-			if(strcmp(subscription->getTopicName(),"dip/acc/ISO/HRS.MAG90/MFACTOR")==0)
-			{
-				client->m_iso_hrs_mag90_mfactor = message.extractDouble("value");
-			}
-			if(strcmp(subscription->getTopicName(),"dip/acc/ISO/HRS.MAG90/AQN")==0)
-			{
-				client->m_iso_hrs_mag90_aqn = message.extractDouble("value");
+				client->m_iso_hrs_mag90_highvolt = message.extractDouble("highVoltage");
+				client->m_iso_hrs_mag90_mfactor = message.extractDouble("massFactor");
+				client->m_iso_hrs_mag90_aqn = message.extractDouble("fieldAqn");
 			}
 			//---<<< HRS.MAG60 >>>---//
-			if(strcmp(subscription->getTopicName(),"dip/acc/ISO/HRS.MAG60/HIGHVOLT")==0)
+			if(strcmp(subscription->getTopicName(),"dip/acc/ISO/HRS.MAG60/UserSettings")==0)
 			{
-				client->m_iso_hrs_mag60_highvolt = message.extractDouble("value");
-			}
-			if(strcmp(subscription->getTopicName(),"dip/acc/ISO/HRS.MAG60/MFACTOR")==0)
-			{
-				client->m_iso_hrs_mag60_mfactor = message.extractDouble("value");
-			}
-			if(strcmp(subscription->getTopicName(),"dip/acc/ISO/HRS.MAG60/AQN")==0)
-			{
-				client->m_iso_hrs_mag60_aqn = message.extractDouble("value");
+				client->m_iso_hrs_mag60_highvolt = message.extractDouble("highVoltage");
+				client->m_iso_hrs_mag60_mfactor = message.extractDouble("massFactor");
+				client->m_iso_hrs_mag60_aqn = message.extractDouble("fieldAqn");
 			}
 		}
 
@@ -181,8 +163,8 @@ public:
 	USHORT	FlukeDelay;
 	USHORT	MassDelay;
 	USHORT	GPIBDelay;
-	CString DipHT;
-	CString DipPC;
+	CString DipHT, DipHTValue;
+	CString DipPC, DipPCValue;
 
 	CPtrList CopyActionList;
 	

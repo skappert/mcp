@@ -201,7 +201,7 @@
       <SubSystem>Windows</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <OutputFile>.\Release\MCP for NT.exe</OutputFile>
-      <AdditionalDependencies>sicl32.lib;setupapi.lib;uxtheme.lib;winmm.lib;dip.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>version.lib;sicl32.lib;setupapi.lib;uxtheme.lib;winmm.lib;dip.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Manifest>
       <InputResourceManifests>
@@ -369,7 +369,7 @@
       <SubSystem>Windows</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <OutputFile>.\Debug\MCP for NT.exe</OutputFile>
-      <AdditionalDependencies>sicl32.lib;setupapi.lib;uxtheme.lib;dip.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>version.lib;sicl32.lib;setupapi.lib;uxtheme.lib;dip.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>AsInvoker</UACExecutionLevel>
     </Link>
     <CustomBuild>
@@ -383,6 +383,10 @@
       <InputResourceManifests>
       </InputResourceManifests>
     </Manifest>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

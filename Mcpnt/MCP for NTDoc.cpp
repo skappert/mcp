@@ -523,6 +523,16 @@ void CMCPforNTDoc::DispatchActionObj(CArchive& ar)
 		CouldDispatch=TRUE;
 
 	}
+	if(TheObject==_SiclStepObj)
+	{
+		ActionObject* pActionObj = new SiclStepObj;
+		pActionObj->pDocument=this;
+		pActionObj->pTrack = pActualTrack;
+		pActionObj->Load(ar);
+		ActionObjList.AddTail(pActionObj);
+		CouldDispatch=TRUE;
+
+	}
 	if(TheObject==_TempReaderObj)
 	{
 		ActionObject* pActionObj = new TempReaderObj;

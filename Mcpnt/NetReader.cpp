@@ -28,6 +28,9 @@ CNetReader::CNetReader(CWnd* pParent /*=NULL*/)
 
 	if(m_name.IsEmpty()) m_name = "dip/acc/ISO/HT1.HTCTL/AQN1";
 
+	m_GetProperty = pApp->GetProfileString("DIPReader", "get_property");
+	if(m_GetProperty.IsEmpty()) m_GetProperty = "value";
+
 	dip = Dip::create("MCP_ISOLDE_COLLAPS_NETREADER");
 	handler = new GeneralDataListener(this);
 	
@@ -43,6 +46,7 @@ void CNetReader::DoDataExchange(CDataExchange* pDX)
 	DDV_MaxChars(pDX, m_name, 200);
 	DDX_Text(pDX, IDC_NETANSWER, m_netanswer);
 	//}}AFX_DATA_MAP
+	DDX_Text(pDX, IDC_GET_PROPERTY, m_GetProperty);
 }
 
 
@@ -70,7 +74,12 @@ void CNetReader::HandleNetMessage( CString topic, double value )
 
 void CNetReader::OnReadnet() 
 {
+	CMCPforNTApp* pApp = (CMCPforNTApp*)AfxGetApp();
+	
 	UpdateData(TRUE);
+
+	pApp->WriteProfileString("DIPReader", "name", m_name);
+	pApp->WriteProfileString("DIPReader", "get_property", m_GetProperty);
 
     sub = new DipSubscription*[1];
 	sub[0] = dip->createDipSubscription(m_name, handler);

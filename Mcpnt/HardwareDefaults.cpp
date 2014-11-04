@@ -17,6 +17,8 @@ static char THIS_FILE[] = __FILE__;
 
 CHardwareDefaults::CHardwareDefaults(CWnd* pParent /*=NULL*/)
 	: CDialog(CHardwareDefaults::IDD, pParent)
+	, m_dip_ht_value(_T(""))
+	, m_dip_pc_value(_T(""))
 {
 	//{{AFX_DATA_INIT(CHardwareDefaults)
 	m_ferddichsubadd = 0;
@@ -106,6 +108,8 @@ void CHardwareDefaults::DoDataExchange(CDataExchange* pDX)
 	DDV_MaxChars(pDX, m_dip_ht, 200);
 	DDX_Text(pDX, IDC_DIP_PC, m_dip_pc);
 	DDV_MaxChars(pDX, m_dip_pc, 200);
+	DDX_Text(pDX, IDC_DIP_HT_VALUE, m_dip_ht_value);
+	DDX_Text(pDX, IDC_DIP_PC_VALUE, m_dip_pc_value);
 }
 
 

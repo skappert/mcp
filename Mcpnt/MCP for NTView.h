@@ -125,6 +125,7 @@ public:
 	afx_msg void OnConfigure();
 	afx_msg void OnGpibreader();
 	afx_msg void OnSiclreader();
+	afx_msg void OnSiclreaderstep();
 	afx_msg void OnOutbit();
 	afx_msg void OnFieldreader();
 	afx_msg void OnTempreader();

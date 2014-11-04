@@ -79,7 +79,7 @@ CMCPforNTApp::CMCPforNTApp()
 	//The CWinApp destructor will free the memory.
 	m_pszAppName = _tcsdup(_T("MCP for NT"));
 
-	SetRegistryKey(_T("MCP2.1"));
+	SetRegistryKey(_T("MCP2"));
 	SetRegistryBase(_T("Settings"));
 }
 
@@ -252,8 +252,10 @@ BOOL CMCPforNTApp::InitInstance()
 	FlukeDelay		= GetProfileInt("Hardware","flukedelay",	100);
 	MassDelay		= GetProfileInt("Hardware","massdelay",		5000);
 	GPIBDelay		= GetProfileInt("Hardware","gpibdelay",		20);
-	DipHT			= GetProfileString("Hardware", "dip_ht_string", "dip/acc/ISO/HT2.HTCTL/AQN1");
-	DipPC			= GetProfileString("Hardware", "dip_pc_string", "dip/acc/ISO/HT2.HTCTL/AQN1");
+	DipHT			= GetProfileString("Hardware", "dip_ht_string", "dip/acc/ISO/HT1.HTCTL/AQN1");
+	DipHTValue		= GetProfileString("Hardware", "dip_ht_value", "value");
+	DipPC			= GetProfileString("Hardware", "dip_pc_string", "dip/acc/ISO/BTY.BCT213/SummingAcquisition");
+	DipPCValue		= GetProfileString("Hardware", "dip_pc_value", "shortIntegratorValue");
 
 	GlobalKepcoFactor = (double)GetProfileInt("Hardware","globalkepcofactor",5000000)/100000;
 
@@ -310,22 +312,18 @@ BOOL CMCPforNTApp::InitInstance()
 	handler = new GeneralDataListener(this);
 
 	//Creating an array of DipSubscriptions.
-	sub = new DipSubscription*[11];
+	sub = new DipSubscription*[5];
 	dip->setDNSNode("dipnsgpn1,dipnsgpn2");
 
 	sub[0] = dip->createDipSubscription(DipHT, handler);
 	sub[1] = dip->createDipSubscription(DipPC, handler);
 
-	sub[2] = dip->createDipSubscription("dip/acc/ISO/GPS.MAG70/HIGHVOLT",handler);
-	sub[3] = dip->createDipSubscription("dip/acc/ISO/GPS.MAG70/MFACTOR",handler);
-	sub[4] = dip->createDipSubscription("dip/acc/ISO/GPS.MAG70/AQN",handler);
+	// GPS
+	sub[2] = dip->createDipSubscription("dip/acc/ISO/GPS.MAG70/UserSettings",handler);
 
-	sub[5] = dip->createDipSubscription("dip/acc/ISO/HRS.MAG90/HIGHVOLT",handler);
-	sub[6] = dip->createDipSubscription("dip/acc/ISO/HRS.MAG90/MFACTOR",handler);
-	sub[7] = dip->createDipSubscription("dip/acc/ISO/HRS.MAG90/AQN",handler);
-	sub[8] = dip->createDipSubscription("dip/acc/ISO/HRS.MAG60/HIGHVOLT",handler);
-	sub[9] = dip->createDipSubscription("dip/acc/ISO/HRS.MAG60/MFACTOR",handler);
-	sub[10] = dip->createDipSubscription("dip/acc/ISO/HRS.MAG60/AQN",handler);
+	// HRS
+	sub[3] = dip->createDipSubscription("dip/acc/ISO/HRS.MAG90/UserSettings",handler);
+	sub[4] = dip->createDipSubscription("dip/acc/ISO/HRS.MAG60/UserSettings",handler);
 
 	return TRUE;
 }
@@ -622,8 +620,10 @@ void CMCPforNTApp::OnViewHardwaresetup()
 	pdlg->m_flukedelay		= GetProfileInt("Hardware","flukedelay",	100);
 	pdlg->m_massdelay		= GetProfileInt("Hardware","massdelay",		5000);
 	pdlg->m_gpibdelay		= GetProfileInt("Hardware","gpibdelay",		20);
-	pdlg->m_dip_ht			= GetProfileString("Hardware", "dip_ht_string", "dip/acc/ISO/HT2.HTCTL/AQN1");
-	pdlg->m_dip_pc			= GetProfileString("Hardware", "dip_pc_string", "dip/acc/ISO/HT2.HTCTL/AQN1");
+	pdlg->m_dip_ht			= GetProfileString("Hardware", "dip_ht_string", "dip/acc/ISO/HT1.HTCTL/AQN1");
+	pdlg->m_dip_pc			= GetProfileString("Hardware", "dip_pc_string", "dip/acc/ISO/BTY.BCT213/SummingAcquisition");
+	pdlg->m_dip_ht_value	= GetProfileString("Hardware", "dip_ht_value", "value");
+	pdlg->m_dip_pc_value	= GetProfileString("Hardware", "dip_pc_value", "shortIntegratorValue");
 
 	if(IDOK==pdlg->DoModal())
 	{
@@ -681,6 +681,10 @@ void CMCPforNTApp::OnViewHardwaresetup()
 		DipHT			= pdlg->m_dip_ht;
 		WriteProfileString("Hardware", "dip_pc_string", pdlg->m_dip_pc);
 		DipPC			= pdlg->m_dip_pc;
+		WriteProfileString("Hardware", "dip_ht_value", pdlg->m_dip_ht_value);
+		DipHTValue			= pdlg->m_dip_ht_value;
+		WriteProfileString("Hardware", "dip_pc_value", pdlg->m_dip_pc_value);
+		DipPCValue			= pdlg->m_dip_pc_value;
 	}
 	delete pdlg;
 }
