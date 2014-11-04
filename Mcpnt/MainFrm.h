@@ -72,7 +72,6 @@ protected:
 	afx_msg void OnViewCamactester();
 	afx_msg void OnViewNetreader();
 	afx_msg void OnViewSiclReader();
-	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnGpibwriter();
 	afx_msg void OnGpibreader();
 	afx_msg void OnSiclreader();
