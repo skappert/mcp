@@ -53,6 +53,7 @@ public:
 	void	SetNewCenter(USHORT track,USHORT step);
 	void	SetNewMinMax(USHORT track,double minstep, double maxstep);
 	bool	OnSave(CString SaveString);
+	void	TakeTimeStamp(void);
 
 public:
 	BOOL			SaveActualVersion;
@@ -78,7 +79,7 @@ public:
 	ULONG			DataQueueIndex;
 	int				AddMe;
 protected:
-	CTime			SaveTime;
+	CTime			GoTime;
 // Generated message map functions
 protected:
 	//{{AFX_MSG(CMCPforNTDoc)

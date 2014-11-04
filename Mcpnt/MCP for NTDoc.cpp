@@ -86,7 +86,7 @@ BOOL CMCPforNTDoc::OnNewDocument()
 	WaveNumber = 0;
 	NoOfCycles = 1;
 	Version = 21;
-	SaveTime = 0;
+	GoTime = 0;
 
 	
 	TrackObject* pAction1			= new TrackObject;
@@ -152,14 +152,14 @@ CString	CMCPforNTDoc::GetInfo(void)
 {
 	
 	CString		answer;
-	CString		LastSave;
+	CString		LastGo;
 
-	if(SaveTime!=0) LastSave = SaveTime.Format( "saved %x, %H:%M");
-	else LastSave = "Not yet saved";
-	if(IsModified())LastSave = LastSave + "*modified";
+	if(GoTime!=0) LastGo = GoTime.Format( "last Go %x, %H:%M");
+	else LastGo = "Not Go yet";
+	if(IsModified())LastGo = LastGo + "*modified";
 
 	answer.Format("%s ; %u  cy ; wave = %g ; ",TheElement,NoOfCycles,WaveNumber);
-	answer = answer + LastSave; 
+	answer = answer + LastGo; 
 	return answer;
 }
 
@@ -652,6 +652,12 @@ void CMCPforNTDoc::DispatchActionObj(CArchive& ar)
 	while (ReadChar(ar)==',');
 }
 
+void CMCPforNTDoc::TakeTimeStamp(void)
+{
+	CTime theTime;
+	theTime=CTime::GetCurrentTime();
+	GoTime = theTime;
+}
 
 void CMCPforNTDoc::Serialize(CArchive& ar)
 {
@@ -659,11 +665,7 @@ void CMCPforNTDoc::Serialize(CArchive& ar)
 	CString TheObject;
 	if (ar.IsStoring())
 	{
-		// TODO: add storing code here
-		CTime theTime;
-		theTime=CTime::GetCurrentTime();
-		SaveTime = theTime;
-		CString time = theTime.Format( "%a %b %d %X %Y");
+		CString time = GoTime.Format( "%a %b %d %X %Y");
 
 		if(SaveActualVersion)WriteString(ar,NewHeader);
 		else WriteString(ar,CompatibleHeader);
@@ -706,7 +708,7 @@ void CMCPforNTDoc::Serialize(CArchive& ar)
 	else
 	{
 		ar.GetFile()->GetStatus(Status);
-		SaveTime = Status.m_mtime;
+		GoTime = Status.m_mtime;
 
 		TrackNum	= 0;
 		Header		= ReadString(ar);

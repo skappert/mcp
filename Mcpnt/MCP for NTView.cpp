@@ -1381,6 +1381,8 @@ void CMCPforNTView::OnGo()
 	track		= 0;
 	DataCount	= DataCount*maxcycle;
 
+	GetDocument()->TakeTimeStamp();
+
 	mytimer = SetTimer(TimerID,50,NULL);
 	
 	GetDocument()->MeasurementRunning = TRUE;
@@ -1460,6 +1462,8 @@ void CMCPforNTView::OnAutogo()
 		track		= 0;
 		DataCount	= DataCount*maxcycle;
 
+		GetDocument()->TakeTimeStamp();
+
 		mytimer = SetTimer(TimerID,50,NULL);
 		
 		GetDocument()->MeasurementRunning = TRUE;
@@ -1538,6 +1542,8 @@ void CMCPforNTView::OnErgo()
 	scan		= 0;
 	track		= 0;
 	DataCount	= DataCount*maxcycle;
+
+	GetDocument()->TakeTimeStamp();
 
 	mytimer = SetTimer(TimerID,50,NULL);
 	
