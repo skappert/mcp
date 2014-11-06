@@ -2299,8 +2299,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 2,0,0,2
- PRODUCTVERSION 2,0,0,2
+ FILEVERSION 2,0,0,3
+ PRODUCTVERSION 2,0,0,3
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -2316,12 +2316,12 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "FileDescription", "MCP for NT"
-            VALUE "FileVersion", "2.0.0.2"
+            VALUE "FileVersion", "2.0.0.3"
             VALUE "InternalName", "MCP forNT"
             VALUE "LegalCopyright", "Copyright Stephan Kappertz© 1997-2014"
             VALUE "OriginalFilename", "MCP FOR NT.EXE"
             VALUE "ProductName", "MCP for NT"
-            VALUE "ProductVersion", "2.0.0.2"
+            VALUE "ProductVersion", "2.0.0.3"
         END
     END
     BLOCK "VarFileInfo"

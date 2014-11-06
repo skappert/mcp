@@ -706,6 +706,37 @@ void HP_VoltageSweepObj::ListVoltage(USHORT step,double Voltage)
 	ListDNAFCamac(SENDDNAF,(ULONG)(~(Buffer)),Slot,0,16);
 }
 
+void HP_VoltageSweepObj::TrackBeginAction(USHORT track)
+{
+	CMCPforNTApp* pApp = (CMCPforNTApp*)AfxGetApp();
+	ULONG Value	= (ULONG)(1000.0*fabs(pApp->V0));
+	ULONG i,NoDigits,Digit;
+    unsigned long Buffer;
+
+    if (Value!=0)
+    {
+		Buffer = 10;
+		for (NoDigits=1; Value>=Buffer; NoDigits++)           // Anzahl der Stellen bestimmen
+		{ 
+			Buffer = Buffer*10; 
+		};
+		Buffer = 0;                                           // reset Buffer
+		for (i=1; i<=NoDigits; i++)
+		{
+			Digit = Value % 10;
+			Value = Value / 10;
+			Buffer = Buffer + ( Digit << ((i-1)*4) );
+		}
+	}
+    else
+	{
+		Buffer = 0; 
+	};
+     
+	if(pApp->V0<0)SendDNAFCamac((ULONG)(~0-1),Slot,1,16);
+	else SendDNAFCamac((ULONG)~0,Slot,1,16);
+	SendDNAFCamac((ULONG)~Buffer,Slot,0,16);
+}
 
 void HP_VoltageSweepObj::TrackStepAction(USHORT step, USHORT track, USHORT scan)
 {
@@ -7026,6 +7057,16 @@ void Line_VoltageSweepObj::ListVoltage(USHORT step,double Voltage)
 	ListDNAFCamac(SENDDNAF,Data,Slot,(UCHAR)0,(UCHAR)16);
 }
 
+void Line_VoltageSweepObj::TrackBeginAction(USHORT track)
+{
+	CMCPforNTApp* pApp = (CMCPforNTApp*)AfxGetApp();
+	long Data = (long)((-pApp->LV0/1e1)*8388608)+8388608;
+	//SendNAFCamac(Slot,(UCHAR)1,(UCHAR)10);
+	//SendDNAFCamac(Data,Slot,(UCHAR)0,(UCHAR)16);
+	Data = (long)((pApp->LV0/1e1)*131072);
+	if(pApp->LV0<0) Data = Data | 1<<17;
+	SendDNAFCamac(Data,Slot,(UCHAR)0,(UCHAR)16);
+}
 
 void Line_VoltageSweepObj::TrackStepAction(USHORT step, USHORT track, USHORT scan)
 {

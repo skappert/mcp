@@ -234,6 +234,7 @@ class ActionObject
 		void Load(CArchive& ar);
 		void Save(CArchive& ar);
 		void MeasurementEndAction(void);
+		void TrackBeginAction(USHORT track);
 		void TrackStepAction(USHORT step, USHORT track, USHORT scan);
 		void UpdateData(void);
 		void ListVoltage(USHORT step,double Voltage);
@@ -1797,6 +1798,7 @@ class ActionObject
 		void Save(CArchive& ar);
 		void MeasurementBeginAction(BOOL RUNMODE);
 		void MeasurementEndAction(void);
+		void TrackBeginAction(USHORT track);
 		void TrackStepAction(USHORT step, USHORT track, USHORT scan);
 		void UpdateData(void);
 		void ListVoltage(USHORT step,double Voltage);
