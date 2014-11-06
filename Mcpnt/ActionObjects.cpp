@@ -4630,7 +4630,7 @@ void MassSwitchObj::TrackBeginAction(USHORT track)
 
 	pApp->SetMass(ToMassNo);
 
-	ListDelayCamac(pApp->PresetSlot,pApp->MassDelay);
+	DelayCamac(pApp->MassDelay);
 }
 /****************   Methods for Class FlukeSwitchObj  ***********************/
 
@@ -4745,31 +4745,31 @@ void FlukeSwitchObj::TrackBeginAction(USHORT track)
 	switch(ToFlukeNo)
 	{
 	case 0:
-		ListOffBit(1,0);
-		ListOffBit(1,1);
-		ListOffBit(1,2);
-		ListDelayCamac(pApp->PresetSlot,500);
+		OffBit(1,0);
+		OffBit(1,1);
+		OffBit(1,2);
+		DelayCamac(500);
 		break;
 	case 1:
-		ListOffBit(1,1);
-		ListOffBit(1,2);
-		ListDelayCamac(pApp->PresetSlot,500);
-		ListOnBit(1,0);
+		OffBit(1,1);
+		OffBit(1,2);
+		DelayCamac(500);
+		OnBit(1,0);
 		break;
 	case 2:
-		ListOffBit(1,0);
-		ListOffBit(1,2);
-		ListDelayCamac(pApp->PresetSlot,500);
-		ListOnBit(1,1);
+		OffBit(1,0);
+		OffBit(1,2);
+		DelayCamac(500);
+		OnBit(1,1);
 		break;
 	case 3:
-		ListOffBit(1,0);
-		ListOffBit(1,1);
-		ListDelayCamac(pApp->PresetSlot,500);
-		ListOnBit(1,2);
+		OffBit(1,0);
+		OffBit(1,1);
+		DelayCamac(500);
+		OnBit(1,2);
 		break;
 	}
-	ListDelayCamac(pApp->PresetSlot,pApp->FlukeDelay);
+	DelayCamac(pApp->FlukeDelay);
 }
 
 /****************   Methods for Class TriggerSweepObj  ***********************/
@@ -5267,7 +5267,7 @@ void FDAC_VoltageSweepObj::TrackBeginAction(USHORT track)
 	double Voltage  = Sweep_Start;
 	Data = (int)(Voltage*100);
 	if(Data < 0)Data = (Data | 1024);
-	ListDNAFCamac(SENDDNAF,Data,Slot,SubAddress,16);
+	SendDNAFCamac(Data,Slot,SubAddress,16);
 }
 
 void FDAC_VoltageSweepObj::MeasurementBeginAction(BOOL RUNMODE)
@@ -5956,13 +5956,13 @@ void OutBitObj::TrackBeginAction(USHORT track)
 		switch(ToggleType)
 		{
 		case 0:
-			ListOnBit(0,SubAddress);
+			OnBit(0,SubAddress);
 			break;
 		case 1:
-			ListOffBit(0,SubAddress);
+			OffBit(0,SubAddress);
 			break;
 		case 2:
-			ListToggleBit(0,SubAddress);
+			ToggleBit(0,SubAddress);
 			break;
 		}
 	}
@@ -6066,7 +6066,7 @@ void GPIBWriterObj::Save(CArchive& ar)
 }
 void GPIBWriterObj::TrackBeginAction(USHORT track)
 {
-	ListSendGPIB(SendString,Gpib,Slot);
+	SendGPIB(SendString,Gpib,Slot);
 }
 
 /****************   Methods for Class GPIBReaderObj  ***********************/
@@ -6236,7 +6236,7 @@ void FieldWriterObj::TrackBeginAction(USHORT track)
 {
 	CString SendString;
 	SendString.Format("CF%u",Field*10000);
-	ListSendGPIB(SendString,Gpib,Slot);
+	SendGPIB(SendString,Gpib,Slot);
 }
 /****************   Methods for Class FieldReaderObj  ***********************/
 
@@ -6505,7 +6505,7 @@ void TempWriterObj::TrackBeginAction(USHORT track)
 {
 	CString SendString;
 	SendString.Format("$T%u",(USHORT)(SetTemp*10));
-	ListSendGPIB(SendString,Gpib,Slot);
+	SendGPIB(SendString,Gpib,Slot);
 }
 
 void TempWriterObj::MeasurementBeginAction(BOOL RUNMODE)
@@ -6787,9 +6787,9 @@ void RS_FrequencySweepObj::TrackBeginAction(USHORT track)
 		SendString.Format("FM:OFF;AF %.8gkHz; AM:I %g",Sweep_ModFreq,Sweep_ModAmpAM);
 		break;
 	}
-	ListSendGPIB(SendString,Gpib,Slot);
+	SendGPIB(SendString,Gpib,Slot);
 	SendString.Format("L %.8g",Sweep_Amp);
-	ListSendGPIB(SendString,Gpib,Slot);
+	SendGPIB(SendString,Gpib,Slot);
 }
 
 void RS_FrequencySweepObj::TrackStepAction(USHORT step, USHORT track, USHORT scan)
@@ -6995,6 +6995,13 @@ void Line_VoltageSweepObj::Save(CArchive& ar)
 
 void Line_VoltageSweepObj::MeasurementBeginAction(BOOL RUNMODE)
 {
+	CMCPforNTApp* pApp = (CMCPforNTApp*)AfxGetApp();
+	long Data = (long)((-pApp->LV0/1e1)*8388608)+8388608;
+	//SendNAFCamac(Slot,(UCHAR)1,(UCHAR)10);
+	//SendDNAFCamac(Data,Slot,(UCHAR)0,(UCHAR)16);
+	Data = (long)((pApp->LV0/1e1)*131072);
+	if(pApp->LV0<0) Data = Data | 1<<17;
+	SendDNAFCamac(Data,Slot,(UCHAR)0,(UCHAR)16);
 }
 
 void Line_VoltageSweepObj::MeasurementEndAction(void)
