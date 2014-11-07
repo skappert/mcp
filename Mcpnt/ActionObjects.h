@@ -699,12 +699,12 @@ class ActionObject
 		{
 			CMCPforNTApp* pApp = (CMCPforNTApp*)AfxGetApp();
 			Slot		= 0;
-			SubAddress	= 0;
+			SubAddress	= pApp->SICLReaderBit;
 			Gpib		= 0;
 			Name		= _SiclReaderObj;
 			ShortName	= __SiclReaderObj;
 			SICLAddress = "lan[A-34461A-06386]:inst0";
-			SICLQuestion= "MEAS:VOLT:DC?";
+			SICLQuestion= "CONF:VOLT:DC 10,min;:TRIG:SOUR EXT;:SAMP:COUN 1;:INIT";
 			for(int i=0;i<100;i++)Data[i]= 0;
 			NumOfSamples	= 0;
 			DelayBeforeMeas	= pApp->PremaDelay;
@@ -727,6 +727,7 @@ class ActionObject
 		void MeasurementBeginAction(BOOL RUNMODE);
 		void MeasurementEndAction(void);
 		void TrackBeginAction(USHORT track);
+		void TrackEndAction(USHORT track,USHORT scansdone);
 	};
 
 	/************************ SiclStepObj ***************************/
@@ -738,12 +739,12 @@ class ActionObject
 		{
 			CMCPforNTApp* pApp = (CMCPforNTApp*)AfxGetApp();
 			Slot		= 0;
-			SubAddress	= 0;
+			SubAddress	= pApp->SICLStepBit;
 			Gpib		= 0;
 			Name		= _SiclStepObj;
 			ShortName	= __SiclStepObj;
 			SICLAddress = "lan[A-34461A-06386]:inst0";
-			SICLQuestion= "MEAS:VOLT:DC?";
+			SICLQuestion= "CONF:VOLT:DC 10,min;:TRIG:SOUR EXT;:SAMP:COUN 500;:INIT";
 			for(int i=0;i<MAXPOINTS;i++)Data[i]= 0;
 			NumOfSamples	= 0;
 			TakesData		= TRUE;
@@ -770,6 +771,7 @@ class ActionObject
 		void MeasurementEndAction(void);
 		void TrackBeginAction(USHORT track);
 		void TrackStepAction(USHORT step, USHORT track, USHORT scan);
+		void TrackEndAction(USHORT track,USHORT scansdone);
 		double GetY(USHORT channel);
 		double GetYErr(USHORT channel);
 	};

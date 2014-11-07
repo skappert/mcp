@@ -3388,7 +3388,11 @@ void SiclReaderObj::MeasurementEndAction(void)
 
 void SiclReaderObj::TrackBeginAction(USHORT track)
 {
-	double res;
+	CMCPforNTApp* pApp = (CMCPforNTApp*)AfxGetApp();
+	
+	/* disable trigger bit */
+	ListOffBit(0,SubAddress);
+
 	CT2A address(SICLAddress);
 	
 	if(SiclHandle <= 0 && !SICLAddress.IsEmpty())
@@ -3396,8 +3400,6 @@ void SiclReaderObj::TrackBeginAction(USHORT track)
 		SiclHandle = iopen (address);
 		itimeout (SiclHandle, 10000);
 	}
-
-	if(DelayBeforeMeas > 0)DelayCamac((USHORT)DelayBeforeMeas);
 
 	if(SiclHandle > 0)
 	{
@@ -3409,12 +3411,24 @@ void SiclReaderObj::TrackBeginAction(USHORT track)
 		/* Take measurement */
 		iprintf (SiclHandle,question);
 
-		/* Read the results */
-		iscanf (SiclHandle,"%lf", &res);
+		if(DelayBeforeMeas > 0)ListDelayCamac(pApp->PresetSlot,(USHORT)DelayBeforeMeas);
 
-		Data[NumOfSamples] = res; 
-		NumOfSamples++;
+		/* pulse trigger bit */
+		ListOnBit(0,SubAddress);
+		ListOffBit(0,SubAddress);
 	}
+}
+
+void SiclReaderObj::TrackEndAction(USHORT track,USHORT scansdone)
+{
+	/* read all available data */
+	CT2A question("R?\n");
+
+	/* fetch data */
+	iprintf (SiclHandle,question);
+	
+	/* Convert and store the results */
+	iscanf (SiclHandle,"%,100lf\n", Data);
 }
 
 /****************   Methods for Class SiclStepObj  ***********************/
@@ -3606,6 +3620,9 @@ void SiclStepObj::MeasurementBeginAction(BOOL RUNMODE)
 {
 	if(RUNMODE==ERGO) NumOfSamples = 0;
 
+	/* disable trigger bit */
+	ListOffBit(0,SubAddress);
+
 	CT2A address(SICLAddress);
 
 	if(SiclHandle <= 0 && !SICLAddress.IsEmpty())
@@ -3628,7 +3645,7 @@ void SiclStepObj::MeasurementEndAction(void)
 
 void SiclStepObj::TrackBeginAction(USHORT track)
 {
-		int i;
+	int i;
 	BOOL ENDE = FALSE;
 	CString XName,XUnit;
 	CString YTitle,YUnit;
@@ -3727,16 +3744,9 @@ void SiclStepObj::TrackBeginAction(USHORT track)
 		SiclHandle = iopen (address);
 		itimeout (SiclHandle, 10000);
 	}
-}
 
-void SiclStepObj::TrackStepAction(USHORT step, USHORT track, USHORT scan)
-{
-	double res;
-	
 	if(SiclHandle > 0)
 	{
-		if(DelayBeforeMeas > 0)DelayCamac((USHORT)DelayBeforeMeas);
-		
 		CT2A question(SICLQuestion);
 
 		/* trailing line feed */ 
@@ -3744,13 +3754,34 @@ void SiclStepObj::TrackStepAction(USHORT step, USHORT track, USHORT scan)
 
 		/* Take measurement */
 		iprintf (SiclHandle,question);
-
-		/* Read the results */
-		iscanf (SiclHandle,"%lf", &res);
-
-		Data[step] = res; 
-		NumOfSamples = step + 1;
 	}
+}
+
+void SiclStepObj::TrackStepAction(USHORT step, USHORT track, USHORT scan)
+{
+	double res;
+	CMCPforNTApp* pApp = (CMCPforNTApp*)AfxGetApp();
+
+	if(SiclHandle > 0)
+	{
+		if(DelayBeforeMeas > 0)ListDelayCamac(pApp->PresetSlot,(USHORT)DelayBeforeMeas);
+
+		/* pulse trigger bit */
+		ListOnBit(0,SubAddress);
+		ListOffBit(0,SubAddress);
+	}
+}
+
+void SiclStepObj::TrackEndAction(USHORT track,USHORT scansdone)
+{
+	/* read all available data */
+	CT2A question("R?\n");
+
+	/* fetch data */
+	iprintf (SiclHandle,question);
+	
+	/* Convert and store the results */
+	iscanf (SiclHandle,"%,4000lf\n", Data);
 }
 
 /****************   Methods for Class KepcoEichungVoltageObj  ***********************/
