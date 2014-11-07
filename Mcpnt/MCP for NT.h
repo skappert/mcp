@@ -159,6 +159,8 @@ public:
 	int		HpSlot;
 	int		HvSlot;
 	int		FSlot;
+	int		SICLReaderBit;
+	int		SICLStepBit;
 	USHORT	PremaDelay;
 	USHORT	FlukeDelay;
 	USHORT	MassDelay;

@@ -231,8 +231,11 @@
 #define IDC_DIP_PC_VALUE                1031
 #define IDC_MODFM                       1032
 #define IDC_LSI_X                       1032
+#define IDC_SICLREADERSUBADD            1032
 #define IDC_MODFREQ                     1033
 #define IDC_LSI_DY                      1033
+#define IDC_SICLREADERSUBADD2           1033
+#define IDC_SICLSTEPSUBADD              1033
 #define IDC_MODAMPAM                    1034
 #define IDC_LSI_Y                       1034
 #define IDC_MODAMPFM                    1035

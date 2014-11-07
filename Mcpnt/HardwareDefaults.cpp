@@ -19,6 +19,8 @@ CHardwareDefaults::CHardwareDefaults(CWnd* pParent /*=NULL*/)
 	: CDialog(CHardwareDefaults::IDD, pParent)
 	, m_dip_ht_value(_T(""))
 	, m_dip_pc_value(_T(""))
+	, m_SICLReaderSubAdd(0)
+	, m_SICLStepSubAdd(0)
 {
 	//{{AFX_DATA_INIT(CHardwareDefaults)
 	m_ferddichsubadd = 0;
@@ -110,6 +112,10 @@ void CHardwareDefaults::DoDataExchange(CDataExchange* pDX)
 	DDV_MaxChars(pDX, m_dip_pc, 200);
 	DDX_Text(pDX, IDC_DIP_HT_VALUE, m_dip_ht_value);
 	DDX_Text(pDX, IDC_DIP_PC_VALUE, m_dip_pc_value);
+	DDX_Text(pDX, IDC_SICLREADERSUBADD, m_SICLReaderSubAdd);
+	DDV_MinMaxInt(pDX, m_SICLReaderSubAdd, 0, 31);
+	DDX_Text(pDX, IDC_SICLSTEPSUBADD, m_SICLStepSubAdd);
+	DDV_MinMaxInt(pDX, m_SICLStepSubAdd, 0, 31);
 }
 
 

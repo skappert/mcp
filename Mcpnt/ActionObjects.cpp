@@ -3397,6 +3397,8 @@ void SiclReaderObj::TrackBeginAction(USHORT track)
 		itimeout (SiclHandle, 10000);
 	}
 
+	if(DelayBeforeMeas > 0)DelayCamac((USHORT)DelayBeforeMeas);
+
 	if(SiclHandle > 0)
 	{
 		CT2A question(SICLQuestion);

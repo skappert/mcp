@@ -707,9 +707,11 @@ class ActionObject
 			SICLQuestion= "MEAS:VOLT:DC?";
 			for(int i=0;i<100;i++)Data[i]= 0;
 			NumOfSamples	= 0;
+			DelayBeforeMeas	= pApp->PremaDelay;
 		}
 
 		INST SiclHandle;
+		double		DelayBeforeMeas;
 		double Data[100];
 		int NumOfSamples;
 		CString SICLAddress;

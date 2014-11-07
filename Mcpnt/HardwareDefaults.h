@@ -61,4 +61,6 @@ protected:
 public:
 	CString m_dip_ht_value;
 	CString m_dip_pc_value;
+	int m_SICLReaderSubAdd;
+	int m_SICLStepSubAdd;
 };

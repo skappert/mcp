@@ -624,6 +624,8 @@ void CMCPforNTApp::OnViewHardwaresetup()
 	pdlg->m_dip_pc			= GetProfileString("Hardware", "dip_pc_string", "dip/acc/ISO/BTY.BCT213/SummingAcquisition");
 	pdlg->m_dip_ht_value	= GetProfileString("Hardware", "dip_ht_value", "value");
 	pdlg->m_dip_pc_value	= GetProfileString("Hardware", "dip_pc_value", "shortIntegratorValue");
+	pdlg->m_SICLReaderSubAdd= GetProfileInt("Hardware", "sicl_reader_bit", 10);
+	pdlg->m_SICLStepSubAdd	= GetProfileInt("Hardware", "sicl_reader_bit", 11);
 
 	if(IDOK==pdlg->DoModal())
 	{
@@ -682,9 +684,13 @@ void CMCPforNTApp::OnViewHardwaresetup()
 		WriteProfileString("Hardware", "dip_pc_string", pdlg->m_dip_pc);
 		DipPC			= pdlg->m_dip_pc;
 		WriteProfileString("Hardware", "dip_ht_value", pdlg->m_dip_ht_value);
-		DipHTValue			= pdlg->m_dip_ht_value;
+		DipHTValue		= pdlg->m_dip_ht_value;
 		WriteProfileString("Hardware", "dip_pc_value", pdlg->m_dip_pc_value);
-		DipPCValue			= pdlg->m_dip_pc_value;
+		DipPCValue		= pdlg->m_dip_pc_value;
+		WriteProfileInt("Hardware", "sicl_reader_bit", pdlg->m_SICLReaderSubAdd);
+		SICLReaderBit	= pdlg->m_SICLReaderSubAdd;
+		WriteProfileInt("Hardware", "sicl_reader_bit", pdlg->m_SICLStepSubAdd); 
+		SICLStepBit		= pdlg->m_SICLStepSubAdd;
 	}
 	delete pdlg;
 }

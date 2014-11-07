@@ -1837,7 +1837,7 @@ LRESULT CMCPforNTView::OnTimer(WPARAM wparam,LPARAM lparam)
 					GetDocument()->DataQueueIndex = 0;
 					ListReset();
 					DataReset();
-					if(scan==1)track_start(track);
+					if(scan==1 || maxscan==1)track_start(track);
 					program_scan(track,maxstep);
 					ListDNAFCamac(READD,0,0,0,0);
 					GetDocument()->DataQueue[GetDocument()->DataQueueIndex].scan = 0;
@@ -1994,6 +1994,8 @@ void CMCPforNTView::track_start(USHORT track)
 {
 	POSITION	pos;
 	CString		TheObject;
+	TRACE0("track_start\n");
+	
 	if(!GetDocument()->ActionObjList.IsEmpty())
 	{
 		ActionObject* pActionObj = (ActionObject*)GetDocument()->ActionObjList.GetHead();
@@ -2015,6 +2017,7 @@ void CMCPforNTView::track_end(USHORT track)
 {
 	POSITION	pos;
 	CString		TheObject;
+	TRACE0("track_end\n");
 
 	if(!GetDocument()->ActionObjList.IsEmpty())
 	{
