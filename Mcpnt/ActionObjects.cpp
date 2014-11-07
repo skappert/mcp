@@ -3396,14 +3396,6 @@ void SiclReaderObj::TrackBeginAction(USHORT track)
 	/* disable trigger bit */
 	ListOffBit(0,SubAddress);
 
-	CT2A address(SICLAddress);
-	
-	if(SiclHandle <= 0 && !SICLAddress.IsEmpty())
-	{
-		SiclHandle = iopen (address);
-		itimeout (SiclHandle, 10000);
-	}
-
 	if(SiclHandle > 0)
 	{
 		CT2A question(SICLQuestion);
@@ -3424,14 +3416,22 @@ void SiclReaderObj::TrackBeginAction(USHORT track)
 
 void SiclReaderObj::TrackEndAction(USHORT track,USHORT scansdone)
 {
-	/* read all available data */
-	CT2A question("R?\n");
+	int result;
+	if(SiclHandle > 0)
+	{
+		/* read all available data */
+		CT2A question("R?\n");
 
-	/* fetch data */
-	iprintf (SiclHandle,question);
+		/* fetch data */
+		iprintf (SiclHandle,question);
 	
-	/* Convert and store the results */
-	iscanf (SiclHandle,"%,100lf\n", Data);
+		/* Convert and store the results */
+		result = iscanf (SiclHandle,"%,100lf\n", Data);
+
+		NumOfSamples++;
+
+		TRACE2("SiclReaderObj::TrackEndAction iscanf = %d NumOfSamples = %d\n", result, NumOfSamples );
+	}
 }
 
 /****************   Methods for Class SiclStepObj  ***********************/
@@ -3739,14 +3739,6 @@ void SiclStepObj::TrackBeginAction(USHORT track)
 			}
 		}
 	}
-	
-	CT2A address(SICLAddress);
-	
-	if(SiclHandle <= 0 && !SICLAddress.IsEmpty())
-	{
-		SiclHandle = iopen (address);
-		itimeout (SiclHandle, 10000);
-	}
 
 	if(SiclHandle > 0)
 	{
@@ -3762,7 +3754,6 @@ void SiclStepObj::TrackBeginAction(USHORT track)
 
 void SiclStepObj::TrackStepAction(USHORT step, USHORT track, USHORT scan)
 {
-	double res;
 	CMCPforNTApp* pApp = (CMCPforNTApp*)AfxGetApp();
 
 	if(DelayBeforeMeas > 0)ListDelayCamac(pApp->PresetSlot,(USHORT)DelayBeforeMeas);
@@ -3770,18 +3761,27 @@ void SiclStepObj::TrackStepAction(USHORT step, USHORT track, USHORT scan)
 	/* pulse trigger bit */
 	ListOnBit(0,SubAddress);
 	ListOffBit(0,SubAddress);
+
+	NumOfSamples = step + 1;
 }
 
 void SiclStepObj::TrackEndAction(USHORT track,USHORT scansdone)
 {
-	/* read all available data */
-	CT2A question("R?\n");
+	int result;
 
-	/* fetch data */
-	iprintf (SiclHandle,question);
+	if(SiclHandle > 0)
+	{
+		/* read all available data */
+		CT2A question("R?\n");
+
+		/* fetch data */
+		iprintf (SiclHandle,question);
 	
-	/* Convert and store the results */
-	iscanf (SiclHandle,"%,4000lf\n", Data);
+		/* Convert and store the results */
+		result = iscanf (SiclHandle,"%,4000lf\n", Data);
+
+		TRACE2("SiclStepObj::TrackEndAction iscanf = %d NumOfSamples = %d\n", result, NumOfSamples );
+	}
 }
 
 /****************   Methods for Class KepcoEichungVoltageObj  ***********************/
