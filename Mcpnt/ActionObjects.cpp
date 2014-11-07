@@ -3366,6 +3366,9 @@ void SiclReaderObj::MeasurementBeginAction(BOOL RUNMODE)
 {
 	if(RUNMODE==ERGO) NumOfSamples = 0;
 
+	/* disable trigger bit */
+	OffBit(0,SubAddress);
+
 	CT2A address(SICLAddress);
 
 	if(SiclHandle <= 0 && !SICLAddress.IsEmpty())
@@ -3410,13 +3413,13 @@ void SiclReaderObj::TrackBeginAction(USHORT track)
 
 		/* Take measurement */
 		iprintf (SiclHandle,question);
-
-		if(DelayBeforeMeas > 0)ListDelayCamac(pApp->PresetSlot,(USHORT)DelayBeforeMeas);
-
-		/* pulse trigger bit */
-		ListOnBit(0,SubAddress);
-		ListOffBit(0,SubAddress);
 	}
+
+	if(DelayBeforeMeas > 0)ListDelayCamac(pApp->PresetSlot,(USHORT)DelayBeforeMeas);
+
+	/* pulse trigger bit */
+	ListOnBit(0,SubAddress);
+	ListOffBit(0,SubAddress);
 }
 
 void SiclReaderObj::TrackEndAction(USHORT track,USHORT scansdone)
@@ -3621,7 +3624,7 @@ void SiclStepObj::MeasurementBeginAction(BOOL RUNMODE)
 	if(RUNMODE==ERGO) NumOfSamples = 0;
 
 	/* disable trigger bit */
-	ListOffBit(0,SubAddress);
+	OffBit(0,SubAddress);
 
 	CT2A address(SICLAddress);
 
@@ -3762,14 +3765,11 @@ void SiclStepObj::TrackStepAction(USHORT step, USHORT track, USHORT scan)
 	double res;
 	CMCPforNTApp* pApp = (CMCPforNTApp*)AfxGetApp();
 
-	if(SiclHandle > 0)
-	{
-		if(DelayBeforeMeas > 0)ListDelayCamac(pApp->PresetSlot,(USHORT)DelayBeforeMeas);
+	if(DelayBeforeMeas > 0)ListDelayCamac(pApp->PresetSlot,(USHORT)DelayBeforeMeas);
 
-		/* pulse trigger bit */
-		ListOnBit(0,SubAddress);
-		ListOffBit(0,SubAddress);
-	}
+	/* pulse trigger bit */
+	ListOnBit(0,SubAddress);
+	ListOffBit(0,SubAddress);
 }
 
 void SiclStepObj::TrackEndAction(USHORT track,USHORT scansdone)
