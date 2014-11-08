@@ -238,6 +238,8 @@
 #define IDC_SICLSTEPSUBADD              1033
 #define IDC_MODAMPAM                    1034
 #define IDC_LSI_Y                       1034
+#define IDC_PREMADELAY2                 1034
+#define IDC_PREMAPOSTDELAY              1034
 #define IDC_MODAMPFM                    1035
 #define IDC_MONITOR_DX                  1035
 #define IDC_SETFREQ                     1036

@@ -708,10 +708,12 @@ class ActionObject
 			for(int i=0;i<100;i++)Data[i]= 0;
 			NumOfSamples	= 0;
 			DelayBeforeMeas	= pApp->PremaDelay;
+			DelayAfterMeas	= pApp->PremaPostDelay;
 		}
 
 		INST SiclHandle;
-		double		DelayBeforeMeas;
+		int		DelayBeforeMeas;
+		int		DelayAfterMeas;
 		double Data[100];
 		int NumOfSamples;
 		CString SICLAddress;
@@ -751,10 +753,12 @@ class ActionObject
 			DataCount		= 2;
 			DispMonitorMode = 1;
 			DelayBeforeMeas	= pApp->PremaDelay;
+			DelayAfterMeas	= pApp->PremaPostDelay;
 		}
 
 		INST SiclHandle;
-		double		DelayBeforeMeas;
+		int		DelayBeforeMeas;
+		int		DelayAfterMeas;
 		double Data[MAXPOINTS];
 		int NumOfSamples;
 		CString SICLAddress;

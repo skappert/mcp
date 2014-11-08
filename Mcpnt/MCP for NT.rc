@@ -1102,7 +1102,7 @@ BEGIN
     EDITTEXT        IDC_LISTSLOT,75,75,15,14
     EDITTEXT        IDC_PREMASLOT,75,90,15,14
     EDITTEXT        IDC_GELBEBOXSLOT,75,105,15,14
-    GROUPBOX        "Camac subaddresses",IDC_STATIC,109,5,95,92
+    GROUPBOX        "Camac subaddresses",IDC_STATIC,109,5,95,89
     LTEXT           "Proton-Scaler",IDC_STATIC,121,18,44,8
     LTEXT           "Isolde Trigger",IDC_STATIC,121,33,44,8
     LTEXT           "Ferddich",IDC_STATIC,121,48,28,8
@@ -1122,16 +1122,16 @@ BEGIN
     EDITTEXT        IDC_FLUKEGPIB,75,265,15,14
     EDITTEXT        IDC_HPVOLTSLOT,75,135,15,14
     LTEXT           "HP-Voltage",IDC_STATIC,15,138,40,8
-    GROUPBOX        "Delays",IDC_STATIC,109,104,95,81
-    LTEXT           "Pre Prema",IDC_STATIC,120,122,34,8
+    GROUPBOX        "Delays",IDC_STATIC,109,94,95,91
+    LTEXT           "Pre Prema",IDC_STATIC,120,107,34,8
     LTEXT           "Post Mass",IDC_STATIC,120,137,34,8
     LTEXT           "Post Fluke",IDC_STATIC,120,152,34,8
     LTEXT           "Post GPIB",IDC_STATIC,120,167,34,8
-    EDITTEXT        IDC_PREMADELAY,160,119,21,14
+    EDITTEXT        IDC_PREMADELAY,160,104,21,14
     EDITTEXT        IDC_MASSDELAY,160,134,21,14
     EDITTEXT        IDC_FLUKEDELAY,160,149,21,14
     EDITTEXT        IDC_GPIBDELAY,160,164,21,14
-    LTEXT           "ms",IDC_STATIC,185,122,10,8
+    LTEXT           "ms",IDC_STATIC,185,107,10,8
     LTEXT           "ms",IDC_STATIC,185,137,10,8
     LTEXT           "ms",IDC_STATIC,185,167,10,8
     LTEXT           "ms",IDC_STATIC,185,152,10,8
@@ -1160,6 +1160,9 @@ BEGIN
     LTEXT           "SICLStepSync",IDC_STATIC,121,77,47,8
     EDITTEXT        IDC_SICLREADERSUBADD,180,60,15,14
     EDITTEXT        IDC_SICLSTEPSUBADD,180,75,15,14
+    LTEXT           "Post Prema",IDC_STATIC,120,122,37,8
+    EDITTEXT        IDC_PREMAPOSTDELAY,160,119,21,14
+    LTEXT           "ms",IDC_STATIC,186,122,10,8
 END
 
 IDD_NETREAD DIALOGEX 0, 0, 200, 94
@@ -2303,8 +2306,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 2,0,0,6
- PRODUCTVERSION 2,0,0,6
+ FILEVERSION 2,0,0,7
+ PRODUCTVERSION 2,0,0,7
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -2320,12 +2323,12 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "FileDescription", "MCP for NT"
-            VALUE "FileVersion", "2.0.0.6"
+            VALUE "FileVersion", "2.0.0.7"
             VALUE "InternalName", "MCP forNT"
             VALUE "LegalCopyright", "Copyright Stephan Kappertz© 1997-2014"
             VALUE "OriginalFilename", "MCP FOR NT.EXE"
             VALUE "ProductName", "MCP for NT"
-            VALUE "ProductVersion", "2.0.0.6"
+            VALUE "ProductVersion", "2.0.0.7"
         END
     END
     BLOCK "VarFileInfo"

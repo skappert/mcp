@@ -162,6 +162,7 @@ public:
 	int		SICLReaderBit;
 	int		SICLStepBit;
 	USHORT	PremaDelay;
+	USHORT	PremaPostDelay;
 	USHORT	FlukeDelay;
 	USHORT	MassDelay;
 	USHORT	GPIBDelay;

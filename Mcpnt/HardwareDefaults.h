@@ -63,4 +63,5 @@ public:
 	CString m_dip_pc_value;
 	int m_SICLReaderSubAdd;
 	int m_SICLStepSubAdd;
+	int m_prema_post_delay;
 };

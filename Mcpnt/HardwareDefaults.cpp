@@ -21,6 +21,7 @@ CHardwareDefaults::CHardwareDefaults(CWnd* pParent /*=NULL*/)
 	, m_dip_pc_value(_T(""))
 	, m_SICLReaderSubAdd(0)
 	, m_SICLStepSubAdd(0)
+	, m_prema_post_delay(0)
 {
 	//{{AFX_DATA_INIT(CHardwareDefaults)
 	m_ferddichsubadd = 0;
@@ -116,6 +117,8 @@ void CHardwareDefaults::DoDataExchange(CDataExchange* pDX)
 	DDV_MinMaxInt(pDX, m_SICLReaderSubAdd, 0, 31);
 	DDX_Text(pDX, IDC_SICLSTEPSUBADD, m_SICLStepSubAdd);
 	DDV_MinMaxInt(pDX, m_SICLStepSubAdd, 0, 31);
+	DDX_Text(pDX, IDC_PREMAPOSTDELAY, m_prema_post_delay);
+	DDV_MinMaxInt(pDX, m_prema_post_delay, 0, 20000);
 }
 
 

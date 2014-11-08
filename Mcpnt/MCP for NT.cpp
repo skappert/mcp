@@ -616,7 +616,8 @@ void CMCPforNTApp::OnViewHardwaresetup()
 	pdlg->m_hpvoltslot		= GetProfileInt("Hardware","hpvoltslot",	7);
 	pdlg->m_hvvoltslot		= GetProfileInt("Hardware","hvvoltslot",	9);
 	pdlg->m_fvoltslot		= GetProfileInt("Hardware","fvoltslot",		4);
-	pdlg->m_premadelay		= GetProfileInt("Hardware","premadelay",	1000);		
+	pdlg->m_premadelay		= GetProfileInt("Hardware","premadelay",	1000);
+	pdlg->m_prema_post_delay= GetProfileInt("Hardware","premapostdelay",3000);
 	pdlg->m_flukedelay		= GetProfileInt("Hardware","flukedelay",	100);
 	pdlg->m_massdelay		= GetProfileInt("Hardware","massdelay",		5000);
 	pdlg->m_gpibdelay		= GetProfileInt("Hardware","gpibdelay",		20);
@@ -631,6 +632,8 @@ void CMCPforNTApp::OnViewHardwaresetup()
 	{
 		WriteProfileInt("Hardware","premadelay",pdlg->m_premadelay);
 		PremaDelay	= pdlg->m_premadelay;
+		WriteProfileInt("Hardware","premapostdelay",pdlg->m_prema_post_delay);
+		PremaPostDelay	= pdlg->m_prema_post_delay;
 		WriteProfileInt("Hardware","flukedelay",pdlg->m_flukedelay);
 		FlukeDelay	= pdlg->m_flukedelay;
 		WriteProfileInt("Hardware","massdelay",pdlg->m_massdelay);

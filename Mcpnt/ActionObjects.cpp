@@ -3413,11 +3413,15 @@ void SiclReaderObj::TrackBeginAction(USHORT track)
 	ListOnBit(0,SubAddress);
 	ListDelayCamac(pApp->PresetSlot,1);
 	ListOffBit(0,SubAddress);
+
+	if(DelayAfterMeas > 0)ListDelayCamac(pApp->PresetSlot,(USHORT)DelayAfterMeas);
 }
 
 void SiclReaderObj::TrackEndAction(USHORT track,USHORT scansdone)
 {
 	int result;
+	int header;
+
 	if(SiclHandle > 0)
 	{
 		/* read all available data */
@@ -3427,9 +3431,9 @@ void SiclReaderObj::TrackEndAction(USHORT track,USHORT scansdone)
 		iprintf (SiclHandle,question);
 	
 		/* Convert and store the results */
-		result = iscanf (SiclHandle,"%,1lf\n", &Data[NumOfSamples++]);
+		result = iscanf (SiclHandle,"#%d%,20lf\n", header, &Data[NumOfSamples++]);
 
-		TRACE2("SiclReaderObj::TrackEndAction iscanf = %d NumOfSamples = %d\n", result, NumOfSamples );
+		TRACE3("SiclReaderObj::TrackEndAction iscanf = %d header = %d NumOfSamples = %d\n", result, header, NumOfSamples );
 	}
 }
 
@@ -3762,12 +3766,15 @@ void SiclStepObj::TrackStepAction(USHORT step, USHORT track, USHORT scan)
 	ListDelayCamac(pApp->PresetSlot,1);
 	ListOffBit(0,SubAddress);
 
+	if(DelayAfterMeas > 0)ListDelayCamac(pApp->PresetSlot,(USHORT)DelayAfterMeas);
+
 	NumOfSamples = step + 1;
 }
 
 void SiclStepObj::TrackEndAction(USHORT track,USHORT scansdone)
 {
 	int result;
+	int header;
 
 	if(SiclHandle > 0)
 	{
@@ -3778,9 +3785,9 @@ void SiclStepObj::TrackEndAction(USHORT track,USHORT scansdone)
 		iprintf (SiclHandle,question);
 	
 		/* Convert and store the results */
-		result = iscanf (SiclHandle,"%,4000lf\n", Data);
+		result = iscanf (SiclHandle,"#%d%,4000lf\n", header, Data);
 
-		TRACE2("SiclStepObj::TrackEndAction iscanf = %d NumOfSamples = %d\n", result, NumOfSamples );
+		TRACE3("SiclStepObj::TrackEndAction iscanf = %d header = %d NumOfSamples = %d\n", result, header, NumOfSamples );
 	}
 }
 
