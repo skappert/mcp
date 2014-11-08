@@ -3427,9 +3427,7 @@ void SiclReaderObj::TrackEndAction(USHORT track,USHORT scansdone)
 		iprintf (SiclHandle,question);
 	
 		/* Convert and store the results */
-		result = iscanf (SiclHandle,"%,100lf\n", Data);
-
-		NumOfSamples++;
+		result = iscanf (SiclHandle,"%,1lf\n", &Data[NumOfSamples++]);
 
 		TRACE2("SiclReaderObj::TrackEndAction iscanf = %d NumOfSamples = %d\n", result, NumOfSamples );
 	}
