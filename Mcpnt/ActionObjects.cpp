@@ -3411,6 +3411,7 @@ void SiclReaderObj::TrackBeginAction(USHORT track)
 
 	/* pulse trigger bit */
 	ListOnBit(0,SubAddress);
+	ListDelayCamac(pApp->PresetSlot,1);
 	ListOffBit(0,SubAddress);
 }
 
@@ -3760,6 +3761,7 @@ void SiclStepObj::TrackStepAction(USHORT step, USHORT track, USHORT scan)
 
 	/* pulse trigger bit */
 	ListOnBit(0,SubAddress);
+	ListDelayCamac(pApp->PresetSlot,1);
 	ListOffBit(0,SubAddress);
 
 	NumOfSamples = step + 1;
