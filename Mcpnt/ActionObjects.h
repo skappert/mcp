@@ -704,7 +704,7 @@ class ActionObject
 			Name		= _SiclReaderObj;
 			ShortName	= __SiclReaderObj;
 			SICLAddress = "lan[A-34461A-06386]:inst0";
-			SICLQuestion= "CONF:VOLT:DC 10,min;:TRIG:SOUR EXT;:SAMP:COUN 1;:INIT";
+			SICLQuestion= "CONF:VOLT:DC 10,min;:TRIG:SOUR EXT;:TRIG:COUN 1;:SAMP:COUN 1;:INIT";
 			for(int i=0;i<100;i++)Data[i]= 0;
 			NumOfSamples	= 0;
 			DelayBeforeMeas	= pApp->PremaDelay;
@@ -746,7 +746,7 @@ class ActionObject
 			Name		= _SiclStepObj;
 			ShortName	= __SiclStepObj;
 			SICLAddress = "lan[A-34461A-06386]:inst0";
-			SICLQuestion= "CONF:VOLT:DC 10,min;:TRIG:SOUR EXT;:SAMP:COUN 500;:INIT";
+			SICLQuestion= "CONF:VOLT:DC 10,min;:TRIG:SOUR EXT;:TRIG:COUN 500;:SAMP:COUN 1;:INIT";
 			for(int i=0;i<MAXPOINTS;i++)Data[i]= 0;
 			NumOfSamples	= 0;
 			TakesData		= TRUE;

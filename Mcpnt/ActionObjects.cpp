@@ -3431,7 +3431,7 @@ void SiclReaderObj::TrackEndAction(USHORT track,USHORT scansdone)
 		iprintf (SiclHandle,question);
 	
 		/* Convert and store the results */
-		result = iscanf (SiclHandle,"#%d%,20lf\n", &header, &Data[NumOfSamples++]);
+		result = iscanf (SiclHandle,"#%d%lf", &header, &Data[NumOfSamples++]);
 
 		TRACE3("SiclReaderObj::TrackEndAction iscanf = %d header = %d NumOfSamples = %d\n", result, header, NumOfSamples );
 	}
@@ -3785,7 +3785,7 @@ void SiclStepObj::TrackEndAction(USHORT track,USHORT scansdone)
 		iprintf (SiclHandle,question);
 	
 		/* Convert and store the results */
-		result = iscanf (SiclHandle,"#%d%,4000lf\n", &header, &Data[0]);
+		result = iscanf (SiclHandle,"#%d%,4000lf", &header, &Data[0]);
 
 		TRACE3("SiclStepObj::TrackEndAction iscanf = %d header = %d NumOfSamples = %d\n", result, header, NumOfSamples );
 	}
