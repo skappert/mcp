@@ -249,6 +249,7 @@ BOOL CMCPforNTApp::InitInstance()
 	HvSlot			= GetProfileInt("Hardware","hvvoltslot",	9);
 	FSlot			= GetProfileInt("Hardware","fvoltslot",		4);
 	PremaDelay		= GetProfileInt("Hardware","premadelay",	1000);
+	PremaPostDelay	= GetProfileInt("Hardware","premapostdelay",3000);
 	FlukeDelay		= GetProfileInt("Hardware","flukedelay",	100);
 	MassDelay		= GetProfileInt("Hardware","massdelay",		5000);
 	GPIBDelay		= GetProfileInt("Hardware","gpibdelay",		20);
