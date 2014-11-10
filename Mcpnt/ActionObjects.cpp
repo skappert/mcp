@@ -3421,6 +3421,7 @@ void SiclReaderObj::TrackEndAction(USHORT track,USHORT scansdone)
 {
 	int result;
 	int header;
+	unsigned long num_bytes_read = 0;
 
 	if(SiclHandle > 0)
 	{
@@ -3430,10 +3431,26 @@ void SiclReaderObj::TrackEndAction(USHORT track,USHORT scansdone)
 		/* fetch data */
 		iprintf (SiclHandle,question);
 	
-		/* Convert and store the results */
-		result = iscanf (SiclHandle,"#%d%lf", &header, &Data[NumOfSamples++]);
+		/* read in raw result */
+		result = iread (SiclHandle, SICLBuffer, SICLBUFFERLENGTH, NULL, &num_bytes_read );
 
-		TRACE3("SiclReaderObj::TrackEndAction iscanf = %d header = %d NumOfSamples = %d\n", result, header, NumOfSamples );
+#ifdef TEST
+		num_bytes_read = 100;
+		strcpy(SICLBuffer, "#3244+4.5345346e5,+5.2342e5,+6.23456e5");
+#endif
+
+		if( num_bytes_read > 0 && num_bytes_read < SICLBUFFERLENGTH )
+		{
+			SICLBuffer[num_bytes_read - 1] = (char) 0;
+
+			TRACE3("SiclReaderObj::TrackEndAction iread result = %d num_bytes_read = %d NumOfSamples = %d\n", result, num_bytes_read, NumOfSamples );
+			TRACE1("SICLBuffer = %s\n", SICLBuffer );
+
+			result = sscanf(SICLBuffer, "#%d%lf", &header, &Data[NumOfSamples]);
+		
+			TRACE3("sscanf result = %d header = %d Data[NumOfSamples] = %g\n", result, header, Data[NumOfSamples] );
+			NumOfSamples++;
+		}
 	}
 }
 
@@ -3485,6 +3502,11 @@ void SiclStepObj::DoDoubleClickAction(void)
 	else pDataView->Reset();
 	pDataView->SetWindowTitle(ShortName+" in Track ["+TrackNo+"]  of "+pDocument->GetTitle());
 	pDataView->SetDrawType((int)0,FALSE);
+
+	XName = "Channel";
+	XUnit = "";
+	Start = (double)1;
+	Stop  = (double)pTrack->Channels;
 
 	pDataView->SetYTitle("Voltage","V");
 	POSITION pos=pDocument->ActionObjList.GetHeadPosition();
@@ -3767,14 +3789,13 @@ void SiclStepObj::TrackStepAction(USHORT step, USHORT track, USHORT scan)
 	ListOffBit(0,SubAddress);
 
 	if(DelayAfterMeas > 0)ListDelayCamac(pApp->PresetSlot,(USHORT)DelayAfterMeas);
-
-	NumOfSamples = step + 1;
 }
 
 void SiclStepObj::TrackEndAction(USHORT track,USHORT scansdone)
 {
 	int result;
 	int header;
+	unsigned long num_bytes_read;
 
 	if(SiclHandle > 0)
 	{
@@ -3784,10 +3805,60 @@ void SiclStepObj::TrackEndAction(USHORT track,USHORT scansdone)
 		/* fetch data */
 		iprintf (SiclHandle,question);
 	
-		/* Convert and store the results */
-		result = iscanf (SiclHandle,"#%d%,4000lf", &header, &Data[0]);
+		/* read in raw result */
+		result = iread (SiclHandle, SICLBuffer, SICLBUFFERLENGTH, NULL, &num_bytes_read );
 
-		TRACE3("SiclStepObj::TrackEndAction iscanf = %d header = %d NumOfSamples = %d\n", result, header, NumOfSamples );
+#ifdef TEST
+		num_bytes_read = 100;
+		strcpy(SICLBuffer, "#215+4.5345346e5,+5.2342e5,+6.23456e5");
+#endif
+
+		if( num_bytes_read > 0 && num_bytes_read < SICLBUFFERLENGTH )
+		{
+			SICLBuffer[num_bytes_read - 1] = (char) 0;
+
+			TRACE3("SiclStepObj::TrackEndAction iread result = %d num_bytes_read = %d NumOfSamples = %d\n", result, num_bytes_read, NumOfSamples );
+			TRACE1("SICLBuffer = %s\n", SICLBuffer );
+
+			char delimiter[] = ",";
+			char *ptr = SICLBuffer;
+			char* token;
+
+			result = sscanf(ptr, "#%d", &header);
+
+			if( header >= 10000 )
+			{
+				ptr = &SICLBuffer[6];
+				TRACE1("header = %d ptr = SICLBuffer[6]\n", header );
+			}
+			else if( header >= 1000 )
+			{
+				ptr = &SICLBuffer[5];
+				TRACE1("header = %d ptr = SICLBuffer[5]\n", header );
+			}
+			else if( header >= 100 )
+			{
+				ptr = &SICLBuffer[4];
+				TRACE1("header = %d ptr = SICLBuffer[4]\n", header );
+			}
+			else
+			{
+				TRACE1("Unexpected header = %d\n", header );
+				return;
+			}
+
+			token = strtok( ptr, delimiter );
+
+			while(token != NULL && NumOfSamples < MAXPOINTS)
+			{
+				result = sscanf(token, "%lf", &Data[NumOfSamples]);
+				TRACE3("sscanf result = %d Data[%d] = %g\n", result, NumOfSamples, Data[NumOfSamples] );
+				NumOfSamples++;
+
+				// naechsten Abschnitt erstellen
+ 				token = strtok(NULL, delimiter);
+			}
+		}
 	}
 }
 

@@ -8,6 +8,7 @@
 #define GO		1
 #define AUTOGO	2
 
+#define SICLBUFFERLENGTH	65535
 #define MAXPOINTS 4000
 
 class DataView;
@@ -709,12 +710,20 @@ class ActionObject
 			NumOfSamples	= 0;
 			DelayBeforeMeas	= pApp->PremaDelay;
 			DelayAfterMeas	= pApp->PremaPostDelay;
+			SICLBuffer		= new char[SICLBUFFERLENGTH];
+			memset(SICLBuffer, 0, SICLBUFFERLENGTH);
+		}
+
+		~SiclReaderObj()
+		{
+			delete SICLBuffer;
 		}
 
 		INST SiclHandle;
-		int		DelayBeforeMeas;
-		int		DelayAfterMeas;
+		double	DelayBeforeMeas;
+		double	DelayAfterMeas;
 		double Data[100];
+		char*	SICLBuffer;
 		int NumOfSamples;
 		CString SICLAddress;
 		CString SICLQuestion;
@@ -754,12 +763,20 @@ class ActionObject
 			DispMonitorMode = 1;
 			DelayBeforeMeas	= pApp->PremaDelay;
 			DelayAfterMeas	= pApp->PremaPostDelay;
+			SICLBuffer		= new char[SICLBUFFERLENGTH];
+			memset(SICLBuffer, 0, SICLBUFFERLENGTH);
+		}
+
+		~SiclStepObj()
+		{
+			delete SICLBuffer;
 		}
 
 		INST SiclHandle;
-		int		DelayBeforeMeas;
-		int		DelayAfterMeas;
+		double	DelayBeforeMeas;
+		double	DelayAfterMeas;
 		double Data[MAXPOINTS];
+		char*	SICLBuffer;
 		int NumOfSamples;
 		CString SICLAddress;
 		CString SICLQuestion;
