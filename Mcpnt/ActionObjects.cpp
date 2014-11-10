@@ -3369,12 +3369,10 @@ void SiclReaderObj::MeasurementBeginAction(BOOL RUNMODE)
 	/* disable trigger bit */
 	OffBit(0,SubAddress);
 
-	CT2A address(SICLAddress);
-
-	if(SiclHandle <= 0 && !SICLAddress.IsEmpty())
+	if(!SICLAddress.IsEmpty())
 	{
+		CT2A address(SICLAddress);
 		SiclHandle = iopen (address);
-		itimeout (SiclHandle, 10000);
 	}
 }
 
@@ -3396,15 +3394,16 @@ void SiclReaderObj::TrackBeginAction(USHORT track)
 	/* disable trigger bit */
 	ListOffBit(0,SubAddress);
 
+	CT2A question(SICLQuestion);
+
+	/* trailing trigger count and line feed */ 
+	strcat(question,";:TRIG:COUN 1;:SAMP:COUN 1;:INIT\n");
+
 	if(SiclHandle > 0)
 	{
-		CT2A question(SICLQuestion);
-
-		/* trailing line feed */ 
-		strcat(question,"\n");
-
 		/* Take measurement */
-		iprintf (SiclHandle,question);
+		iprintf (SiclHandle, question);
+		TRACE1("SiclReaderObj iprintf(%s)\n", question);
 	}
 
 	if(DelayBeforeMeas > 0)ListDelayCamac(pApp->PresetSlot,(USHORT)DelayBeforeMeas);
@@ -3420,37 +3419,18 @@ void SiclReaderObj::TrackBeginAction(USHORT track)
 void SiclReaderObj::TrackEndAction(USHORT track,USHORT scansdone)
 {
 	int result;
-	int header;
-	unsigned long num_bytes_read = 0;
+	int header = 0;
+	//unsigned long num_bytes_read = 0;
 
 	if(SiclHandle > 0)
 	{
-		/* read all available data */
-		CT2A question("R?\n");
-
-		/* fetch data */
-		iprintf (SiclHandle,question);
-	
-		/* read in raw result */
-		result = iread (SiclHandle, SICLBuffer, SICLBUFFERLENGTH, NULL, &num_bytes_read );
-
-#ifdef TEST
-		num_bytes_read = 100;
-		strcpy(SICLBuffer, "#3244+4.5345346e5,+5.2342e5,+6.23456e5");
-#endif
-		TRACE3("SiclReaderObj::TrackEndAction iread result = %d num_bytes_read = %d NumOfSamples = %d\n", result, num_bytes_read, NumOfSamples );
-
-		if( num_bytes_read > 0 && num_bytes_read < SICLBUFFERLENGTH )
-		{
-			SICLBuffer[num_bytes_read - 1] = (char) 0;
-			
-			TRACE1("SICLBuffer = %s\n", SICLBuffer );
-
-			result = sscanf(SICLBuffer, "#%d%lf", &header, &Data[NumOfSamples]);
-		
-			TRACE3("sscanf result = %d header = %d Data[NumOfSamples] = %g\n", result, header, Data[NumOfSamples] );
-			NumOfSamples++;
-		}
+		/* Fetch data */
+		result = ipromptf(SiclHandle, "FETC?","%lf", &Data[NumOfSamples++]);
+		TRACE2("SiclReaderObj::TrackEndAction ipromptf(FETC?) = %d data = %s\n", result, SICLBuffer );
+	}
+	else
+	{
+		Data[NumOfSamples++] = 0.0;
 	}
 }
 
@@ -3651,12 +3631,10 @@ void SiclStepObj::MeasurementBeginAction(BOOL RUNMODE)
 	/* disable trigger bit */
 	OffBit(0,SubAddress);
 
-	CT2A address(SICLAddress);
-
-	if(SiclHandle <= 0 && !SICLAddress.IsEmpty())
+	if(!SICLAddress.IsEmpty())
 	{
+		CT2A address(SICLAddress);
 		SiclHandle = iopen (address);
-		itimeout (SiclHandle, 10000);
 	}
 }
 
@@ -3678,7 +3656,8 @@ void SiclStepObj::TrackBeginAction(USHORT track)
 	CString XName,XUnit;
 	CString YTitle,YUnit;
 	CMCPforNTApp* pApp = (CMCPforNTApp*)AfxGetApp();
-	
+	char trailer[128];
+
 	if(DispMonitorMode == 1)
 	{
 		if(pApp->pMonitorView==NULL)pApp->pMonitorView = new MonitorView();
@@ -3765,15 +3744,21 @@ void SiclStepObj::TrackBeginAction(USHORT track)
 		}
 	}
 
+	CT2A question(SICLQuestion);
+
+	/* add number of triggers */
+	sprintf(trailer,";:TRIG:COUN %d;:SAMP:COUN 1;:INIT\n", pTrack->Channels ); 
+		
+	/* trailing trigger count and line feed */ 
+	strcat(question, trailer);
+
+	TRACE1("SiclStepObj question = %s\n", question);
+
 	if(SiclHandle > 0)
 	{
-		CT2A question(SICLQuestion);
-
-		/* trailing line feed */ 
-		strcat(question,"\n");
-
 		/* Take measurement */
-		iprintf (SiclHandle,question);
+		iprintf (SiclHandle, question);
+		TRACE1("SiclStepObj iprintf(%s)\n", question);
 	}
 }
 
@@ -3789,75 +3774,22 @@ void SiclStepObj::TrackStepAction(USHORT step, USHORT track, USHORT scan)
 	ListOffBit(0,SubAddress);
 
 	if(DelayAfterMeas > 0)ListDelayCamac(pApp->PresetSlot,(USHORT)DelayAfterMeas);
+
+	NumOfSamples = step + 1;
 }
 
 void SiclStepObj::TrackEndAction(USHORT track,USHORT scansdone)
 {
 	int result;
-	int header;
-	unsigned long num_bytes_read;
 
 	if(SiclHandle > 0)
 	{
 		/* read all available data */
-		CT2A question("R?\n");
+		CT2A question0("FETC?\n");
 
-		/* fetch data */
-		iprintf (SiclHandle,question);
-	
-		/* read in raw result */
-		result = iread (SiclHandle, SICLBuffer, SICLBUFFERLENGTH, NULL, &num_bytes_read );
-
-#ifdef TEST
-		num_bytes_read = 100;
-		strcpy(SICLBuffer, "#215+4.5345346e5,+5.2342e5,+6.23456e5");
-#endif
-		TRACE3("SiclStepObj::TrackEndAction iread result = %d num_bytes_read = %d NumOfSamples = %d\n", result, num_bytes_read, NumOfSamples );
-		
-		if( num_bytes_read > 0 && num_bytes_read < SICLBUFFERLENGTH )
-		{
-			SICLBuffer[num_bytes_read - 1] = (char) 0;
-			TRACE1("SICLBuffer = %s\n", SICLBuffer );
-
-			char delimiter[] = ",";
-			char *ptr = SICLBuffer;
-			char* token;
-
-			result = sscanf(ptr, "#%d", &header);
-
-			if( header >= 10000 )
-			{
-				ptr = &SICLBuffer[6];
-				TRACE1("header = %d ptr = SICLBuffer[6]\n", header );
-			}
-			else if( header >= 1000 )
-			{
-				ptr = &SICLBuffer[5];
-				TRACE1("header = %d ptr = SICLBuffer[5]\n", header );
-			}
-			else if( header >= 100 )
-			{
-				ptr = &SICLBuffer[4];
-				TRACE1("header = %d ptr = SICLBuffer[4]\n", header );
-			}
-			else
-			{
-				TRACE1("Unexpected header = %d\n", header );
-				return;
-			}
-
-			token = strtok( ptr, delimiter );
-
-			while(token != NULL && NumOfSamples < MAXPOINTS)
-			{
-				result = sscanf(token, "%lf", &Data[NumOfSamples]);
-				TRACE3("sscanf result = %d Data[%d] = %g\n", result, NumOfSamples, Data[NumOfSamples] );
-				NumOfSamples++;
-
-				// naechsten Abschnitt erstellen
- 				token = strtok(NULL, delimiter);
-			}
-		}
+		/* Fetch data */
+		result = ipromptf(SiclHandle, question0, "%,4000lf", &Data[0]);
+		TRACE2("SiclStepObj::TrackEndAction ipromptf(FETC?) = %d data[0] = %g\n", result, Data[0] );
 	}
 }
 
