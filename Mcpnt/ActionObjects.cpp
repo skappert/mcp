@@ -3438,12 +3438,12 @@ void SiclReaderObj::TrackEndAction(USHORT track,USHORT scansdone)
 		num_bytes_read = 100;
 		strcpy(SICLBuffer, "#3244+4.5345346e5,+5.2342e5,+6.23456e5");
 #endif
+		TRACE3("SiclReaderObj::TrackEndAction iread result = %d num_bytes_read = %d NumOfSamples = %d\n", result, num_bytes_read, NumOfSamples );
 
 		if( num_bytes_read > 0 && num_bytes_read < SICLBUFFERLENGTH )
 		{
 			SICLBuffer[num_bytes_read - 1] = (char) 0;
-
-			TRACE3("SiclReaderObj::TrackEndAction iread result = %d num_bytes_read = %d NumOfSamples = %d\n", result, num_bytes_read, NumOfSamples );
+			
 			TRACE1("SICLBuffer = %s\n", SICLBuffer );
 
 			result = sscanf(SICLBuffer, "#%d%lf", &header, &Data[NumOfSamples]);
@@ -3812,12 +3812,11 @@ void SiclStepObj::TrackEndAction(USHORT track,USHORT scansdone)
 		num_bytes_read = 100;
 		strcpy(SICLBuffer, "#215+4.5345346e5,+5.2342e5,+6.23456e5");
 #endif
-
+		TRACE3("SiclStepObj::TrackEndAction iread result = %d num_bytes_read = %d NumOfSamples = %d\n", result, num_bytes_read, NumOfSamples );
+		
 		if( num_bytes_read > 0 && num_bytes_read < SICLBUFFERLENGTH )
 		{
 			SICLBuffer[num_bytes_read - 1] = (char) 0;
-
-			TRACE3("SiclStepObj::TrackEndAction iread result = %d num_bytes_read = %d NumOfSamples = %d\n", result, num_bytes_read, NumOfSamples );
 			TRACE1("SICLBuffer = %s\n", SICLBuffer );
 
 			char delimiter[] = ",";
