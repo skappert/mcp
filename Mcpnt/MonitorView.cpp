@@ -113,9 +113,9 @@ MonitorView::MonitorView()
 	IntOnly				= FALSE;
 
 	rect.top            = 10;
-	rect.left           = 300;
-	rect.right          = 900;
-	rect.bottom         = 400;
+	rect.left           = 400;
+	rect.right          = 1000;
+	rect.bottom         = 410;
 
 	pDataChild = new MonitorChild(this);
 	pDataChild->CMDIChildWnd::Create(NULL,
@@ -128,8 +128,7 @@ MonitorView::MonitorView()
 	this->Create(NULL,NULL,WS_CHILD|WS_VISIBLE|
 	WS_CLIPCHILDREN|WS_CLIPSIBLINGS,rect,pDataChild,AFX_IDW_PANE_FIRST+1,NULL);
 	IsActivated=TRUE;
-	pDataChild->GetClientRect(rect);
-	ResizeWin(rect.right,rect.bottom);
+	GetParentFrame()->MoveWindow(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
 
 	m_nClipboardFormat = ::RegisterClipboardFormat(_T("CF_METAFILEPICT"));
 
@@ -825,6 +824,7 @@ void MonitorView::OnDraw(CDC* pDC)
 	CRect rect;
 	GetClientRect(rect);
 	USHORT Data = 0;
+
 	// TODO: add draw code here
 	if (pDC->IsPrinting())
 	{
@@ -840,12 +840,12 @@ void MonitorView::OnDraw(CDC* pDC)
 
 	if (DrawOnlyDataPoints)
 	{
-		DrawBoundingRect(pDC,rect);
-		DrawTitles(pDC,rect);
-		DrawXTicks(pDC,rect,minX,maxX);
+		//DrawBoundingRect(pDC,rect);
+		//DrawTitles(pDC,rect);
+		//DrawXTicks(pDC,rect,minX,maxX);
 		DrawOnlyDataPoints=FALSE;
-		for(Data=0;Data<NumOfViews;Data++)
-			DrawYTicks(Data,pDC,rect,minY[Data],maxY[Data]);
+		//for(Data=0;Data<NumOfViews;Data++)
+		//	DrawYTicks(Data,pDC,rect,minY[Data],maxY[Data]);
 		for(Data=0;Data<NumOfViews;Data++)
 			DrawTheData(Data,pDC,rect,minX,maxX,minY[Data],maxY[Data]);
 		
