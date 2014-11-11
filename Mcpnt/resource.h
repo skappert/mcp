@@ -461,6 +461,8 @@
 #define IDC_SICLANSWER                  1201
 #define IDC_WRITESICL                   1202
 #define IDC_SICL                        1203
+#define IDC_VERSION                     1204
+#define IDC_MCP_VERSION                 1204
 #define ID_HTMEAS_ICON                  32870
 #define ID_PROTONS_ICON                 32871
 #define ID_DUMMY_LABEL                  32872
@@ -560,7 +562,7 @@
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        225
 #define _APS_NEXT_COMMAND_VALUE         32881
-#define _APS_NEXT_CONTROL_VALUE         1204
+#define _APS_NEXT_CONTROL_VALUE         1205
 #define _APS_NEXT_SYMED_VALUE           143
 #endif
 #endif

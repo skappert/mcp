@@ -54,12 +54,25 @@ private:
 			{
 				client->SetIsoProtons( message.extractDouble(client->DipPCValue) );
 			}
-			// GPS
+			// GPS new style
 			if(strcmp(subscription->getTopicName(),"dip/acc/ISO/GPS.MAG70/UserSettings")==0)
 			{
 				client->m_iso_gps_highvolt = message.extractDouble("highVoltage");
 				client->m_iso_gps_mfactor = message.extractDouble("massFactor");
 				client->m_iso_gps_aqn = message.extractDouble("fieldAqn");
+			}
+			// GPS old style
+			if(strcmp(subscription->getTopicName(),"dip/acc/ISO/GPS.MAG70/HIGHVOLT")==0)
+			{
+				client->m_iso_gps_highvolt = message.extractDouble("value");
+			}
+			if(strcmp(subscription->getTopicName(),"dip/acc/ISO/GPS.MAG70/MFACTOR")==0)
+			{
+				client->m_iso_gps_mfactor = message.extractDouble("value");
+			}
+			if(strcmp(subscription->getTopicName(),"dip/acc/ISO/GPS.MAG70/AQN")==0)
+			{
+				client->m_iso_gps_aqn = message.extractDouble("value");
 			}
 			//---<<< HRS.MAG90 >>>---//
 			if(strcmp(subscription->getTopicName(),"dip/acc/ISO/HRS.MAG90/UserSettings")==0)
@@ -108,6 +121,9 @@ private:
 	GeneralDataListener *handler;
 
 public:
+	CString compile_time;
+	CString compile_date;
+
 	double m_iso_highvolt;
 	double m_iso_protons;
 
@@ -278,6 +294,8 @@ public:
 	double GetMassFactor();
 	double GetField();
 
+	bool GetProductAndVersion(CString & strProductName, CString & strProductVersion);
+	void GetCompileTimeAndDate(CString & strCompileTime, CString & strCompileDate);
 	double GetMass(bool useGps = true);
 	int SetMass(double ToMassNo, bool useGps = true);
 	void EmptyActionList(void);

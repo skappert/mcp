@@ -24,6 +24,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 using namespace std;
 
 #include "dos.h"
@@ -93,6 +94,12 @@ CMCPforNTApp theApp;
 
 BOOL CMCPforNTApp::InitInstance()
 {
+	// Set compile time & date as variables
+	compile_time = __TIME__;
+	compile_date = __DATE__;
+
+	TRACE2("Compile time: %s %s\n", compile_date, compile_time );
+	
 	INITCOMMONCONTROLSEX CommonControls;
     CommonControls.dwSize = sizeof (INITCOMMONCONTROLSEX);
     // I could not see any effect of the specific value here
@@ -313,18 +320,23 @@ BOOL CMCPforNTApp::InitInstance()
 	handler = new GeneralDataListener(this);
 
 	//Creating an array of DipSubscriptions.
-	sub = new DipSubscription*[5];
+	sub = new DipSubscription*[8];
 	dip->setDNSNode("dipnsgpn1,dipnsgpn2");
 
 	sub[0] = dip->createDipSubscription(DipHT, handler);
 	sub[1] = dip->createDipSubscription(DipPC, handler);
 
-	// GPS
+	// GPS new style, apparently not working
 	sub[2] = dip->createDipSubscription("dip/acc/ISO/GPS.MAG70/UserSettings",handler);
 
+	// GPS old style
+	sub[3] = dip->createDipSubscription("dip/acc/ISO/GPS.MAG70/HIGHVOLT",handler);
+	sub[4] = dip->createDipSubscription("dip/acc/ISO/GPS.MAG70/MFACTOR",handler);
+	sub[5] = dip->createDipSubscription("dip/acc/ISO/GPS.MAG70/AQN",handler);
+
 	// HRS
-	sub[3] = dip->createDipSubscription("dip/acc/ISO/HRS.MAG90/UserSettings",handler);
-	sub[4] = dip->createDipSubscription("dip/acc/ISO/HRS.MAG60/UserSettings",handler);
+	sub[6] = dip->createDipSubscription("dip/acc/ISO/HRS.MAG90/UserSettings",handler);
+	sub[7] = dip->createDipSubscription("dip/acc/ISO/HRS.MAG60/UserSettings",handler);
 
 	return TRUE;
 }
@@ -511,36 +523,43 @@ void CMCPforNTApp::OnAppAbout()
 
 BOOL CAboutDlg::OnInitDialog()
 {
-	// CG: Folowing code is added by System Info Component
+	CMCPforNTApp* pApp = (CMCPforNTApp*)AfxGetApp();
+	CString strProductName, strProductVersion, strCompileTime, strCompileDate;
+	pApp->GetProductAndVersion(strProductName, strProductVersion);
+	pApp->GetCompileTimeAndDate(strCompileTime, strCompileDate);
+
 	{
 	CDialog::OnInitDialog();
 #ifndef _MAC
+	CString strNameAndVersion;
 	CString strFreeDiskSpace;
 	CString strFreeMemory;
 	CString strFmt;
+
+	strNameAndVersion.Format("%s Version %s built %s", strProductName, strProductVersion, strCompileDate);
+	SetDlgItemText(IDC_MCP_VERSION, strNameAndVersion);
 
 	// Fill available memory
 	MEMORYSTATUS MemStat;
 	MemStat.dwLength = sizeof(MEMORYSTATUS);
 	GlobalMemoryStatus(&MemStat);
 	strFmt.LoadString(CG_IDS_PHYSICAL_MEM);
-	strFreeMemory.Format(strFmt, MemStat.dwAvailPhys / 1024L);
+	strFreeMemory.Format(strFmt, MemStat.dwAvailPhys / (1024L*1024L));
 
-	//TODO: Add a static control to your About Box to receive the memory
-	//      information.  Initialize the control with code like this:
 	SetDlgItemText(IDC_PHYSICAL_MEM, strFreeMemory);
 
+
+	unsigned __int64 FreeBytesAvailable;
+	unsigned __int64 TotalNumberOfBytes;
+	unsigned __int64 TotalNumberOfFreeBytes;
+
 	// Fill disk free information
-	struct _diskfree_t diskfree;
-	int nDrive = _getdrive(); // use current default drive
-	if (_getdiskfree(nDrive, &diskfree) == 0)
+	if (GetDiskFreeSpaceEx("C:\\", (PULARGE_INTEGER)&FreeBytesAvailable, (PULARGE_INTEGER)&TotalNumberOfBytes, (PULARGE_INTEGER)&TotalNumberOfFreeBytes))
 	{
 		strFmt.LoadString(CG_IDS_DISK_SPACE);
 		strFreeDiskSpace.Format(strFmt,
-			(DWORD)diskfree.avail_clusters *
-			(DWORD)diskfree.sectors_per_cluster *
-			(DWORD)diskfree.bytes_per_sector / (DWORD)1024L,
-			nDrive-1 + _T('A'));
+			(int)(TotalNumberOfFreeBytes / (1024L*1024L)),
+			"C");
 	}
  	else
  		strFreeDiskSpace.LoadString(CG_IDS_DISK_SPACE_UNAVAIL);
@@ -571,6 +590,59 @@ int CMCPforNTApp::ExitInstance()
 	EmptyActionList();
 	DllMain(0,DLL_PROCESS_DETACH,NULL);
 	return CWinApp::ExitInstance();
+}
+
+void CMCPforNTApp::GetCompileTimeAndDate(CString & strCompileTime, CString & strCompileDate)
+{
+	strCompileTime = compile_time;
+	strCompileDate = compile_date;
+}
+
+bool CMCPforNTApp::GetProductAndVersion(CString & strProductName, CString & strProductVersion)
+{
+    // get the filename of the executable containing the version resource
+    TCHAR szFilename[MAX_PATH + 1] = {0};
+    if (GetModuleFileName(NULL, szFilename, MAX_PATH) == 0)
+    {
+        TRACE("GetModuleFileName failed with error %d\n", GetLastError());
+        return false;
+    }
+
+    // allocate a block of memory for the version info
+    DWORD dummy;
+    DWORD dwSize = GetFileVersionInfoSize(szFilename, &dummy);
+    if (dwSize == 0)
+    {
+        TRACE("GetFileVersionInfoSize failed with error %d\n", GetLastError());
+        return false;
+    }
+    std::vector<BYTE> data(dwSize);
+
+    // load the version info
+    if (!GetFileVersionInfo(szFilename, NULL, dwSize, &data[0]))
+    {
+        TRACE("GetFileVersionInfo failed with error %d\n", GetLastError());
+        return false;
+    }
+
+    // get the name and version strings
+    LPVOID pvProductName = NULL;
+    unsigned int iProductNameLen = 0;
+    LPVOID pvProductVersion = NULL;
+    unsigned int iProductVersionLen = 0;
+
+    // replace "040904e4" with the language ID of your resources
+    if (!VerQueryValue(&data[0], _T("\\StringFileInfo\\040904b0\\ProductName"), &pvProductName, &iProductNameLen) ||
+        !VerQueryValue(&data[0], _T("\\StringFileInfo\\040904b0\\ProductVersion"), &pvProductVersion, &iProductVersionLen))
+    {
+        TRACE("Can't obtain ProductName and ProductVersion from resources\n");
+        return false;
+    }
+
+    strProductName.SetString((LPCTSTR)pvProductName, iProductNameLen);
+    strProductVersion.SetString((LPCTSTR)pvProductVersion, iProductVersionLen);
+
+    return true;
 }
 
 void CMCPforNTApp::EmptyActionList(void)

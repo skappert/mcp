@@ -124,7 +124,7 @@ void CMainFrame::OnUpdateHtMeas(CCmdUI* pCmdUI)
 	//
 	value = pMyApp->GetIsoHighvolt();
 
-	if(value)
+	if(value > 20)
 	{
 		pCmdUI->Enable(false);
 	}
@@ -173,7 +173,7 @@ LRESULT CMainFrame::OnTimer(WPARAM wparam,LPARAM lparam)
 	// HT text
 	//
 	value = pMyApp->GetIsoHighvolt();
-	value_string.Format("%.3g", value);
+	value_string.Format("%.5g kV", value);
 
 	CMFCToolBarEditBoxButton* pEditHtmeas = (CMFCToolBarEditBoxButton*) m_wndGPS_HTMEAS.GetButton(1);
 	pEditHtmeas->GetEditBox()->SetWindowText(value_string);

@@ -659,15 +659,56 @@ void CMCPforNTDoc::TakeTimeStamp(void)
 	GoTime = theTime;
 }
 
+CTime CMCPforNTDoc::CStringToCTime( CString timeString )
+{	
+	int i;
+	char dummy[32];
+	char month[32];
+	int year = 1970;
+	int month_int = 1;
+	int day = 1;
+	int hour = 1;
+	int minute = 0;
+	int second = 0;
+
+	sscanf(timeString,"%s %s %d %d:%d:%d %d", dummy, month, &day, &hour, &minute, &second, &year );
+
+	for( i=1; i<=12;i++)
+	{
+		CString month_str = CTime(1999, i, 19, 22, 15, 0).Format( "%b");
+		if(month_str == month)
+		{
+			month_int = i;
+			break;
+		}
+	}
+
+	return CTime( year, month_int, day, hour, minute, second );
+}
+
 void CMCPforNTDoc::Serialize(CArchive& ar)
 {
 	CFileStatus Status;
 	CString TheObject;
+	CString strCompileTime;
+	CString strCompileDate;
+	CString strProductName;
+	CString strProductVersion;
+	CString strNewHeader;
+	CMCPforNTApp* pApp = (CMCPforNTApp*)AfxGetApp();
+
+	pApp->GetCompileTimeAndDate(strCompileTime, strCompileDate);
+	pApp->GetProductAndVersion(strProductName, strProductVersion);
+
+	strNewHeader.Format(NewHeader, strProductName, strProductVersion, strCompileDate, strCompileTime);
+
+	TRACE1("Header = %s\n", strNewHeader);
+
 	if (ar.IsStoring())
 	{
 		CString time = GoTime.Format( "%a %b %d %X %Y");
 
-		if(SaveActualVersion)WriteString(ar,NewHeader);
+		if(SaveActualVersion)WriteString(ar,strNewHeader);
 		else WriteString(ar,CompatibleHeader);
 		WriteLine(ar);
 		WriteControlBegin(ar);
@@ -718,6 +759,7 @@ void CMCPforNTDoc::Serialize(CArchive& ar)
  		Control		= ReadDataFileBegin(ar);
 		Control		= ReadStructBegin(ar);
 		Time		= ReadString(ar);
+		GoTime		= CStringToCTime(Time);
 		Control		= ReadSeparator(ar);
 		TheElement	= ReadString(ar);
 		Control		= ReadSeparator(ar);

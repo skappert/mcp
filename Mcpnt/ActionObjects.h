@@ -710,20 +710,12 @@ class ActionObject
 			NumOfSamples	= 0;
 			DelayBeforeMeas	= pApp->PremaDelay;
 			DelayAfterMeas	= pApp->PremaPostDelay;
-			SICLBuffer		= new char[SICLBUFFERLENGTH];
-			memset(SICLBuffer, 0, SICLBUFFERLENGTH);
-		}
-
-		~SiclReaderObj()
-		{
-			delete SICLBuffer;
 		}
 
 		INST SiclHandle;
 		double	DelayBeforeMeas;
 		double	DelayAfterMeas;
 		double Data[100];
-		char*	SICLBuffer;
 		int NumOfSamples;
 		CString SICLAddress;
 		CString SICLQuestion;
@@ -763,20 +755,12 @@ class ActionObject
 			DispMonitorMode = 1;
 			DelayBeforeMeas	= pApp->PremaDelay;
 			DelayAfterMeas	= pApp->PremaPostDelay;
-			SICLBuffer		= new char[SICLBUFFERLENGTH];
-			memset(SICLBuffer, 0, SICLBUFFERLENGTH);
-		}
-
-		~SiclStepObj()
-		{
-			delete SICLBuffer;
 		}
 
 		INST SiclHandle;
 		double	DelayBeforeMeas;
 		double	DelayAfterMeas;
 		double Data[MAXPOINTS];
-		char*	SICLBuffer;
 		int NumOfSamples;
 		CString SICLAddress;
 		CString SICLQuestion;

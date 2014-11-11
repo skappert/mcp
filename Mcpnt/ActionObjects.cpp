@@ -3425,8 +3425,9 @@ void SiclReaderObj::TrackEndAction(USHORT track,USHORT scansdone)
 	if(SiclHandle > 0)
 	{
 		/* Fetch data */
-		result = ipromptf(SiclHandle, "FETC?","%lf", &Data[NumOfSamples++]);
-		TRACE2("SiclReaderObj::TrackEndAction ipromptf(FETC?) = %d data = %s\n", result, SICLBuffer );
+		result = ipromptf(SiclHandle, "FETC?","%lf", &Data[NumOfSamples]);
+		TRACE3("SiclReaderObj::TrackEndAction ipromptf(FETC?) = %d Data[%d] = %g\n", result, NumOfSamples, Data[NumOfSamples] );
+		NumOfSamples++;
 	}
 	else
 	{

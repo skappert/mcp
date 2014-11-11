@@ -1,7 +1,7 @@
 // MCP for NTDoc.h : interface of the CMCPforNTDoc class
 //
 /////////////////////////////////////////////////////////////////////////////
-#define	NewHeader "MCP data file, Version 1.0 (NT), compiled: 5.6.1997 -- last saved file: "
+#define	NewHeader "MCP data file, created with %s Version %s, compiled: %s %s -- last Go file: "
 #define	CompatibleHeader "MCP data file, Version 1.0 (NT) Version (20) mode, compiled: 5.6.1997 -- last saved file: "
 #define ActualVersion	21
 #define CompatibleVersion		20
@@ -54,6 +54,7 @@ public:
 	void	SetNewMinMax(USHORT track,double minstep, double maxstep);
 	bool	OnSave(CString SaveString);
 	void	TakeTimeStamp(void);
+	CTime	CStringToCTime( CString timeString );
 
 public:
 	BOOL			SaveActualVersion;
