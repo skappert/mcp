@@ -15,6 +15,29 @@
 class ActionObject;
 class MonitorView;
 
+class CModelessAfx
+{
+public:	
+	CModelessAfx( CString str ) 
+	{
+		char *buffer=new char[256]; 
+		lstrcpy(buffer,str);		 				
+ 		AfxBeginThread(showMessage, (LPVOID *) buffer,   THREAD_PRIORITY_NORMAL) ;
+	}	
+	
+	static UINT showMessage(LPVOID lParam)  
+	{  
+		if(lParam == NULL)
+			AfxEndThread(NULL);
+		
+		char *pStr = (char *) lParam;
+		AfxMessageBox(pStr);  		
+		delete pStr; // don't forget
+		
+		return TRUE;
+	}  
+};
+
 class CMCPforNTApp : public CWinAppEx
 {
 private:

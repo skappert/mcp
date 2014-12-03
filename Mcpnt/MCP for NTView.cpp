@@ -1849,11 +1849,11 @@ LRESULT CMCPforNTView::OnTimer(WPARAM wparam,LPARAM lparam)
 					DataReset();
 					
 					stepStr.Format("%i",maxstep);
-					MeasDlg->SetDlgItemText(IDC_STEP,stepStr);
+					if(MeasDlg)MeasDlg->SetDlgItemText(IDC_STEP,stepStr);
 					scanStr.Format("%i",maxscan);
-					MeasDlg->SetDlgItemText(IDC_SCAN,scanStr);
+					if(MeasDlg)MeasDlg->SetDlgItemText(IDC_SCAN,scanStr);
 					trackStr.Format("%i",maxtrack);
-					MeasDlg->SetDlgItemText(IDC_TRACK,trackStr);
+					if(MeasDlg)MeasDlg->SetDlgItemText(IDC_TRACK,trackStr);
 
 					if(pApp->pMonitorView!=NULL)
 					{

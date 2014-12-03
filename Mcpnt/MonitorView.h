@@ -7,7 +7,7 @@
 #define CHAR_N 78
 #define CHAR_P 80
  
-#define MaxMonitors 4
+#define MaxMonitors 10
 
 
 class MonitorView : public CView

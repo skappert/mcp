@@ -77,6 +77,8 @@ void CSiclReader::OnWritesicl()
 
 		if( siclhandle > 0 )
 		{
+			// set the session timeout 1000 ms */
+			itimeout( siclhandle, 1000 );
 			CT2A question(m_siclstring);
 
 			/* trailing line feed */ 

@@ -2214,7 +2214,7 @@ void PM_SpectrumObj::TrackBeginAction(USHORT track)
 			else 
 			{
 				DispMonitorMode = 0;
-				AfxMessageBox("Too much monitors defined,\n\r disabled last",MB_OK,0);
+				CModelessAfx mlafx("Too much monitors defined,\n\r disabled last");
 			}
 		}
 	}
@@ -3740,7 +3740,7 @@ void SiclStepObj::TrackBeginAction(USHORT track)
 			else 
 			{
 				DispMonitorMode = 0;
-				AfxMessageBox("Too much monitors defined,\n\r disabled last",MB_OK,0);
+				CModelessAfx mlafx("Too much monitors defined,\n\r disabled last");
 			}
 		}
 	}
@@ -4210,7 +4210,7 @@ void KepcoEichungVoltageObj::TrackBeginAction(USHORT track)
 			else 
 			{
 				DispMonitorMode = 0;
-				AfxMessageBox("Too much monitors defined,\n\r disabled last",MB_OK,0);
+				CModelessAfx mlafx("Too much monitors defined,\n\r disabled last");
 			}
 		}
 	}
